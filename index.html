@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="de">
+    <meta charset="UTF-8">
+    <title>angular example</title>
+    <link rel="stylesheet" type="text/css" href="assets/dist/bootstrap.css">
+    <script type="text/javascript" src="assets/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/dist/angular.min.js"></script>
+    <script type="text/javascript" src="assets/dist/bootstrap.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="exWidget2.js"></script>
+    <script type="text/javascript" src="exWidget1.js"></script>
+    <script type="text/javascript" src="exWidget3.js"></script>
+
+</head>
+<body data-ng-app="ExampleApp">
+    <div data-ng-controller="ExampleMainController">
+        <ex-widget1>
+
+        </ex-widget1>
+        <ex-widget2 width="200px" data-foo="">
+
+        </ex-widget2>
+        <ex-widget1>
+
+        </ex-widget1>
+    </div>
+</body>
+</html>

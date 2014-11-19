@@ -1,0 +1,10 @@
+<div>
+    <h2>Widget 2</h2>
+    <ul>
+        <li data-ng-repeat="category in categories">
+
+            <input type="checkbox" data-ng-model="category.checked" value="true" data-ng-change="changeCategory($index)" />
+            <label>{{category.label}}</label>
+        </li>
+    </ul>
+</div>
