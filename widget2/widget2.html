@@ -1,10 +1,9 @@
 <div>
-    <h2>Widget 2</h2>
+    <h2>results</h2>
+    <label>Values: {{length}}</label>
     <ul>
-        <li data-ng-repeat="category in categories">
-
-            <input type="checkbox" data-ng-model="category.checked" value="true" data-ng-change="changeCategory($index)" />
-            <label>{{category.label}}</label>
+        <li data-ng-repeat="data in mydata">
+            <label>{{mydata.name}}</label>
         </li>
     </ul>
 </div>
