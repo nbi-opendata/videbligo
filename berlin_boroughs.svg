@@ -8,6 +8,17 @@
         #frkr { font-size: 11px; }
         .borders{ stroke-width: 2; }
         .boroughnames,.districtnames, .borders {pointer-events:none;}
+
+        #b_pankow * {
+        fill: #003366;
+        fill-opacity: 1;
+        }
+
+        #b_mitte * {
+        fill: #99cc00;
+        fill-opacity: 1;
+        }
+
     </style>
 
     <g class="districts">
