@@ -15,7 +15,6 @@ ExampleApp.directive('exWidget2', ['MetadataService', function(MetadataService) 
                 var data = MetadataService.getData();
                 scope.dimOne = data.dimension(function(d){return d;});
                 scope.all = data.groupAll();
-                scope.length = scope.all.value();
             });
 
             scope.$on('filterChanged', function() {
