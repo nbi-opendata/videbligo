@@ -19,7 +19,7 @@ ExampleApp.directive('exWidget2', ['MetadataService', function(MetadataService) 
 
             scope.$on('filterChanged', function() {
                 console.log('filterChanged in widget2');
-                scope.entries = scope.dimOne.top(40);
+                scope.entries = scope.dimOne.top(Infinity);
                 scope.length = scope.all.value();
                 scope.$apply();
             });

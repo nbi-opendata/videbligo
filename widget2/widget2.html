@@ -1,9 +1,18 @@
 <div>
     <h2>results</h2>
     <label>Values: {{length}}</label>
-    <ul>
-        <li data-ng-repeat="entry in entries">
-            {{entry.title}}
-        </li>
-    </ul>
+
+    <table>
+        <tr>
+            <th width="50px">Date from</th>
+            <th width="50px">Date to</th>
+            <th width="200px">Title</th>
+        </tr>
+
+        <tr data-ng-repeat="entry in entries">
+            <td>{{entry.extras["temporal_coverage-from"]}}</td>
+            <td>{{entry.extras["temporal_coverage-to"]}}</td>
+            <td>{{entry.title}}</td>
+        </tr>
+    </table>
 </div>
