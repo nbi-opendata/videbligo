@@ -25,17 +25,21 @@ ExampleApp.directive('exWidget3', ['MetadataService', function(MetadataService) 
 
             scope.updateDimension = function(value)
             {
-                scope.dimDate.filterAll();
-                scope.dimDate.filter(function(d) {
-                    if (d === undefined || d[0] === undefined || d[1] === undefined)
-                        return false;
+                if (value === undefined || value === ""){
+                    scope.dimDate.filterAll();
+                }
+                else{
+                    scope.dimDate.filter(function(d) {
+                        if (d === undefined || d[0] === undefined || d[1] === undefined)
+                            return false;
 
-                    var passedDate = parseDate(value);
-                    var dateFrom = parseDate(d[0]);
-                    var dateTo = parseDate(d[1]);
+                        var passedDate = parseDate(value);
+                        var dateFrom = parseDate(d[0]);
+                        var dateTo = parseDate(d[1]);
 
-                    return dateFrom < passedDate && passedDate < dateTo;
-                });
+                        return dateFrom < passedDate && passedDate < dateTo;
+                    });
+                }
                 MetadataService.triggerUpdate();
             }
 
