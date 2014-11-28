@@ -10,15 +10,20 @@ ExampleApp.directive('exWidget3', ['MetadataService', function(MetadataService) 
         scope: {},
         link: function(scope, element, attrs) {
 
+            scope.available_from = "";
+            scope.available_to = "";
+            scope.span_visible = false;
+
             scope.$on('init', function() {
                 scope.data = MetadataService.getData();
-                scope.dimDate = scope.data.dimension(function(d){return [d.extras["temporal_coverage-from"],d.extras["temporal_coverage-to"]];});
+                scope.dimDateFrom = scope.data.dimension(function(d){return parseDate(d.extras["temporal_coverage-from"]);});
+                scope.dimDateTo = scope.data.dimension(function(d){return parseDate(d.extras["temporal_coverage-to"]);});
 
                 //initialize keyup event
                 $("#w3_date").keyup(function (e) {
                     if (e.keyCode == 13){
                         var value = $('#w3_date').val();
-                        scope.updateDimension(value);   
+                        scope.updateDimension(value);
                     }
                 });
             });
@@ -26,24 +31,25 @@ ExampleApp.directive('exWidget3', ['MetadataService', function(MetadataService) 
             scope.updateDimension = function(value)
             {
                 if (value === undefined || value === ""){
-                    scope.dimDate.filterAll();
+                    scope.dimDateFrom.filterAll();
+                    scope.dimDateTo.filterAll();
                 }
                 else{
-                    scope.dimDate.filter(function(d) {
-                        if (d === undefined || d[0] === undefined || d[1] === undefined)
-                            return false;
-
-                        var passedDate = parseDate(value);
-                        var dateFrom = parseDate(d[0]);
-                        var dateTo = parseDate(d[1]);
-
-                        return dateFrom < passedDate && passedDate < dateTo;
-                    });
+                    var passedDate = parseDate(value);
+                    scope.dimDateFrom.filter(function(d){return d <= passedDate});
+                    scope.dimDateTo.filter(function(d){return passedDate <= d});
                 }
                 MetadataService.triggerUpdate();
             }
 
             scope.$on('filterChanged', function() {
+                scope.span_visible = MetadataService.length() > 0;
+                if(scope.span_visible)//only do this if there are values to extract
+                {
+                    scope.available_from = scope.dimDateFrom.bottom(1)[0].extras["temporal_coverage-from"];
+                    scope.available_to = scope.dimDateTo.top(1)[0].extras["temporal_coverage-to"];
+                }
+                scope.$apply();
             });
         }
     };
