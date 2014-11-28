@@ -35,7 +35,7 @@ ExampleApp.service('MetadataService',["$rootScope", "$location", function($rootS
 
 function parseDate(input) {
     if(input == undefined)
-        return;
+        return undefined;
     var parts = input.split('-');
     return new Date(parts[0], parts[1], parts[2]); // Note: months are 0-based
 }

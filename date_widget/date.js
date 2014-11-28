@@ -46,8 +46,12 @@ ExampleApp.directive('date', ['MetadataService', function(MetadataService) {
                 scope.span_visible = MetadataService.length() > 0;
                 if(scope.span_visible)//only do this if there are values to extract
                 {
-                    scope.available_from = scope.dimDateFrom.bottom(1)[0].extras["temporal_coverage-from"];
-                    scope.available_to = scope.dimDateTo.top(1)[0].extras["temporal_coverage-to"];
+                    scope.available_from = scope.dimDateFrom.bottom(Infinity)
+                        .filter(function(d){return d.extras["temporal_coverage-from"] != undefined && d != ""; })
+                        [0].extras["temporal_coverage-from"];
+                    scope.available_to = scope.dimDateTo.top(Infinity)
+                        .filter(function(d){return d.extras["temporal_coverage-to"] != undefined && d != "";})
+                        [0].extras["temporal_coverage-to"];
                 }
                 scope.$apply();
             });
