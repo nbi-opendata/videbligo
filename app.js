@@ -11,6 +11,7 @@ ExampleApp.service('MetadataService',["$rootScope", "$location", function($rootS
         $.getJSON("assets/dist/data.json", function(data){
             console.log("loaded data.json");
             self.crossData = crossfilter(data);
+            self.all = self.crossData.groupAll();
             $rootScope.$broadcast('init');
             $rootScope.$broadcast('filterChanged');
         });
@@ -25,10 +26,16 @@ ExampleApp.service('MetadataService',["$rootScope", "$location", function($rootS
         $rootScope.$broadcast('filterChanged');
     }
 
+    this.length = function()
+    {
+        return this.all.value();
+    }
+
 }]);
 
 function parseDate(input) {
-  var parts = input.split('-');
-  // new Date(year, month [, day [, hours[, minutes[, seconds[, ms]]]]])
-  return new Date(parts[0], parts[1]-1, parts[2]); // Note: months are 0-based
+    if(input == undefined)
+        return;
+    var parts = input.split('-');
+    return new Date(parts[0], parts[1], parts[2]); // Note: months are 0-based
 }
