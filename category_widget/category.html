@@ -12,8 +12,8 @@
     <h2>Kategorien</h2>
 
     <ul>
-        <li data-ng-repeat="(key, size) in groupCategory.value()">
-            {{key}} - ({{size}})
+        <li data-ng-repeat="(key, category) in categories">
+            <input type="checkbox" data-ng-model="category.checked" data-ng-change="categoryChecked()">{{key}} - ({{category.size}})
         </li>
     </ul>
 
