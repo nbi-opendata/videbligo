@@ -6,7 +6,7 @@ ExampleApp.directive('exWidget1', ['MetadataService', function(MetadataService) 
 
     return {
         restrict: 'AE',
-        templateUrl: 'widget1/widget1.html',
+        templateUrl: 'search_widget/search.html',
         scope: {},
         link: function(scope, element, attrs) {
 

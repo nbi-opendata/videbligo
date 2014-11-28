@@ -4,7 +4,7 @@ ExampleApp.directive('exWidget2', ['MetadataService', function(MetadataService) 
 
     return {
         restrict: 'AE',
-        templateUrl: 'widget2/widget2.html',
+        templateUrl: 'result_widget/result.html',
         scope: {},
         link: function(scope, element, attrs) {
             scope.crossData = [];
