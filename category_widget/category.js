@@ -34,19 +34,7 @@ ExampleApp.directive('category', ['MetadataService', function(MetadataService) {
             });
 
             scope.$on('filterChanged', function() {
-                /*
-                scope.categories = [];
-                scope.groupCategory.all().forEach(function(cat)
-                {
-                    for(var i = 0; i < cat.key.length; i++)
-                    {
-                        if(scope.categories[cat.key[i]] == undefined)
-                            scope.categories[cat.key[i]] = 0;
-                        scope.categories[cat.key[i]] += cat.value;
-                    }
-
-                });*/
-            });//end broadcast on
+            });
 
         }
     };
