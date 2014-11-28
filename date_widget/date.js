@@ -2,7 +2,7 @@
  * Created by Kadir on 21.11.2014.
  */
 
-ExampleApp.directive('exWidget3', ['MetadataService', function(MetadataService) {
+ExampleApp.directive('date', ['MetadataService', function(MetadataService) {
 
     return {
         restrict: 'AE',

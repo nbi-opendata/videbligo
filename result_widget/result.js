@@ -1,6 +1,6 @@
 
 
-ExampleApp.directive('exWidget2', ['MetadataService', function(MetadataService) {
+ExampleApp.directive('result', ['MetadataService', function(MetadataService) {
 
     return {
         restrict: 'AE',
