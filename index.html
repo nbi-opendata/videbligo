@@ -7,11 +7,13 @@
     <script type="text/javascript" src="assets/dist/jquery.min.js"></script>
     <script type="text/javascript" src="assets/dist/angular.min.js"></script>
     <script type="text/javascript" src="assets/dist/crossfilter.min.js"></script>
+    <script type="text/javascript" src="assets/dist/reductio.min.js"></script>
     <script type="text/javascript" src="assets/dist/bootstrap.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
     <script type="text/javascript" src="search_widget/search.js"></script>
     <script type="text/javascript" src="result_widget/result.js"></script>
     <script type="text/javascript" src="date_widget/date.js"></script>
+    <script type="text/javascript" src="category_widget/category.js"></script>
 
 </head>
 <body data-ng-app="ExampleApp">
@@ -26,12 +28,16 @@
 
             </date>
         </div>
+        <div style="margin-left:50px; float:left;">
+            <category></category>
+        </div>
 
         <div style="clear:both;">
             <result width="200px">
 
             </result>
         </div>
+
     </div>
 </body>
 </html>
