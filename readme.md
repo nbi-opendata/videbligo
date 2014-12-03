@@ -1,3 +1,3 @@
-## Basic example of how the project could work
+# Videbligo
 
-this is a basic angularJs app to show how the project could work
+**Videbligo** (aus Esperanto für *Visualisierung*) ist eine interaktive, visuelle Suchmaske der auf dem Portal [daten.berlin.de](http://daten.berlin.de) verfügbaren Datensätze.
