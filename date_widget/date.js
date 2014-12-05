@@ -1,7 +1,3 @@
-/**
- * Created by Kadir on 21.11.2014.
- */
-
 Videbligo.directive('date', ['MetadataService', function(MetadataService) {
 
     return {

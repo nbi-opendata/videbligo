@@ -1,5 +1,3 @@
-
-
 Videbligo.directive('result', ['MetadataService', function(MetadataService) {
 
     return {
