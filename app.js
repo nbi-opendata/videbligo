@@ -1,22 +1,25 @@
 var Videbligo = angular.module('Videbligo', []);
 
-Videbligo.service('MetadataService',["$rootScope", "$location", function($rootScope, $location, $http){
-
+Videbligo.service('MetadataService',["$rootScope", "$location", "$http", function($rootScope, $location, $http){
+    var crossData = null;
+    var all = null;
     this.init = function() {
-        var self = this;
-        console.log("loading data");
-        $.getJSON("assets/dist/data.json", function(data){
-            console.log("loaded data.json");
-            self.crossData = crossfilter(data);
-            self.all = self.crossData.groupAll();
+        $http({
+            method: 'GET',
+            url: "./assets/dist/data.json"
+        }).success(function(data) {
+            crossData = crossfilter(data);
+            all = crossData.groupAll();
             $rootScope.$broadcast('init');
             $rootScope.$broadcast('filterChanged');
+        }).error(function(data) {
+            console.log("Request failed");
         });
-    }
+    };
     this.init();
 
     this.getData = function(){
-        return this.crossData;
+        return crossData;
     }
 
     this.triggerUpdate = function() {
@@ -25,7 +28,7 @@ Videbligo.service('MetadataService',["$rootScope", "$location", function($rootSc
 
     this.length = function()
     {
-        return this.all.value();
+        return all.value();
     }
 
 }]);
