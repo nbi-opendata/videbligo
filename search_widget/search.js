@@ -10,6 +10,8 @@ Videbligo.directive('search', ['MetadataService', function(MetadataService) {
         scope: {},
         link: function(scope, element, attrs) {
 
+            scope.searchCriteria = "";
+
             var initialized = false;
             scope.init = function(){
                 if(initialized)
@@ -17,16 +19,11 @@ Videbligo.directive('search', ['MetadataService', function(MetadataService) {
                 initialized = !initialized;
                 scope.data = MetadataService.getData();
                 scope.dimName = scope.data.dimension(function(d){return d.title;});
-
-                //initialize keyup event
-                $("#w1_search_field").keyup(function (e) {
-                    var value = $('#w1_search_field').val();
-                    scope.updateDimension(value);
-                });
             }
 
-            scope.updateDimension = function(value)
+            scope.updateDimension = function()
             {
+                var value = scope.searchCriteria;
                 scope.dimName.filterAll();
                 scope.dimName.filter(function(d) {
                     d = d.toLowerCase();
