@@ -1,4 +1,4 @@
-ExampleApp.directive('category', ['MetadataService', function(MetadataService) {
+Videbligo.directive('category', ['MetadataService', function(MetadataService) {
 
     return {
         restrict: 'AE',

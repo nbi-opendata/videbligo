@@ -2,7 +2,7 @@
  * Created by Kadir on 21.11.2014.
  */
 
-ExampleApp.directive('search', ['MetadataService', function(MetadataService) {
+Videbligo.directive('search', ['MetadataService', function(MetadataService) {
 
     return {
         restrict: 'AE',

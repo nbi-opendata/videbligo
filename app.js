@@ -1,9 +1,6 @@
-var ExampleApp = angular.module('ExampleApp', []);
+var Videbligo = angular.module('Videbligo', []);
 
-ExampleApp.controller('ExampleMainController',["$scope", function ($scope) {
-}]);
-
-ExampleApp.service('MetadataService',["$rootScope", "$location", function($rootScope, $location){
+Videbligo.service('MetadataService',["$rootScope", "$location", function($rootScope, $location, $http){
 
     this.init = function() {
         var self = this;
