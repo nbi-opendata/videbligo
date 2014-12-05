@@ -10,7 +10,6 @@ Videbligo.service('MetadataService', ["$rootScope", "$location", "$http", functi
         }).success(function (data) {
             crossData = crossfilter(data);
             all = crossData.groupAll();
-            $rootScope.$broadcast('init');
             $rootScope.$broadcast('filterChanged');
         }).error(function (data) {
             console.log("Request failed");

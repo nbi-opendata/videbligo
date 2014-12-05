@@ -14,7 +14,11 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
             scope.available_to = "";
             scope.span_visible = false;
 
-            scope.$on('init', function() {
+            var initialized = false;
+            scope.init = function(){
+                if(initialized)
+                    return
+                initialized = !initialized;
                 scope.data = MetadataService.getData();
                 scope.dimDateFrom = scope.data.dimension(function(d){return parseDate(d.extras["temporal_coverage-from"]);});
                 scope.dimDateTo = scope.data.dimension(function(d){return parseDate(d.extras["temporal_coverage-to"]);});
@@ -26,7 +30,7 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                         scope.updateDimension(value);
                     }
                 });
-            });
+            }
 
             scope.updateDimension = function(value)
             {
@@ -43,6 +47,7 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
             }
 
             scope.$on('filterChanged', function() {
+                scope.init();
                 scope.span_visible = MetadataService.length() > 0;
                 if(scope.span_visible)//only do this if there are values to extract
                 {
@@ -53,7 +58,6 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                         .filter(function(d){return d.extras["temporal_coverage-to"] != undefined && d != "";})
                         [0].extras["temporal_coverage-to"];
                 }
-                scope.$apply();
             });
         }
     };

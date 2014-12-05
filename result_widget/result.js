@@ -10,17 +10,20 @@ Videbligo.directive('result', ['MetadataService', function(MetadataService) {
             scope.crossData = [];
             scope.entries = [];
             scope.length = 0;
-
-            scope.$on('init', function() {
+            var initialized = false;
+            scope.init = function(){
+                if(initialized)
+                    return
+                initialized = !initialized;
                 var data = MetadataService.getData();
                 scope.dimOne = data.dimension(function(d){return d;});
                 scope.all = data.groupAll();
-            });
+            }
 
             scope.$on('filterChanged', function() {
+                scope.init();
                 scope.entries = scope.dimOne.top(Infinity);
                 scope.length = scope.all.value();
-                scope.$apply();
             });
         }
     };
