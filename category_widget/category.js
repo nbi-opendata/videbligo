@@ -13,8 +13,7 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
                 //temporary, second needed so the group always has the newest values, don't know why
                 var tmpCategory = data.dimension(function(d){return d.groups;});
                 scope.groupCategory = tmpCategory.groupAll().reduce(scope.reduceAdd, scope.reduceRemove, scope.reduceInitial);
-                for(var key in scope.groupCategory.value())
-                {
+                for(var key in scope.groupCategory.value()){
                     scope.categories[key] = {}
                     scope.categories[key].checked = true;
                     scope.categories[key].size = scope.groupCategory.value()[key];
@@ -33,8 +32,7 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
                     if(scope.categories[key].checked)
                         checkedCategories.push(key);
 
-                var filterFunction = function(d)
-                {
+                var filterFunction = function(d) {
                     var tmp = d.filter(function(n) {
                         return checkedCategories.indexOf(n) != -1
                     });

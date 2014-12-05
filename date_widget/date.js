@@ -40,8 +40,7 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
 
             scope.$on('filterChanged', function() {
                 scope.span_visible = MetadataService.length() > 0;
-                if(scope.span_visible)//only do this if there are values to extract
-                {
+                if(scope.span_visible){//only do this if there are values to extract
                     scope.available_from = scope.dimDateFrom.bottom(Infinity)
                         .filter(function(d){return d.extras["temporal_coverage-from"] != undefined && d != ""; })
                         [0].extras["temporal_coverage-from"];

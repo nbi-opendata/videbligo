@@ -12,8 +12,7 @@ Videbligo.directive('search', ['MetadataService', function(MetadataService) {
                 scope.dimName = scope.data.dimension(function(d){return d.title;});
             }
 
-            scope.updateDimension = function()
-            {
+            scope.updateDimension = function(){
                 var value = scope.searchCriteria;
                 scope.dimName.filterAll();
                 scope.dimName.filter(function(d) {

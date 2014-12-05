@@ -11,7 +11,7 @@ Videbligo.service('MetadataService', ["$rootScope", "$location", "$http", functi
         }).success(function (data) {
             crossData = crossfilter(data);
             all = crossData.groupAll();
-            initCallbacks.forEach(function(callback){
+            initCallbacks.forEach(function (callback) {
                 callback();
             })
             $rootScope.$broadcast('filterChanged');
@@ -21,8 +21,7 @@ Videbligo.service('MetadataService', ["$rootScope", "$location", "$http", functi
     };
     this.init();
 
-    this.registerWidget = function(initCallback)
-    {
+    this.registerWidget = function (initCallback) {
         initCallbacks.push(initCallback);
     }
 

@@ -1,21 +1,21 @@
-Videbligo.directive('result', ['MetadataService', function(MetadataService) {
+Videbligo.directive('result', ['MetadataService', function (MetadataService) {
 
     return {
         restrict: 'AE',
         templateUrl: 'result_widget/result.html',
         scope: {},
-        link: function(scope, element, attrs) {
+        link: function (scope, element, attrs) {
             scope.crossData = [];
             scope.entries = [];
             scope.length = 0;
             scope.dimOne = null;
 
-            scope.init = function(){
+            scope.init = function () {
                 var data = MetadataService.getData();
-                scope.dimOne = data.dimension(function(d){return d;});
+                scope.dimOne = data.dimension(function (d) {return d;});
             }
 
-            scope.$on('filterChanged', function() {
+            scope.$on('filterChanged', function () {
                 scope.entries = scope.dimOne.top(Infinity);
                 scope.length = MetadataService.length();
             });
