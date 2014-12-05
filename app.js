@@ -22,7 +22,11 @@ Videbligo.service('MetadataService', ["$rootScope", "$location", "$http", functi
     this.init();
 
     this.registerWidget = function (initCallback) {
-        initCallbacks.push(initCallback);
+        if(crossData == null) {
+            initCallbacks.push(initCallback);
+        } else {
+            initCallback();
+        }
     }
 
     this.getData = function () {
