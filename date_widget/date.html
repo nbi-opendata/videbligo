@@ -1,7 +1,7 @@
 <h2>Zeitliche Aktualität</h2>
 
 <div class="d3-example">
-    Date: <input id="w3_date" type="date"><br>
+    Date: <input id="w3_date" type="date" ng-model="date" ng-change="dateChanged()"><br>
 
     <div ng-show="span_visible">
         Available timespan:
