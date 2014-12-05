@@ -9,29 +9,21 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
             scope.available_from = "";
             scope.available_to = "";
             scope.span_visible = false;
+            scope.date = undefined;
 
             scope.init = function(){
                 scope.data = MetadataService.getData();
                 scope.dimDateFrom = scope.data.dimension(function(d){return parseDate(d.extras["temporal_coverage-from"]);});
                 scope.dimDateTo = scope.data.dimension(function(d){return parseDate(d.extras["temporal_coverage-to"]);});
-
-                //initialize keyup event
-                $("#w3_date").keyup(function (e) {
-                    if (e.keyCode == 13){
-                        var value = $('#w3_date').val();
-                        scope.updateDimension(value);
-                    }
-                });
             }
 
-            scope.updateDimension = function(value)
-            {
-                if (value === undefined || value === ""){
+            scope.dateChanged = function() {
+                var passedDate = scope.date;
+                if (passedDate === undefined || passedDate === ""){
                     scope.dimDateFrom.filterAll();
                     scope.dimDateTo.filterAll();
                 }
                 else{
-                    var passedDate = parseDate(value);
                     scope.dimDateFrom.filter(function(d){return d <= passedDate});
                     scope.dimDateTo.filter(function(d){return passedDate <= d});
                 }
