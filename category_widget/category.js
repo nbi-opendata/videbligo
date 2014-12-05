@@ -7,11 +7,7 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
         link: function(scope, element, attrs) {
             scope.categories = {};
 
-            var initialized = false;
             scope.init = function(){
-                if(initialized)
-                    return
-                initialized = !initialized;
                 var data = MetadataService.getData();
                 scope.dimCategory = data.dimension(function(d){return d.groups;});
                 //temporary, second needed so the group always has the newest values, don't know why
@@ -26,7 +22,6 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
             }
 
             scope.$on('filterChanged', function() {
-                scope.init();
                 for(var key in scope.groupCategory.value())
                     scope.categories[key].size = scope.groupCategory.value()[key];
             });
@@ -69,6 +64,7 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
                 return {};
             }
 
+            MetadataService.registerWidget(scope.init);
         }
     };
 }]);

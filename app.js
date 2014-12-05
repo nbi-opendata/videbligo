@@ -3,6 +3,7 @@ var Videbligo = angular.module('Videbligo', []);
 Videbligo.service('MetadataService', ["$rootScope", "$location", "$http", function ($rootScope, $location, $http) {
     var crossData = null;
     var all = null;
+    var initCallbacks = [];
     this.init = function () {
         $http({
             method: 'GET',
@@ -10,12 +11,20 @@ Videbligo.service('MetadataService', ["$rootScope", "$location", "$http", functi
         }).success(function (data) {
             crossData = crossfilter(data);
             all = crossData.groupAll();
+            initCallbacks.forEach(function(callback){
+                callback();
+            })
             $rootScope.$broadcast('filterChanged');
         }).error(function (data) {
             console.log("Request failed");
         });
     };
     this.init();
+
+    this.registerWidget = function(initCallback)
+    {
+        initCallbacks.push(initCallback);
+    }
 
     this.getData = function () {
         return crossData;

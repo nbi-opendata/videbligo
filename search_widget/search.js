@@ -9,14 +9,9 @@ Videbligo.directive('search', ['MetadataService', function(MetadataService) {
         templateUrl: 'search_widget/search.html',
         scope: {},
         link: function(scope, element, attrs) {
-
             scope.searchCriteria = "";
 
-            var initialized = false;
             scope.init = function(){
-                if(initialized)
-                    return
-                initialized = !initialized;
                 scope.data = MetadataService.getData();
                 scope.dimName = scope.data.dimension(function(d){return d.title;});
             }
@@ -34,8 +29,9 @@ Videbligo.directive('search', ['MetadataService', function(MetadataService) {
             }
 
             scope.$on('filterChanged', function() {
-                scope.init();
             });
+
+            MetadataService.registerWidget(scope.init);
         }
     };
 }]);
