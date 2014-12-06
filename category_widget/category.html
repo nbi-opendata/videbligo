@@ -7,9 +7,83 @@
         column-count: 4;
         column-gap: 20px;
     }
+    
+    .category_icon{
+        font-size: 2em;
+    }
+
+    /* Icon Font */
+    @font-face {
+        font-family: 'icon_font';
+        src:url('assets/font/icon_font.eot?bg2l24');
+        src:url('assets/font/icon_font.eot?#iefixbg2l24') format('embedded-opentype'),
+            url('assets/font/icon_font.woff?bg2l24') format('woff'),
+            url('assets/font/icon_font.ttf?bg2l24') format('truetype'),
+            url('assets/font/icon_font.svg?bg2l24#icon_font') format('svg');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    [class^="icon-"], [class*=" icon-"] {
+        font-family: 'icon_font';
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+
+        /* Better Font Rendering =========== */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .icon-arbeitsmarkt:before {content: "\e600";}
+    .icon-bildung:before {content: "\e601";}
+    .icon-demographie:before {content: "\e602";}
+    .icon-geographie_und_stadtplanung:before {content: "\e603";}
+    .icon-gesundheit:before {content: "\e604";}
+    .icon-jugend:before {content: "\e605";}
+    .icon-kunst_und_kultur:before {content: "\e606";}
+    .icon-oeffentliche_verwaltung_haushalt_und_steuern:before {content: "\e607";}
+    .icon-protokolle_und_beschluesse:before {content: "\e608";}
+    .icon-sonstiges:before {content: "\e609";}
+    .icon-sozialleistungen:before {content: "\e60a";}
+    .icon-sport_und_erholung:before {content: "\e60b";}
+    .icon-tourismus:before {content: "\e60c";}
+    .icon-transport_und_verkehr:before {content: "\e60d";}
+    .icon-umwelt_und_klima:before {content: "\e60e";}
+    .icon-verbraucherschutz:before {content: "\e60f";}
+    .icon-verkehr:before {content: "\e610";}
+    .icon-ver_und_entsorgung:before {content: "\e611";}
+    .icon-wahlen:before {content: "\e612";}
+    .icon-wirtschaft:before {content: "\e613";}
+    .icon-wohnen_und_immobilien:before {content: "\e614";}
 </style>
 <div>
     <h2>Kategorien</h2>
+
+    <span class="category_icon icon-arbeitsmarkt"></span>
+    <span class="category_icon icon-bildung"></span>
+    <span class="category_icon icon-demographie"></span>
+    <span class="category_icon icon-geographie_und_stadtplanung"></span>
+    <span class="category_icon icon-gesundheit"></span>
+    <span class="category_icon icon-jugend"></span>
+    <span class="category_icon icon-kunst_und_kultur"></span>
+    <span class="category_icon icon-oeffentliche_verwaltung_haushalt_und_steuern"></span>
+    <span class="category_icon icon-protokolle_und_beschluesse"></span>
+    <span class="category_icon icon-sonstiges"></span>
+    <span class="category_icon icon-sozialleistungen"></span>
+    <span class="category_icon icon-sport_und_erholung"></span>
+    <span class="category_icon icon-tourismus"></span>
+    <span class="category_icon icon-transport_und_verkehr"></span>
+    <span class="category_icon icon-umwelt_und_klima"></span>
+    <span class="category_icon icon-verbraucherschutz"></span>
+    <span class="category_icon icon-verkehr"></span>
+    <span class="category_icon icon-ver_und_entsorgung"></span>
+    <span class="category_icon icon-wahlen"></span>
+    <span class="category_icon icon-wirtschaft"></span>
+    <span class="category_icon icon-wohnen_und_immobilien"></span>
 
     <ul>
         <li data-ng-repeat="(key, category) in categories">
