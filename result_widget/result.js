@@ -21,6 +21,12 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
             });
 
             MetadataService.registerWidget(scope.init);
+            //default value for orderProp
+            $scope.orderProp = 'age';
+            //to make the toggle Arrow
+            $scope.toggleArrows = function (index) {
+                var snippet = $scope.entries[index];
+                snippet.showSnippet = !snippt.showSnippet;}
         }
     };
 }]);

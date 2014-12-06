@@ -1,26 +1,51 @@
-<style type="text/css">
-    table, th, td {
-        border: 1px dotted darkgrey;
-    }
-</style>
-
 <div>
-    <h2>Ergebnisliste</h2>
-    <label>Values: {{length}}</label>
+    <h1>Ergebnisliste</h1>
+    sort by :
+    <div>
+        <select ng-model="orderProp">
+            <option value="name">Alphabetical</option>
+            <option value="age">Newest</option>
+        </select>
+    </div>
 
-    <table>
-        <tr>
-            <th width="50px">Date from</th>
-            <th width="50px">Date to</th>
-            <th width="50px">license</th>
-            <th width="200px">Title</th>
-        </tr>
+    <div>
+        <ul class="result">
+            <li data-ng-repeat="entry in entries | orderBy:orderProp">
+                <!--to make the img linkable-->
+                <a href="{{entry.datail}}" class="thumb">
 
-        <tr data-ng-repeat="entry in entries">
-            <td>{{entry.extras["temporal_coverage-from"]}}</td>
-            <td>{{entry.extras["temporal_coverage-to"]}}</td>
-            <td>{{entry.license_id}}</td>
-            <td>{{entry.title}}</td>
-        </tr>
-    </table>
-</div>
+
+
+                    <img data-ng-src="{{entry.img}}"></a>
+                <!--i have to add a filter to bring the photo of the suitable category-->
+
+
+                <!--to make the title linkable -->
+                <a href="{{entry.download_url}}">{{entry.title}}</a>
+
+                <!--trying to make the arrow for show and hide -->
+                <span class="snippetArrow" data-ng-click="toggleArrows($index)">toggle arrows</span>
+
+                <div data-ng-hide="showSnippet" class="showSnippet"></div>
+
+                <div data-ng-show="showSnippet" class="showSnippet">
+                    <ul>
+                        <p>{{entry.description}} </p>
+                        Title :     <li>{{entry.title}}</li><br>
+                        Date from : <li>{{entry.extras["temporal_coverage-from"]}}</li><br>
+                        Date to :   <li>{{entry.extras["temporal_coverage-to"]}}</li><br>
+                        License :   <li>{{entry.license_id}}</li><br>
+                        Kategorie : <li>{{entry.groups}}</li>
+
+                        <li> <a href="{{entry.url}}">Zum Detensätze</a></li>
+                    </ul>
+
+                </div>
+
+
+
+            </li>
+
+        </ul>
+
+    </div>
