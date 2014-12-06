@@ -59,31 +59,54 @@
     .icon-wahlen:before {content: "\e612";}
     .icon-wirtschaft:before {content: "\e613";}
     .icon-wohnen_und_immobilien:before {content: "\e614";}
+
+    td{
+        padding: 0.25em;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    td:hover .category_icon, td.hover .category_icon { color:deeppink; }
+
 </style>
 <div>
     <h2>Kategorien</h2>
 
-    <span class="category_icon icon-arbeitsmarkt"></span>
-    <span class="category_icon icon-bildung"></span>
-    <span class="category_icon icon-demographie"></span>
-    <span class="category_icon icon-geographie_und_stadtplanung"></span>
-    <span class="category_icon icon-gesundheit"></span>
-    <span class="category_icon icon-jugend"></span>
-    <span class="category_icon icon-kunst_und_kultur"></span>
-    <span class="category_icon icon-oeffentliche_verwaltung_haushalt_und_steuern"></span>
-    <span class="category_icon icon-protokolle_und_beschluesse"></span>
-    <span class="category_icon icon-sonstiges"></span>
-    <span class="category_icon icon-sozialleistungen"></span>
-    <span class="category_icon icon-sport_und_erholung"></span>
-    <span class="category_icon icon-tourismus"></span>
-    <span class="category_icon icon-transport_und_verkehr"></span>
-    <span class="category_icon icon-umwelt_und_klima"></span>
-    <span class="category_icon icon-verbraucherschutz"></span>
-    <span class="category_icon icon-verkehr"></span>
-    <span class="category_icon icon-ver_und_entsorgung"></span>
-    <span class="category_icon icon-wahlen"></span>
-    <span class="category_icon icon-wirtschaft"></span>
-    <span class="category_icon icon-wohnen_und_immobilien"></span>
+    <table>
+        <tr>
+            <td><span class="category_icon icon-arbeitsmarkt"></span></td>
+            <td><span class="category_icon icon-bildung"></span></td>
+            <td><span class="category_icon icon-demographie"></span></td>
+            <td><span class="category_icon icon-geographie_und_stadtplanung"></span></td>
+            <td><span class="category_icon icon-gesundheit"></span></td>
+            <td><span class="category_icon icon-jugend"></span></td>
+        </tr>
+        <tr>
+            <td><span class="category_icon icon-kunst_und_kultur"></span></td>
+            <td><span class="category_icon icon-oeffentliche_verwaltung_haushalt_und_steuern"></span></td>
+            <td><span class="category_icon icon-protokolle_und_beschluesse"></span></td>
+            <td><span class="category_icon icon-sonstiges"></span></td>
+            <td><span class="category_icon icon-sozialleistungen"></span></td>
+            <td><span class="category_icon icon-sport_und_erholung"></span></td>
+        </tr>
+        <tr>
+            <td><span class="category_icon icon-tourismus"></span></td>
+            <td><span class="category_icon icon-umwelt_und_klima"></span></td>
+            <td><span class="category_icon icon-verbraucherschutz"></span></td>
+            <td><span class="category_icon icon-verkehr"></span></td>
+            <td><span class="category_icon icon-ver_und_entsorgung"></span></td>
+            <td><span class="category_icon icon-wahlen"></span></td>
+        </tr>
+        <tr>
+            <td><span class="category_icon icon-wirtschaft"></span></td>
+            <td><span class="category_icon icon-wohnen_und_immobilien"></span></td>
+            <td colspan="2"><span class="category_icon icon-transport_und_verkehr"></span></td>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td colspan="6" id="actual_selection">Foobar Foo</td>
+        </tr>
+    </table>
 
     <ul>
         <li data-ng-repeat="(key, category) in categories">
