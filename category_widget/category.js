@@ -18,6 +18,8 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
                     scope.categories[key].checked = true;
                     scope.categories[key].size = scope.groupCategory.value()[key];
                 }
+                scope.category_mapping = category_mapping;
+                scope.selected_categories = new StringSet();
             }
 
             scope.$on('filterChanged', function() {
@@ -25,8 +27,16 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
                     scope.categories[key].size = scope.groupCategory.value()[key];
             });
 
-            scope.categoryChecked = function(index)
-            {
+            scope.toggle = function(key){
+                if(scope.selected_categories.contains(key)){
+                    scope.selected_categories.remove(key);
+                }else{
+                    scope.selected_categories.add(key);
+                }
+                console.log(scope.selected_categories.values());
+            }
+
+            scope.categoryChecked = function(index) {
                 var checkedCategories = [];
                 for(var key in scope.categories)
                     if(scope.categories[key].checked)
