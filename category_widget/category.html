@@ -50,33 +50,29 @@
     .icon-umwelt_und_klima:before {content: "\e60e";}
     .icon-verbraucherschutz:before {content: "\e60f";}
 
-    ul {
+    ul.category_matrix {
         -moz-column-count:    6;
         -webkit-column-count: 6;
         column-count:         6;
-    /*-moz-column-gap:    1em;*/
-    /*-webkit-column-gap: 1em;*/
-    /*column-gap:         1em;*/
     }
 
-
-    .category_icon{
-        font-size: 2em;
-    }
-
-    li {
+    ul.category_matrix li {
         padding-bottom: 1em;
     }
 
-    li:hover .category_icon{
+    ul.category_matrix .category_icon{
+        font-size: 2em;
+    }
+
+    ul.category_matrix li:hover .category_icon{
         color: #99CC00;
     }
 
-    .category_icon.active{
+    ul.category_matrix .category_icon.active{
         color: #7f99b2 !important;
     }
 
-    .category_icon.active:hover{
+    ul.category_matrix .category_icon.active:hover{
         color: #608000 !important;
     }
 
@@ -86,11 +82,16 @@
 <div>
     <h2>Kategorien</h2>
 
-    <ul>
-        <li data-ng-repeat="(key,value) in category_mapping">
+    <ul class="category_matrix">
+        <li ng-repeat="(key,value) in category_mapping">
             <span class="category_icon icon-{{key}}" title="{{value}}" ng-click="toggle(key);selected_categories.contains(key)?myClass='active':myClass=''" ng-class="myClass"></span>
         </li>
     </ul>
-    <span>{{selected_categories.values()}}</span>
+
+    <ul>
+        <li data-ng-repeat="key in selected_categories.values()">
+            {{category_mapping[key]}}
+        </li>
+    </ul>
 
 </div>
