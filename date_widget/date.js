@@ -1,8 +1,4 @@
-/**
- * Created by Kadir on 21.11.2014.
- */
-
-ExampleApp.directive('date', ['MetadataService', function(MetadataService) {
+Videbligo.directive('date', ['MetadataService', function(MetadataService) {
 
     return {
         restrict: 'AE',
@@ -13,29 +9,21 @@ ExampleApp.directive('date', ['MetadataService', function(MetadataService) {
             scope.available_from = "";
             scope.available_to = "";
             scope.span_visible = false;
+            scope.date = undefined;
 
-            scope.$on('init', function() {
+            scope.init = function(){
                 scope.data = MetadataService.getData();
                 scope.dimDateFrom = scope.data.dimension(function(d){return parseDate(d.extras["temporal_coverage-from"]);});
                 scope.dimDateTo = scope.data.dimension(function(d){return parseDate(d.extras["temporal_coverage-to"]);});
+            }
 
-                //initialize keyup event
-                $("#w3_date").keyup(function (e) {
-                    if (e.keyCode == 13){
-                        var value = $('#w3_date').val();
-                        scope.updateDimension(value);
-                    }
-                });
-            });
-
-            scope.updateDimension = function(value)
-            {
-                if (value === undefined || value === ""){
+            scope.dateChanged = function() {
+                var passedDate = scope.date;
+                if (passedDate === undefined || passedDate === ""){
                     scope.dimDateFrom.filterAll();
                     scope.dimDateTo.filterAll();
                 }
                 else{
-                    var passedDate = parseDate(value);
                     scope.dimDateFrom.filter(function(d){return d <= passedDate});
                     scope.dimDateTo.filter(function(d){return passedDate <= d});
                 }
@@ -44,8 +32,7 @@ ExampleApp.directive('date', ['MetadataService', function(MetadataService) {
 
             scope.$on('filterChanged', function() {
                 scope.span_visible = MetadataService.length() > 0;
-                if(scope.span_visible)//only do this if there are values to extract
-                {
+                if(scope.span_visible){//only do this if there are values to extract
                     scope.available_from = scope.dimDateFrom.bottom(Infinity)
                         .filter(function(d){return d.extras["temporal_coverage-from"] != undefined && d != ""; })
                         [0].extras["temporal_coverage-from"];
@@ -53,8 +40,9 @@ ExampleApp.directive('date', ['MetadataService', function(MetadataService) {
                         .filter(function(d){return d.extras["temporal_coverage-to"] != undefined && d != "";})
                         [0].extras["temporal_coverage-to"];
                 }
-                scope.$apply();
             });
+
+            MetadataService.registerWidget(scope.init);
         }
     };
 }]);

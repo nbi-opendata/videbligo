@@ -1,27 +1,26 @@
-
-
-ExampleApp.directive('result', ['MetadataService', function(MetadataService) {
+Videbligo.directive('result', ['MetadataService', function (MetadataService) {
 
     return {
         restrict: 'AE',
         templateUrl: 'result_widget/result.html',
         scope: {},
-        link: function(scope, element, attrs) {
+        link: function (scope, element, attrs) {
             scope.crossData = [];
             scope.entries = [];
             scope.length = 0;
+            scope.dimOne = null;
 
-            scope.$on('init', function() {
+            scope.init = function () {
                 var data = MetadataService.getData();
-                scope.dimOne = data.dimension(function(d){return d;});
-                scope.all = data.groupAll();
+                scope.dimOne = data.dimension(function (d) {return d;});
+            }
+
+            scope.$on('filterChanged', function () {
+                scope.entries = scope.dimOne.top(Infinity);
+                scope.length = MetadataService.length();
             });
 
-            scope.$on('filterChanged', function() {
-                scope.entries = scope.dimOne.top(Infinity);
-                scope.length = scope.all.value();
-                scope.$apply();
-            });
+            MetadataService.registerWidget(scope.init);
         }
     };
 }]);

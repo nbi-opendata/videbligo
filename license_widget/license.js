@@ -1,4 +1,4 @@
-ExampleApp.directive('license', ['MetadataService', function(MetadataService) {
+Videbligo.directive('license', ['MetadataService', function(MetadataService) {
 
     return {
         restrict: 'AE',
@@ -7,15 +7,16 @@ ExampleApp.directive('license', ['MetadataService', function(MetadataService) {
         link: function(scope, element, attrs) {
             scope.dimLicense = {};
 
-            scope.$on('init', function() {
+            scope.init = function(){
                 var data = MetadataService.getData();
                 scope.dimLicense = data.dimension(function(d){return d.license_id;});
                 scope.groupLicense = scope.dimLicense.group();
-            });
+            }
 
             scope.$on('filterChanged', function() {
-
             });
+
+            MetadataService.registerWidget(scope.init);
         }
     };
 }]);

@@ -1,4 +1,4 @@
-ExampleApp.directive('category', ['MetadataService', function(MetadataService) {
+Videbligo.directive('category', ['MetadataService', function(MetadataService) {
 
     return {
         restrict: 'AE',
@@ -7,46 +7,43 @@ ExampleApp.directive('category', ['MetadataService', function(MetadataService) {
         link: function(scope, element, attrs) {
             scope.categories = {};
 
-            scope.$on('init', function() {
+            scope.init = function(){
                 var data = MetadataService.getData();
                 scope.dimCategory = data.dimension(function(d){return d.groups;});
-                //temporary, second needed so the group always has the newest values, don't know why
-                var tmpCategory = data.dimension(function(d){return d.groups;});
-                scope.groupCategory = tmpCategory.groupAll().reduce(scope.reduceAdd, scope.reduceRemove, scope.reduceInitial);
-                for(var key in scope.groupCategory.value())
-                {
-                    scope.categories[key] = {}
-                    scope.categories[key].checked = true;
+                scope.groupCategory = scope.dimCategory.groupAll().reduce(scope.reduceAdd, scope.reduceRemove, scope.reduceInitial);
+                for(var key in scope.groupCategory.value()){
+                    scope.categories[key] = {};
                     scope.categories[key].size = scope.groupCategory.value()[key];
                 }
+                scope.category_mapping = category_mapping;
+                scope.selected_categories = new StringSet();
+                scope.hovered_category = '';
+            };
 
-            });
+            MetadataService.registerWidget(scope.init);
 
             scope.$on('filterChanged', function() {
                 for(var key in scope.groupCategory.value())
                     scope.categories[key].size = scope.groupCategory.value()[key];
             });
 
-            scope.categoryChecked = function(index)
-            {
-                var checkedCategories = [];
-                for(var key in scope.categories)
-                    if(scope.categories[key].checked)
-                        checkedCategories.push(key);
+            scope.toggle = function(key){
+                if(scope.selected_categories.contains(key)){
+                    scope.selected_categories.remove(key);
+                }else{
+                    scope.selected_categories.add(key);
+                }
 
-                var filterFunction = function(d)
-                {
+                var filterFunction = function(d) {
                     var tmp = d.filter(function(n) {
-                        return checkedCategories.indexOf(n) != -1
+                        return scope.selected_categories.contains(n);
                     });
                     return tmp.length > 0;
-                }
+                };
 
                 scope.dimCategory.filter(filterFunction);
                 MetadataService.triggerUpdate();
-                scope.$apply();
-            }
-
+            };
 
             scope.reduceAdd = function (p, v) {
                 v.groups.forEach (function(val, idx) {
@@ -65,7 +62,6 @@ ExampleApp.directive('category', ['MetadataService', function(MetadataService) {
             scope.reduceInitial = function() {
                 return {};
             }
-
         }
     };
 }]);
