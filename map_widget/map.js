@@ -1,4 +1,4 @@
-ExampleApp.directive('map', ['MetadataService', function(MetadataService) {
+Videbligo.directive('map', ['MetadataService', function(MetadataService) {
 
     return {
         restrict: 'AE',
@@ -36,7 +36,7 @@ ExampleApp.directive('map', ['MetadataService', function(MetadataService) {
                         }
                     }
 
-                    // Falls kein Datensatz zu einer Region gehört, bekommt diese den Wert 0
+                    // Falls kein Datensatz zu einer Region gehört, bekommt dieser den Wert 0
                     if(!wasPushed){
                         scope.districts.push({key:region , value: 0, checked: true});
                     }
@@ -59,13 +59,12 @@ ExampleApp.directive('map', ['MetadataService', function(MetadataService) {
             });
 
             scope.regionChecked = function(index){
-                
+
                 var checkedRegion = [];
                 for(var key in scope.districts)
                     if(scope.districts[key].checked)
                         checkedRegion.push(scope.districts[key].key);
 
-                // hier noch generell lösen..
                 scope.tempRegion.filter(function(d){
                     return checkedRegion.indexOf(d) != -1
                 });
@@ -75,6 +74,7 @@ ExampleApp.directive('map', ['MetadataService', function(MetadataService) {
 
             }
 
+            // nicht benötigt
             /*
             scope.reduceAdd = function(p, v) {
                 var val = v.extras["geographical_coverage"];
