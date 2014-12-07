@@ -10,9 +10,7 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
             scope.init = function(){
                 var data = MetadataService.getData();
                 scope.dimCategory = data.dimension(function(d){return d.groups;});
-                //temporary, second needed so the group always has the newest values, don't know why
-                var tmpCategory = data.dimension(function(d){return d.groups;});
-                scope.groupCategory = tmpCategory.groupAll().reduce(scope.reduceAdd, scope.reduceRemove, scope.reduceInitial);
+                scope.groupCategory = scope.dimCategory.groupAll().reduce(scope.reduceAdd, scope.reduceRemove, scope.reduceInitial);
                 for(var key in scope.groupCategory.value()){
                     scope.categories[key] = {}
                     scope.categories[key].checked = true;
