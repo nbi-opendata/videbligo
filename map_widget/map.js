@@ -19,7 +19,6 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
 
                 // Dimension erstellen, und diese dann gruppieren
                 scope.dimRegion = scope.RegData.dimension(function(d){return d.extras["geographical_coverage"];});
-                scope.tempRegion = scope.RegData.dimension(function(d){return d.extras["geographical_coverage"];});
                 scope.groupRegion = scope.dimRegion.groupAll().reduce(scope.reduceAdd, scope.reduceRemove, scope.reduceInitial);
 
                 scope.regionsAll.forEach(function(region){
@@ -48,7 +47,7 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                     if(scope.districts[key].checked)
                         checkedRegion.push(scope.districts[key].key);
 
-                scope.tempRegion.filter(function(d){
+                scope.dimRegion.filter(function(d){
                     return checkedRegion.indexOf(d) != -1
                 });
 
