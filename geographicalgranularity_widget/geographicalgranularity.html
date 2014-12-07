@@ -1,0 +1,11 @@
+<!-- list of granularity scale -->
+<div class="granularity" data-ng-class="orientation">
+    <ul>
+        <li data-ng-repeat="item in geographicalGranularity">
+            {{item}}
+            <div class="granularity-bubble" data-ng-class="'granularity-size-' + item.size">
+
+            </div>
+        </li>
+    </ul>
+</div>
