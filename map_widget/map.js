@@ -20,26 +20,13 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                 // Dimension erstellen, und diese dann gruppieren
                 scope.dimRegion = scope.RegData.dimension(function(d){return d.extras["geographical_coverage"];});
                 scope.tempRegion = scope.RegData.dimension(function(d){return d.extras["geographical_coverage"];});
-                scope.groupRegion = scope.dimRegion.group();
+                scope.groupRegion = scope.dimRegion.groupAll().reduce(scope.reduceAdd, scope.reduceRemove, scope.reduceInitial);
 
                 scope.regionsAll.forEach(function(region){
-                    var wasPushed = false;
-                    for(var i=0; i<scope.groupRegion.all().length; i++) {
-                        if (scope.groupRegion.all()[i].key == region){
-
-                            scope.dimRegion.filter(function(d){
-                                return d === region;
-                            })
-                            scope.districts.push({key:region , value: scope.RegData.groupAll().value(), checked: true });
-                            scope.dimRegion.filterAll();
-                            wasPushed = true;
-                        }
-                    }
-
-                    // Falls kein Datensatz zu einer Region gehört, bekommt dieser den Wert 0
-                    if(!wasPushed){
-                        scope.districts.push({key:region , value: 0, checked: true});
-                    }
+                    var value = 0;
+                    if(scope.groupRegion.value()[region] != undefined)
+                        value = scope.groupRegion.value()[region];
+                    scope.districts.push({key:region , value: value, checked: true });
                 })
             };
 
@@ -47,21 +34,15 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
 
 
             scope.$on('filterChanged', function() {
-                for(var obj in scope.groupRegion.all()){
-                    for(var entry in scope.districts) {
-                        if (scope.districts[entry].key == scope.groupRegion.all()[obj].key){
-                            scope.dimRegion.filter(function(d){
-                                return d === scope.districts[entry].key;
-                            })
-                            scope.districts[entry].value = scope.RegData.groupAll().value();
-                            scope.dimRegion.filterAll();
-                        }
-                    }
-                }
+                scope.districts.forEach(function(district) {
+                    var value = 0;
+                    if(scope.groupRegion.value()[district.key] != undefined)
+                        value = scope.groupRegion.value()[district.key];
+                    district.value = value;
+                });
             });
 
             scope.regionChecked = function(index){
-
                 var checkedRegion = [];
                 for(var key in scope.districts)
                     if(scope.districts[key].checked)
@@ -72,9 +53,28 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                 });
 
                 MetadataService.triggerUpdate();
-                scope.$apply();
-
             }
+
+            scope.reduceAdd = function(p, v) {
+                var val = v.extras["geographical_coverage"];
+                if(val === undefined || val === null)
+                    return p;
+                p[val] = (p[val]|| 0) + 1
+                return p;
+            }
+
+            scope.reduceRemove= function (p, v) {
+                var val = v.extras["geographical_coverage"];
+                if(val === undefined || val === null)
+                    return p;
+                p[val] = (p[val]|| 0) - 1
+                return p;
+            }
+
+            scope.reduceInitial = function() {
+                return {};
+            }
+
         }
     };
 }]);
