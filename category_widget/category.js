@@ -41,7 +41,11 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
                     return tmp.length > 0;
                 };
 
-                scope.dimCategory.filter(filterFunction);
+                if(scope.selected_categories.values().length == 0) {
+                    scope.dimCategory.filterAll();
+                }else{
+                    scope.dimCategory.filter(filterFunction);
+                }
                 MetadataService.triggerUpdate();
             };
 
