@@ -12,13 +12,14 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
                 scope.dimCategory = data.dimension(function(d){return d.groups;});
                 scope.groupCategory = scope.dimCategory.groupAll().reduce(scope.reduceAdd, scope.reduceRemove, scope.reduceInitial);
                 for(var key in scope.groupCategory.value()){
-                    scope.categories[key] = {}
-                    scope.categories[key].checked = true;
+                    scope.categories[key] = {};
                     scope.categories[key].size = scope.groupCategory.value()[key];
                 }
                 scope.category_mapping = category_mapping;
                 scope.selected_categories = new StringSet();
-            }
+                scope.hovered_category = '';
+            };
+
             MetadataService.registerWidget(scope.init);
 
             scope.$on('filterChanged', function() {
@@ -32,18 +33,17 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
                 }else{
                     scope.selected_categories.add(key);
                 }
-                console.log(scope.selected_categories.values());
 
                 var filterFunction = function(d) {
                     var tmp = d.filter(function(n) {
                         return scope.selected_categories.contains(n);
                     });
                     return tmp.length > 0;
-                }
+                };
 
                 scope.dimCategory.filter(filterFunction);
                 MetadataService.triggerUpdate();
-            }
+            };
 
             scope.reduceAdd = function (p, v) {
                 v.groups.forEach (function(val, idx) {
