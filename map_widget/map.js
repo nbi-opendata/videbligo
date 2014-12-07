@@ -19,6 +19,7 @@ ExampleApp.directive('map', ['MetadataService', function(MetadataService) {
 
                 // Dimension erstellen, und diese dann gruppieren
                 scope.dimRegion = scope.RegData.dimension(function(d){return d.extras["geographical_coverage"];});
+                scope.tempRegion = scope.RegData.dimension(function(d){return d.extras["geographical_coverage"];});
                 scope.groupRegion = scope.dimRegion.group();
 
                 scope.regionsAll.forEach(function(region){
@@ -57,14 +58,44 @@ ExampleApp.directive('map', ['MetadataService', function(MetadataService) {
                 }
             });
 
-            scope.regionChecked = function(index)
-            {
-                scope.dimRegion.filter(function(d){
-                    return d === "Lichtenberg" || d === "Treptow-Köpenick";
+            scope.regionChecked = function(index){
+                
+                var checkedRegion = [];
+                for(var key in scope.districts)
+                    if(scope.districts[key].checked)
+                        checkedRegion.push(scope.districts[key].key);
+
+                // hier noch generell lösen..
+                scope.tempRegion.filter(function(d){
+                    return checkedRegion.indexOf(d) != -1
                 });
+
                 MetadataService.triggerUpdate();
                 scope.$apply();
+
             }
+
+            /*
+            scope.reduceAdd = function(p, v) {
+                var val = v.extras["geographical_coverage"];
+                if(val === undefined || val === null)
+                    return p;
+                p[val] = (p[val]|| 0) + 1
+                return p;
+            }
+
+            scope.reduceRemove= function (p, v) {
+                var val = v.extras["geographical_coverage"];
+                if(val === undefined || val === null)
+                    return p;
+                p[val] = (p[val]|| 0) - 1
+                return p;
+            }
+
+            scope.reduceInitial = function() {
+                return {};
+            }
+            */
         }
     };
 }]);
