@@ -74,28 +74,7 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
 
             }
 
-            // nicht benötigt
-            /*
-            scope.reduceAdd = function(p, v) {
-                var val = v.extras["geographical_coverage"];
-                if(val === undefined || val === null)
-                    return p;
-                p[val] = (p[val]|| 0) + 1
-                return p;
-            }
 
-            scope.reduceRemove= function (p, v) {
-                var val = v.extras["geographical_coverage"];
-                if(val === undefined || val === null)
-                    return p;
-                p[val] = (p[val]|| 0) - 1
-                return p;
-            }
-
-            scope.reduceInitial = function() {
-                return {};
-            }
-            */
         }
     };
 }]);
