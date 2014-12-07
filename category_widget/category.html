@@ -2,11 +2,11 @@
     /* Icon Font */
     @font-face {
         font-family: 'icon_font';
-        src:url('assets/font/icon_font.eot?bg2l24');
-        src:url('assets/font/icon_font.eot?#iefixbg2l24') format('embedded-opentype'),
-            url('assets/font/icon_font.woff?bg2l24') format('woff'),
-            url('assets/font/icon_font.ttf?bg2l24') format('truetype'),
-            url('assets/font/icon_font.svg?bg2l24#icon_font') format('svg');
+        src: url('assets/font/icon_font.eot?bg2l24');
+        src: url('assets/font/icon_font.eot?#iefixbg2l24') format('embedded-opentype'),
+             url('assets/font/icon_font.woff?bg2l24') format('woff'),
+             url('assets/font/icon_font.ttf?bg2l24') format('truetype'),
+             url('assets/font/icon_font.svg?bg2l24#icon_font') format('svg');
         font-weight: normal;
         font-style: normal;
     }
@@ -51,31 +51,30 @@
     .icon-verbraucherschutz:before {content: "\e60f";}
 
     ul.category_matrix {
-        -moz-column-count:    6;
+        -moz-column-count: 6;
         -webkit-column-count: 6;
-        column-count:         6;
+        column-count: 6;
     }
 
     ul.category_matrix li {
         padding-bottom: 1em;
     }
 
-    ul.category_matrix .category_icon{
+    ul.category_matrix .category_icon {
         font-size: 2em;
     }
 
-    ul.category_matrix li:hover .category_icon{
+    ul.category_matrix li:hover .category_icon {
         color: #99CC00;
     }
 
-    ul.category_matrix .category_icon.active{
+    ul.category_matrix .category_icon.active {
         color: #7f99b2 !important;
     }
 
-    ul.category_matrix .category_icon.active:hover{
+    ul.category_matrix .category_icon.active:hover {
         color: #608000 !important;
     }
-
 
 
 </style>
@@ -84,7 +83,9 @@
 
     <ul class="category_matrix">
         <li ng-repeat="(key,value) in category_mapping">
-            <span class="category_icon icon-{{key}}" title="{{value}}" ng-click="toggle(key);selected_categories.contains(key)?myClass='active':myClass=''" ng-class="myClass"></span>
+            <span class="category_icon icon-{{key}}" title="{{value}}"
+                  ng-click="toggle(key);selected_categories.contains(key)?myClass='active':myClass=''"
+                  ng-class="myClass"></span>
         </li>
     </ul>
 
