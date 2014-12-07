@@ -19,6 +19,7 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
                 scope.category_mapping = category_mapping;
                 scope.selected_categories = new StringSet();
             }
+            MetadataService.registerWidget(scope.init);
 
             scope.$on('filterChanged', function() {
                 for(var key in scope.groupCategory.value())
@@ -44,24 +45,6 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
                 MetadataService.triggerUpdate();
             }
 
-            scope.categoryChecked = function(index) {
-                var checkedCategories = [];
-                for(var key in scope.categories)
-                    if(scope.categories[key].checked)
-                        checkedCategories.push(key);
-
-                var filterFunction = function(d) {
-                    var tmp = d.filter(function(n) {
-                        return checkedCategories.indexOf(n) != -1
-                    });
-                    return tmp.length > 0;
-                }
-
-                scope.dimCategory.filter(filterFunction);
-                MetadataService.triggerUpdate();
-            }
-
-
             scope.reduceAdd = function (p, v) {
                 v.groups.forEach (function(val, idx) {
                     p[val] = (p[val] || 0) + 1; //increment counts
@@ -79,8 +62,6 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
             scope.reduceInitial = function() {
                 return {};
             }
-
-            MetadataService.registerWidget(scope.init);
         }
     };
 }]);
