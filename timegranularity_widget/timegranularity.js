@@ -1,4 +1,4 @@
-Videbligo.directive('search', ['MetadataService', function(MetadataService) {
+Videbligo.directive('timeGranularity', ['MetadataService', function(MetadataService) {
 
     return {
         restrict: 'AE',
