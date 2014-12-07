@@ -14,7 +14,7 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
             // alphabetisch sortieren
             scope.regionsAll.sort();
 
-            scope.$on('init', function() {
+            scope.init = function() {
                 scope.RegData = MetadataService.getData();
 
                 // Dimension erstellen, und diese dann gruppieren
@@ -41,7 +41,9 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                         scope.districts.push({key:region , value: 0, checked: true});
                     }
                 })
-            });
+            };
+
+            MetadataService.registerWidget(scope.init);
 
 
             scope.$on('filterChanged', function() {
@@ -73,8 +75,6 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                 scope.$apply();
 
             }
-
-
         }
     };
 }]);
