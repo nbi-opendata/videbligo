@@ -135,7 +135,8 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
 
                 scope.svgParams.yAxis = d3.svg.axis()
                     .scale(scope.svgParams.y)
-                    .orient("left");
+                    .orient("left")
+                    .tickFormat(d3.format("d"));
 
                 scope.svg.append("g")
                     .attr("class", "x axis")
@@ -166,27 +167,9 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                     scope.dimDate.filterAll();
                 }
                 else{
-                    scope.dimDate.filter(function(d){
-                        var result = false;
-
-                        for (var index in scope.selectedYears) {
-                            var year = scope.selectedYears[index];
-
-                            if (d.from != undefined && d.to != undefined){
-                                result = result || (d.from.getFullYear() <= year && year <= d.to.getFullYear());
-                            }
-                            else if (d.from != undefined){
-                                result = result || (d.from.getFullYear() <= year);
-                            }
-                            else if (d.to != undefined){
-                                result = result || (year <= d.to.getFullYear());
-                            }
-                        }
-                        return result;
-                    });
+                    scope.dimDate.filter(scope.filterFunction);
                 }
 
-                //console.log("Anzahl: " +scope.dimDate.top(Infinity).length);
                 var yearsAndNumbers = scope.dateGroup.top(1)[0].value.years;
 
                 var years = Object.keys(yearsAndNumbers);
@@ -199,6 +182,7 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                     mappings.push({year:years[index], value:yearsAndNumbers[years[index]]});
                 }
 
+                //refresh axes
                 scope.svg.selectAll(".bar").remove();
 
                 scope.svgParams.x.domain(scope.svgParams.initialYears);
@@ -210,17 +194,15 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
 
                 scope.svgParams.yAxis = d3.svg.axis()
                     .scale(scope.svgParams.y)
+                    .tickFormat(d3.format("d"))
                     .orient("left");
 
                 scope.svg.select("g .x.axis")
                     .call(scope.svgParams.xAxis)
-                    .attr("dx", "-.8em")
-                    .attr("dy", "-.45em")
                     .selectAll("text")
                     .style("text-anchor", "end")
                     .attr("dx", "-.8em")
-                    .attr("dy", "-.45em")
-                    .attr("transform", function(d){return "rotate(-80)"});;
+                    .attr("dy", "-.45em");
 
                 scope.svg.select("g .y.axis")
                     .call(scope.svgParams.yAxis);
@@ -262,6 +244,23 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                     //scope.available_to = scope.dimDateTo.top(Infinity)
                     //    .filter(function(d){return d.extras["temporal_coverage-to"] != undefined && d != "";})
                     //    [0].extras["temporal_coverage-to"];
+                }
+
+                scope.filterFunction = function(d){
+                    var result = false;
+                    for (var index in scope.selectedYears) {
+                        var year = scope.selectedYears[index];
+                        if (d.from != undefined && d.to != undefined){
+                            result = result || (d.from.getFullYear() <= year && year <= d.to.getFullYear());
+                        }
+                        else if (d.from != undefined){
+                            result = result || (d.from.getFullYear() <= year);
+                        }
+                        else if (d.to != undefined){
+                            result = result || (year <= d.to.getFullYear());
+                        }
+                    }
+                    return result;
                 }
             });
 
