@@ -162,8 +162,6 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
             }
 
             scope.$on('filterChanged', function() {
-                console.log(scope.selectedYears);
-
                 if (scope.selectedYears.length == 0){
                     scope.dimDate.filterAll();
                 }
