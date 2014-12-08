@@ -44,10 +44,12 @@ Videbligo.service('MetadataService', ["$rootScope", "$location", "$http", functi
 }]);
 
 function parseDate(input) {
-    if (input == undefined)
+    if (input == undefined) {
         return undefined;
+    }
+
     var parts = input.split('-');
-    return new Date(parts[0], parts[1], parts[2]); // Note: months are 0-based
+    return new Date(parts[0], parts[1]-1, parts[2]); // Note: months are 0-based
 }
 
 function StringSet() {
