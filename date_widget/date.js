@@ -11,7 +11,6 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
             //scope.earliest = {};
             //scope.latest = {};
             scope.span_visible = false;
-            scope.date = undefined;
             scope.timeChart = {};
             scope.dateGroup = {};
             scope.dimDate = {};
@@ -89,11 +88,9 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                 );
 
                 scope.initSvg();
-
             }
 
             scope.initSvg = function(){
-
                 var yearsAndNumbers = scope.dateGroup.top(1)[0].value.years;
                 var years = Object.keys(yearsAndNumbers);
                 var values = years.map(function (key) {
@@ -106,7 +103,7 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                 }
 
                 scope.svgParams.initialYears = years;
-                scope.svgParams.initialValues = values;
+                //scope.svgParams.initialValues = values;
 
                 scope.svgParams.margin = {top: 20, right: 20, bottom: 30, left: 40},
                     scope.svgParams.width = 500,
@@ -117,7 +114,6 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                     .attr("height", scope.svgParams.height + scope.svgParams.margin.top + scope.svgParams.margin.bottom)
                     .append("g")
                     .attr("transform", "translate(" + scope.svgParams.margin.left + "," + scope.svgParams.margin.top + ")");
-
 
                 scope.svgParams.x = d3.scale.ordinal()
                     .rangeRoundBands([0, scope.svgParams.width], .1);
@@ -158,18 +154,7 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                     .text("Anzahl der Datensätze");
             }
 
-            scope.dateChanged = function() {
-                MetadataService.triggerUpdate();
-            }
-
-            scope.$on('filterChanged', function() {
-                if (scope.selectedYears.length == 0){
-                    scope.dimDate.filterAll();
-                }
-                else{
-                    scope.dimDate.filter(scope.filterFunction);
-                }
-
+            scope.updateChart = function() {
                 var yearsAndNumbers = scope.dateGroup.top(1)[0].value.years;
 
                 var years = Object.keys(yearsAndNumbers);
@@ -209,7 +194,9 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
 
                 scope.svg.selectAll(".bar")
                     .data(mappings)
-                    .enter().append("rect")
+                    .enter()
+                    .append("rect")
+                    .attr("data-ng-click", "dateChanged()")
                     .attr("x", function(d) { return scope.svgParams.x(d.year); })
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", function(d) { return scope.svgParams.y(d.value); })
@@ -220,21 +207,31 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                             c += " active";
                         }
                         return c;
-                    })
+                    }).attr("id", function(d){ return "time-coverage-bar-"+ d.year;})
                     .on("click", function(d) {
                         if(scope.selectedYears.indexOf(d.year) == -1) { scope.selectedYears.push(d.year); }
                         else { scope.selectedYears.splice(scope.selectedYears.indexOf(d.year), 1); }
-                        scope.svg.selectAll(".bar").attr("class", function(d){
-                            var c = "bar";
-                            if (scope.selectedYears.indexOf(d.year) != -1){
-                                c += " active";
-                            }
-                            return c;
-                        })
+                        $("#time-coverage-bar-"+ d.year).toggleClass("active");
                         scope.dateChanged();
                     });
-                    //.attr("ng-click", "scope.dateChanged()")
-                    //.attr("ng-class", function(d) { return "{'active': selectedYears.contains("+d.numberOfData+")}"; })
+            }
+
+            scope.dateChanged = function() {
+                console.log("dateChanged");
+                if (scope.selectedYears.length == 0){
+                    scope.dimDate.filterAll();
+                }
+                else{
+                    scope.dimDate.filter(scope.filterFunction);
+                }
+                console.log(scope.dimDate.top(Infinity));
+                MetadataService.triggerUpdate();
+            }
+
+            scope.$on('filterChanged', function() {
+                console.log("filterChanged");
+
+                scope.updateChart();
 
                 scope.span_visible = MetadataService.length() > 0;
                 if(scope.span_visible){//only do this if there are values to extract
@@ -245,24 +242,24 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                     //    .filter(function(d){return d.extras["temporal_coverage-to"] != undefined && d != "";})
                     //    [0].extras["temporal_coverage-to"];
                 }
-
-                scope.filterFunction = function(d){
-                    var result = false;
-                    for (var index in scope.selectedYears) {
-                        var year = scope.selectedYears[index];
-                        if (d.from != undefined && d.to != undefined){
-                            result = result || (d.from.getFullYear() <= year && year <= d.to.getFullYear());
-                        }
-                        else if (d.from != undefined){
-                            result = result || (d.from.getFullYear() <= year);
-                        }
-                        else if (d.to != undefined){
-                            result = result || (year <= d.to.getFullYear());
-                        }
-                    }
-                    return result;
-                }
             });
+
+            scope.filterFunction = function(d){
+                var result = false;
+                for (var index in scope.selectedYears) {
+                    var year = scope.selectedYears[index];
+                    if (d.from != undefined && d.to != undefined){
+                        result = result || (d.from.getFullYear() <= year && year <= d.to.getFullYear());
+                    }
+                    else if (d.from != undefined){
+                        result = result || (d.from.getFullYear() <= year);
+                    }
+                    else if (d.to != undefined){
+                        result = result || (year <= d.to.getFullYear());
+                    }
+                }
+                return result;
+            }
 
             MetadataService.registerWidget(scope.init);
         }
