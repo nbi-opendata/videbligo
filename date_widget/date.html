@@ -1,7 +1,45 @@
-<h2>Zeitliche Aktualität</h2>
+<style>
+
+
+    .bar {
+        fill: steelblue;
+    }
+
+    .bar:hover {
+        fill: brown;
+    }
+
+    .bar.active {
+        fill: green;
+    }
+
+    .axis {
+        font: 10px sans-serif;
+    }
+
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
+    .x.axis path {
+        display: none;
+    }
+
+</style>
+
+<h2>Zeitperiode</h2>
 
 <div class="d3-example">
-    Date: <input id="w3_date" type="date" ng-model="date" ng-change="dateChanged()"><br>
+    <!--Date: <input id="w3_date" type="date" ng-model="date" ng-change="dateChanged()">-->
+
+    <div id="time-chart">
+        <!--<strong>Anzahl der Datensätze pro Jahr</strong>-->
+        <!--<span class="reset" style="display: none;">range: <span class="filter"></span></span>-->
+        <!--<a class="reset" href="#" style="display: none;">reset</a>-->
+    </div>
 
     <div ng-show="span_visible">
         Available timespan:
