@@ -76,6 +76,10 @@ function StringSet() {
         }
         return values;
     };
+
+    this.clear = function(){
+        setObj = {};
+    }
 }
 
 var category_mapping = {

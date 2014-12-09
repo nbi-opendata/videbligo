@@ -247,6 +247,13 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 }
             }
 
+            scope.resetSelection = function () {
+                $("#time-chart-reset").css("visibility","hidden");
+                scope.selectedYears.clear();
+                scope.dimDate.filterAll();
+                MetadataService.triggerUpdate();
+            }
+
             MetadataService.registerWidget(scope.init);
         }
     };
