@@ -1,4 +1,4 @@
-Videbligo.directive('date', ['MetadataService', function(MetadataService) {
+Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataService, $compile) {
 
     return {
         restrict: 'AE',
@@ -196,7 +196,7 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                     .data(mappings)
                     .enter()
                     .append("rect")
-                    .attr("data-ng-click", "dateChanged()")
+                    .attr("data-ng-click",function(d) { return  "dateChanged("+ d.year + ")"; })
                     .attr("x", function(d) { return scope.svgParams.x(d.year); })
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", function(d) { return scope.svgParams.y(d.value); })
@@ -207,21 +207,33 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                             c += " active";
                         }
                         return c;
-                    }).attr("id", function(d){ return "time-coverage-bar-"+ d.year;})
-                    .on("click", function(d) {
-                        if(scope.selectedYears.indexOf(d.year) == -1) { scope.selectedYears.push(d.year); }
-                        else { scope.selectedYears.splice(scope.selectedYears.indexOf(d.year), 1); }
-                        $("#time-coverage-bar-"+ d.year).toggleClass("active");
-                        scope.dateChanged();
-                    });
+                    }).attr("id", function(d){ return "time-coverage-bar-"+ d.year;});
+                    //.on("click", function(d) {
+                    //    if(scope.selectedYears.indexOf(d.year) == -1) { scope.selectedYears.push(d.year); }
+                    //    else { scope.selectedYears.splice(scope.selectedYears.indexOf(d.year), 1); }
+                    //    $("#time-coverage-bar-"+ d.year).toggleClass("active");
+                    //    scope.dateChanged();
+                    //});
+                $compile(angular.element('#time-chart'))(scope);
+
             }
 
-            scope.dateChanged = function() {
-                console.log("dateChanged");
+            scope.dateChanged = function(year) {
+                console.log('date changed');
+                if(scope.selectedYears.indexOf(year) == -1) { scope.selectedYears.push(year); }
+                    else { scope.selectedYears.splice(scope.selectedYears.indexOf(year), 1); }
+                    $("#time-coverage-bar-"+ year).toggleClass("active");
+                scope.changedDimension();
+            }
+            scope.changedDimension = function() {
+                console.log("change dimension");
                 if (scope.selectedYears.length == 0){
+                    console.log('no year selected');
                     scope.dimDate.filterAll();
                 }
                 else{
+                    console.log('a year selected');
+                    
                     scope.dimDate.filter(scope.filterFunction);
                 }
                 console.log(scope.dimDate.top(Infinity));
