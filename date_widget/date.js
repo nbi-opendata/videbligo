@@ -6,10 +6,8 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
         scope: {},
         link: function(scope, element, attrs) {
 
-            //scope.available_from = "";
-            //scope.available_to = "";
-            //scope.earliest = {};
-            //scope.latest = {};
+            scope.available_from = "";
+            scope.available_to = "";
             scope.span_visible = false;
             scope.timeChart = {};
             scope.dateGroup = {};
@@ -25,16 +23,6 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     var dateTo = parseDate(d.extras["temporal_coverage-to"]);
                     return {from: dateFrom, to: dateTo};
                 });
-
-                //scope.dimDateFrom = scope.data.dimension(function(d){return parseDate(d.extras["temporal_coverage-from"]);});
-                //
-                //scope.dimDateTo = scope.data.dimension(function(d){return parseDate(d.extras["temporal_coverage-to"]);});
-                ////scope.earliest = scope.dimDateFrom.bottom(Infinity)
-                ////    .filter(function(d){return d.extras["temporal_coverage-from"] != undefined && d != ""; })
-                ////    [0].extras["temporal_coverage-from"];
-                ////scope.latest = scope.dimDate.top(Infinity)
-                ////    .filter(function(d){return d.extras["temporal_coverage-to"] != undefined && d != "";})
-                ////    [0].extras["temporal_coverage-to"];
 
                 scope.dateGroup = scope.dimDate.group().reduce(
                     //add
@@ -175,20 +163,6 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             }
 
             scope.$on('filterChanged', function() {
-                scope.updateChart();
-
-                scope.span_visible = MetadataService.length() > 0;
-                if(scope.span_visible){//only do this if there are values to extract
-                    //scope.available_from = scope.dimDateFrom.bottom(Infinity)
-                    //    .filter(function(d){return d.extras["temporal_coverage-from"] != undefined && d != ""; })
-                    //    [0].extras["temporal_coverage-from"];
-                    //scope.available_to = scope.dimDateTo.top(Infinity)
-                    //    .filter(function(d){return d.extras["temporal_coverage-to"] != undefined && d != "";})
-                    //    [0].extras["temporal_coverage-to"];
-                }
-            });
-
-            scope.updateChart = function() {
                 scope.updateCurrentMappings();
 
                 scope.svg.selectAll(".bar").remove();
@@ -228,7 +202,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .attr("ng-class", function(d){ return "{'bar': true, 'active': selectedYears.contains("+ d.year+")}";});
 
                 $compile(angular.element('#time-chart'))(scope);
-            }
+            });
 
             scope.updateCurrentMappings = function(){
                 var yearsAndNumbers = scope.dateGroup.top(1)[0].value.years;
@@ -244,6 +218,29 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
                 if (!scope.svgParams.initialYears){
                     scope.svgParams.initialYears = years;
+                }
+
+                scope.span_visible = MetadataService.length() > 0;
+                if(scope.span_visible){//only do this if there are values to extract
+                    var all = scope.dimDate.top(Infinity);
+                    var earliest = new Date(2900,0,1),
+                        latest = new Date(1900, 0, 1);
+                    for (var key in all){
+                        var ds = all[key];
+                        if (ds.extras != undefined) {
+                            if (ds.extras["temporal_coverage-from"] != undefined){
+                                if (parseDate(ds.extras["temporal_coverage-from"]) < earliest){
+                                    earliest = parseDate(ds.extras["temporal_coverage-from"]);
+                                    scope.available_from = ds.extras["temporal_coverage-from"];
+                                }
+
+                                if (latest < parseDate(ds.extras["temporal_coverage-to"])){
+                                    latest = parseDate(ds.extras["temporal_coverage-to"]);
+                                    scope.available_to = ds.extras["temporal_coverage-to"];
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
