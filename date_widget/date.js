@@ -204,7 +204,8 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", "0")
                     .attr("height", function(d) { return scope.svgParams.height; })
-                    .attr("ng-click", function(d){ return "toggle("+ d.year+")";});
+                    .attr("ng-click", function(d){ return "toggle("+ d.year+")";})
+                    .attr("ng-class", function(d){ return "{'active': selectedYears.contains("+ d.year+")}";});
 
                 onData
                     .enter()

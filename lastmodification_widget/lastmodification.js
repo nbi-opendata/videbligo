@@ -151,7 +151,8 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", "0")
                     .attr("height", function(d) { return scope.svgParams.height; })
-                    .attr("ng-click", function(d){ return "toggle('"+ d.key+"')";});
+                    .attr("ng-click", function(d){ return "toggle('"+ d.key+"')";})
+                    .attr("ng-class", function(d){ return "{'active': selectedMonths.contains('"+ d.key+"')}";});
 
                 onData.enter()
                     .append("rect")
