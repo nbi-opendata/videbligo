@@ -141,9 +141,19 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 scope.svg.select("g .y.axis")
                     .call(scope.svgParams.yAxis);
 
-                scope.svg.selectAll(".bar")
-                    .data(scope.lastModGroup.all())
-                    .enter()
+                var onData = scope.svg.selectAll(".bar")
+                    .data(scope.lastModGroup.all());
+
+                onData.enter()
+                    .append("rect")
+                    .attr("x", function(d) { return scope.svgParams.x(d.key); })
+                    .attr("class", "barbg")
+                    .attr("width", scope.svgParams.x.rangeBand())
+                    .attr("y", "0")
+                    .attr("height", function(d) { return scope.svgParams.height; })
+                    .attr("ng-click", function(d){ return "toggle('"+ d.key+"')";});
+
+                onData.enter()
                     .append("rect")
                     .attr("x", function(d) { return scope.svgParams.x(d.key); })
                     .attr("width", scope.svgParams.x.rangeBand())
