@@ -1,4 +1,4 @@
-Videbligo.directive('date', ['MetadataService', function(MetadataService) {
+Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataService, $compile) {
 
     return {
         restrict: 'AE',
@@ -6,15 +6,15 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
         scope: {},
         link: function(scope, element, attrs) {
 
-            scope.available_from = "";
-            scope.available_to = "";
+            //scope.available_from = "";
+            //scope.available_to = "";
             //scope.earliest = {};
             //scope.latest = {};
             scope.span_visible = false;
             scope.timeChart = {};
             scope.dateGroup = {};
             scope.dimDate = {};
-            scope.selectedYears = [];
+            scope.selectedYears = new StringSet();
             scope.svgParams = {};
 
             scope.init = function(){
@@ -22,9 +22,7 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
 
                 scope.dimDate = scope.data.dimension(function(d){
                     var dateFrom = parseDate(d.extras["temporal_coverage-from"]);
-                    //dateFrom = dateFrom == undefined ? parseDate("1900-01-01") : dateFrom;
                     var dateTo = parseDate(d.extras["temporal_coverage-to"]);
-                    //dateTo = dateTo == undefined ? parseDate("2900-01-01") : dateTo;
                     return {from: dateFrom, to: dateTo};
                 });
 
@@ -37,10 +35,6 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                 ////scope.latest = scope.dimDate.top(Infinity)
                 ////    .filter(function(d){return d.extras["temporal_coverage-to"] != undefined && d != "";})
                 ////    [0].extras["temporal_coverage-to"];
-
-                //console.log(scope.earliest);
-                //console.log(scope.latest);
-
 
                 scope.dateGroup = scope.dimDate.group().reduce(
                     //add
@@ -97,17 +91,9 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                     scope.svgParams.width = 500,
                     scope.svgParams.height = 300;
 
-                scope.svg = d3.select("#time-chart").append("svg")
-                    .attr("width", scope.svgParams.width + scope.svgParams.margin.left + scope.svgParams.margin.right)
-                    .attr("height", scope.svgParams.height + scope.svgParams.margin.top + scope.svgParams.margin.bottom)
-                    .append("g")
-                    .attr("transform", "translate(" + scope.svgParams.margin.left + "," + scope.svgParams.margin.top + ")");
+                scope.svgParams.x = d3.scale.ordinal().rangeRoundBands([0, scope.svgParams.width], .1);
 
-                scope.svgParams.x = d3.scale.ordinal()
-                    .rangeRoundBands([0, scope.svgParams.width], .1);
-
-                scope.svgParams.y = d3.scale.linear()
-                    .range([scope.svgParams.height, 0]);
+                scope.svgParams.y = d3.scale.linear().range([scope.svgParams.height, 0]);
 
 
                 scope.svgParams.x.domain(scope.svgParams.currentMappings.map(function(d) { return d.year; }));
@@ -122,10 +108,18 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                     .orient("left")
                     .tickFormat(d3.format("d"));
 
+
+                scope.svg = d3.select("#time-chart").append("svg")
+                    .attr("width", scope.svgParams.width + scope.svgParams.margin.left + scope.svgParams.margin.right)
+                    .attr("height", scope.svgParams.height + scope.svgParams.margin.top + scope.svgParams.margin.bottom)
+                    .append("g")
+                    .attr("transform", "translate(" + scope.svgParams.margin.left + "," + scope.svgParams.margin.top + ")");
+
                 scope.svg.append("g")
                     .attr("class", "x axis")
                     .attr("transform", "translate(0," + scope.svgParams.height + ")")
-                    .call(scope.svgParams.xAxis).selectAll("text")
+                    .call(scope.svgParams.xAxis)
+                    .selectAll("text")
                     .style("text-anchor", "end")
                     .attr("dx", "-.8em")
                     .attr("dy", "-.45em")
@@ -142,33 +136,20 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                     .text("Anzahl der Datensätze");
             }
 
-            //scope.dateChanged = function() {
-            //    console.log("dateChanged");
-            //    if (scope.selectedYears.length == 0){
-            //        scope.dimDate.filterAll();
-            //    }
-            //    else{
-            //        scope.dimDate.filter(scope.filterFunction);
-            //    }
-            //    console.log(scope.dimDate.top(Infinity));
-            //    MetadataService.triggerUpdate();
-            //}
-
             scope.toggle = function(year) {
-                console.log("toggle "+year);
-                $("#time-coverage-bar-"+ year).toggleClass("active");
-
-                if(scope.selectedYears.indexOf(year) == -1) {
-                    scope.selectedYears.push(year);
+                if(scope.selectedYears.contains(year)) {
+                    scope.selectedYears.remove(year);
                 }
                 else {
-                    scope.selectedYears.splice(scope.selectedYears.indexOf(year), 1);
+                    scope.selectedYears.add(year);
                 }
 
-                if (scope.selectedYears.length == 0){
+                if (scope.selectedYears.values().length == 0){
+                    $("#time-chart-reset").css("visibility","hidden");
                     scope.dimDate.filterAll();
                 }
                 else{
+                    $("#time-chart-reset").css("visibility","visible");
                     scope.dimDate.filter(scope.filterFunction);
                 }
 
@@ -177,8 +158,9 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
 
             scope.filterFunction = function(d){
                 var result = false;
-                for (var index in scope.selectedYears) {
-                    var year = scope.selectedYears[index];
+                var years = scope.selectedYears.values();
+                for (var index in years) {
+                    var year = years[index];
                     if (d.from != undefined && d.to != undefined){
                         result = result || (d.from.getFullYear() <= year && year <= d.to.getFullYear());
                     }
@@ -193,8 +175,6 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
             }
 
             scope.$on('filterChanged', function() {
-                console.log("filterChanged");
-
                 scope.updateChart();
 
                 scope.span_visible = MetadataService.length() > 0;
@@ -211,7 +191,6 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
             scope.updateChart = function() {
                 scope.updateCurrentMappings();
 
-                //refresh axes
                 scope.svg.selectAll(".bar").remove();
 
                 scope.svgParams.x.domain(scope.svgParams.initialYears);
@@ -244,15 +223,11 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", function(d) { return scope.svgParams.y(d.value); })
                     .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(d.value); })
-                    .attr("class", function(d){
-                        return (scope.selectedYears.indexOf(d.year) != -1) ? "bar active" : "bar";
-                    })
                     .attr("id", function(d){ return "time-coverage-bar-"+ d.year;})
                     .attr("ng-click", function(d){ return "toggle("+ d.year+")";})
-                    .on("click", function(d) {
-                        scope.toggle(d.year);
-                    })
-                ;
+                    .attr("ng-class", function(d){ return "{'bar': true, 'active': selectedYears.contains("+ d.year+")}";});
+
+                $compile(angular.element('#time-chart'))(scope);
             }
 
             scope.updateCurrentMappings = function(){
