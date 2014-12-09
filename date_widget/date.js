@@ -248,7 +248,9 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                                     earliest = parseDate(ds.extras["temporal_coverage-from"]);
                                     scope.available_from = ds.extras["temporal_coverage-from"];
                                 }
+                            }
 
+                            if (ds.extras["temporal_coverage-to"] != undefined){
                                 if (latest < parseDate(ds.extras["temporal_coverage-to"])){
                                     latest = parseDate(ds.extras["temporal_coverage-to"]);
                                     scope.available_to = ds.extras["temporal_coverage-to"];
