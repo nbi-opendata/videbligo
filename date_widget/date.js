@@ -144,21 +144,26 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             }
 
             scope.filterFunction = function(d){
-                var result = false;
                 var years = scope.selectedYears.values();
                 for (var index in years) {
                     var year = years[index];
                     if (d.from != undefined && d.to != undefined){
-                        result = result || (d.from.getFullYear() <= year && year <= d.to.getFullYear());
+                        if (d.from.getFullYear() <= year && year <= d.to.getFullYear()){
+                            return true;
+                        }
                     }
                     else if (d.from != undefined){
-                        result = result || (d.from.getFullYear() <= year);
+                        if (d.from.getFullYear() <= year){
+                            return true;
+                        }
                     }
                     else if (d.to != undefined){
-                        result = result || (year <= d.to.getFullYear());
+                        if (year <= d.to.getFullYear()){
+                            return true;
+                        }
                     }
                 }
-                return result;
+                return false;
             }
 
             scope.$on('filterChanged', function() {
