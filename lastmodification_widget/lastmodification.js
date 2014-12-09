@@ -35,7 +35,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     scope.svgParams.initialMonths.push(scope.lastModGroup.all()[i].key);
                 }
 
-                scope.svgParams.margin = {top: 20, right: 20, bottom: 30, left: 40},
+                scope.svgParams.margin = {top: 20, right: 20, bottom: 50, left: 40},
                     scope.svgParams.width = 500,
                     scope.svgParams.height = 300;
 
