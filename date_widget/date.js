@@ -196,7 +196,6 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", function(d) { return scope.svgParams.y(d.value); })
                     .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(d.value); })
-                    .attr("id", function(d){ return "time-coverage-bar-"+ d.year;})
                     .attr("ng-click", function(d){ return "toggle("+ d.year+")";})
                     .attr("ng-class", function(d){ return "{'bar': true, 'active': selectedYears.contains("+ d.year+")}";});
 
