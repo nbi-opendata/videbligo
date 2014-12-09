@@ -9,7 +9,6 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             scope.available_from = "";
             scope.available_to = "";
             scope.span_visible = false;
-            scope.timeChart = {};
             scope.dateGroup = {};
             scope.dimDate = {};
             scope.selectedYears = new StringSet();
