@@ -25,38 +25,6 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
 
                 scope.lastModGroup = scope.dimLastMod.group().reduceCount();
 
-                //scope.lastModGroup = scope.dimLastMod.group().reduce(
-                //    //add
-                //    function (p,v){
-                //        var modDate = new Date(v.metadata_modified);
-                //        var key = modDate.getFullYear()+"/"+modDate.getMonth();
-                //        if (key in p.months){
-                //            p.months[key]++;
-                //        }
-                //        else {
-                //            p.months[key] = 1;
-                //        }
-                //        //console.log(p.months);
-                //        return p;
-                //    },
-                //    //remove
-                //    function (p,v) {
-                //        var modDate = new Date(v.metadata_modified);
-                //        var key = modDate.getFullYear()+"/"+modDate.getMonth();
-                //        p.months[key]--;
-                //        if (p.months[key] === 0){
-                //            delete p.months[key];
-                //        }
-                //        return p;
-                //    },
-                //    //initial
-                //    function (){
-                //        return {
-                //            months: {}
-                //        };
-                //    }
-                //);
-
                 scope.initSvg();
             }
 
