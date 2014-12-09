@@ -206,9 +206,9 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             scope.updateCurrentMappings = function(){
                 var yearsAndNumbers = scope.dateGroup.top(1)[0].value.years;
                 var years = Object.keys(yearsAndNumbers);
-                var values = years.map(function (key) {
-                    return yearsAndNumbers[key];
-                });
+                //var values = years.map(function (key) {
+                //    return yearsAndNumbers[key];
+                //});
 
                 scope.svgParams.currentMappings = [];
                 for (var index in years){
