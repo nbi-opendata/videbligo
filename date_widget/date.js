@@ -91,19 +91,7 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
             }
 
             scope.initSvg = function(){
-                var yearsAndNumbers = scope.dateGroup.top(1)[0].value.years;
-                var years = Object.keys(yearsAndNumbers);
-                var values = years.map(function (key) {
-                    return yearsAndNumbers[key];
-                });
-
-                var mappings = [];
-                for (var index in years){
-                    mappings.push({year:years[index], value:yearsAndNumbers[years[index]]});
-                }
-
-                scope.svgParams.initialYears = years;
-                //scope.svgParams.initialValues = values;
+                scope.updateCurrentMappings();
 
                 scope.svgParams.margin = {top: 20, right: 20, bottom: 30, left: 40},
                     scope.svgParams.width = 500,
@@ -122,8 +110,8 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                     .range([scope.svgParams.height, 0]);
 
 
-                scope.svgParams.x.domain(mappings.map(function(d) { return d.year; }));
-                scope.svgParams.y.domain([0, d3.max(mappings, function(d) { return d.value; })]);
+                scope.svgParams.x.domain(scope.svgParams.currentMappings.map(function(d) { return d.year; }));
+                scope.svgParams.y.domain([0, d3.max(scope.svgParams.currentMappings, function(d) { return d.value; })]);
 
                 scope.svgParams.xAxis = d3.svg.axis()
                     .scale(scope.svgParams.x)
@@ -154,24 +142,80 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                     .text("Anzahl der Datensätze");
             }
 
-            scope.updateChart = function() {
-                var yearsAndNumbers = scope.dateGroup.top(1)[0].value.years;
+            //scope.dateChanged = function() {
+            //    console.log("dateChanged");
+            //    if (scope.selectedYears.length == 0){
+            //        scope.dimDate.filterAll();
+            //    }
+            //    else{
+            //        scope.dimDate.filter(scope.filterFunction);
+            //    }
+            //    console.log(scope.dimDate.top(Infinity));
+            //    MetadataService.triggerUpdate();
+            //}
 
-                var years = Object.keys(yearsAndNumbers);
-                var values = years.map(function (key) {
-                    return yearsAndNumbers[key];
-                });
+            scope.toggle = function(year) {
+                console.log("toggle "+year);
+                $("#time-coverage-bar-"+ year).toggleClass("active");
 
-                var mappings = [];
-                for (var index in years){
-                    mappings.push({year:years[index], value:yearsAndNumbers[years[index]]});
+                if(scope.selectedYears.indexOf(year) == -1) {
+                    scope.selectedYears.push(year);
                 }
+                else {
+                    scope.selectedYears.splice(scope.selectedYears.indexOf(year), 1);
+                }
+
+                if (scope.selectedYears.length == 0){
+                    scope.dimDate.filterAll();
+                }
+                else{
+                    scope.dimDate.filter(scope.filterFunction);
+                }
+
+                MetadataService.triggerUpdate();
+            }
+
+            scope.filterFunction = function(d){
+                var result = false;
+                for (var index in scope.selectedYears) {
+                    var year = scope.selectedYears[index];
+                    if (d.from != undefined && d.to != undefined){
+                        result = result || (d.from.getFullYear() <= year && year <= d.to.getFullYear());
+                    }
+                    else if (d.from != undefined){
+                        result = result || (d.from.getFullYear() <= year);
+                    }
+                    else if (d.to != undefined){
+                        result = result || (year <= d.to.getFullYear());
+                    }
+                }
+                return result;
+            }
+
+            scope.$on('filterChanged', function() {
+                console.log("filterChanged");
+
+                scope.updateChart();
+
+                scope.span_visible = MetadataService.length() > 0;
+                if(scope.span_visible){//only do this if there are values to extract
+                    //scope.available_from = scope.dimDateFrom.bottom(Infinity)
+                    //    .filter(function(d){return d.extras["temporal_coverage-from"] != undefined && d != ""; })
+                    //    [0].extras["temporal_coverage-from"];
+                    //scope.available_to = scope.dimDateTo.top(Infinity)
+                    //    .filter(function(d){return d.extras["temporal_coverage-to"] != undefined && d != "";})
+                    //    [0].extras["temporal_coverage-to"];
+                }
+            });
+
+            scope.updateChart = function() {
+                scope.updateCurrentMappings();
 
                 //refresh axes
                 scope.svg.selectAll(".bar").remove();
 
                 scope.svgParams.x.domain(scope.svgParams.initialYears);
-                scope.svgParams.y.domain([0, d3.max(mappings, function(d) { return d.value; })]);
+                scope.svgParams.y.domain([0, d3.max(scope.svgParams.currentMappings, function(d) { return d.value; })]);
 
                 scope.svgParams.xAxis = d3.svg.axis()
                     .scale(scope.svgParams.x)
@@ -193,72 +237,39 @@ Videbligo.directive('date', ['MetadataService', function(MetadataService) {
                     .call(scope.svgParams.yAxis);
 
                 scope.svg.selectAll(".bar")
-                    .data(mappings)
+                    .data(scope.svgParams.currentMappings)
                     .enter()
                     .append("rect")
-                    .attr("data-ng-click", "dateChanged()")
                     .attr("x", function(d) { return scope.svgParams.x(d.year); })
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", function(d) { return scope.svgParams.y(d.value); })
                     .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(d.value); })
                     .attr("class", function(d){
-                        var c = "bar";
-                        if (scope.selectedYears.indexOf(d.year) != -1){
-                            c += " active";
-                        }
-                        return c;
-                    }).attr("id", function(d){ return "time-coverage-bar-"+ d.year;})
+                        return (scope.selectedYears.indexOf(d.year) != -1) ? "bar active" : "bar";
+                    })
+                    .attr("id", function(d){ return "time-coverage-bar-"+ d.year;})
+                    .attr("ng-click", function(d){ return "toggle("+ d.year+")";})
                     .on("click", function(d) {
-                        if(scope.selectedYears.indexOf(d.year) == -1) { scope.selectedYears.push(d.year); }
-                        else { scope.selectedYears.splice(scope.selectedYears.indexOf(d.year), 1); }
-                        $("#time-coverage-bar-"+ d.year).toggleClass("active");
-                        scope.dateChanged();
-                    });
+                        scope.toggle(d.year);
+                    })
+                ;
             }
 
-            scope.dateChanged = function() {
-                console.log("dateChanged");
-                if (scope.selectedYears.length == 0){
-                    scope.dimDate.filterAll();
-                }
-                else{
-                    scope.dimDate.filter(scope.filterFunction);
-                }
-                console.log(scope.dimDate.top(Infinity));
-                MetadataService.triggerUpdate();
-            }
+            scope.updateCurrentMappings = function(){
+                var yearsAndNumbers = scope.dateGroup.top(1)[0].value.years;
+                var years = Object.keys(yearsAndNumbers);
+                var values = years.map(function (key) {
+                    return yearsAndNumbers[key];
+                });
 
-            scope.$on('filterChanged', function() {
-                console.log("filterChanged");
-
-                scope.updateChart();
-
-                scope.span_visible = MetadataService.length() > 0;
-                if(scope.span_visible){//only do this if there are values to extract
-                    //scope.available_from = scope.dimDateFrom.bottom(Infinity)
-                    //    .filter(function(d){return d.extras["temporal_coverage-from"] != undefined && d != ""; })
-                    //    [0].extras["temporal_coverage-from"];
-                    //scope.available_to = scope.dimDateTo.top(Infinity)
-                    //    .filter(function(d){return d.extras["temporal_coverage-to"] != undefined && d != "";})
-                    //    [0].extras["temporal_coverage-to"];
+                scope.svgParams.currentMappings = [];
+                for (var index in years){
+                    scope.svgParams.currentMappings.push({year:years[index], value:yearsAndNumbers[years[index]]});
                 }
-            });
 
-            scope.filterFunction = function(d){
-                var result = false;
-                for (var index in scope.selectedYears) {
-                    var year = scope.selectedYears[index];
-                    if (d.from != undefined && d.to != undefined){
-                        result = result || (d.from.getFullYear() <= year && year <= d.to.getFullYear());
-                    }
-                    else if (d.from != undefined){
-                        result = result || (d.from.getFullYear() <= year);
-                    }
-                    else if (d.to != undefined){
-                        result = result || (year <= d.to.getFullYear());
-                    }
+                if (!scope.svgParams.initialYears){
+                    scope.svgParams.initialYears = years;
                 }
-                return result;
             }
 
             MetadataService.registerWidget(scope.init);
