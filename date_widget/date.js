@@ -6,9 +6,9 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
         scope: {},
         link: function(scope, element, attrs) {
 
-            scope.available_from = "";
-            scope.available_to = "";
-            scope.span_visible = false;
+            scope.availableFrom = "";
+            scope.availableTo = "";
+            scope.spanVisible = false;
             scope.dateGroup = {};
             scope.dimDate = {};
             scope.selectedYears = new StringSet();
@@ -249,8 +249,8 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     scope.svgParams.initialYears = years;
                 }
 
-                scope.span_visible = MetadataService.length() > 0;
-                if(scope.span_visible){//only do this if there are values to extract
+                scope.spanVisible = MetadataService.length() > 0;
+                if(scope.spanVisible){//only do this if there are values to extract
                     var all = scope.dimDate.top(Infinity);
                     var earliest = new Date(2900,0,1),
                         latest = new Date(1900, 0, 1);
@@ -260,14 +260,14 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                             if (ds.extras["temporal_coverage-from"] != undefined){
                                 if (parseDate(ds.extras["temporal_coverage-from"]) < earliest){
                                     earliest = parseDate(ds.extras["temporal_coverage-from"]);
-                                    scope.available_from = ds.extras["temporal_coverage-from"];
+                                    scope.availableFrom = ds.extras["temporal_coverage-from"];
                                 }
                             }
 
                             if (ds.extras["temporal_coverage-to"] != undefined){
                                 if (latest < parseDate(ds.extras["temporal_coverage-to"])){
                                     latest = parseDate(ds.extras["temporal_coverage-to"]);
-                                    scope.available_to = ds.extras["temporal_coverage-to"];
+                                    scope.availableTo = ds.extras["temporal_coverage-to"];
                                 }
                             }
                         }
