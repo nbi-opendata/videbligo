@@ -276,13 +276,10 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             }
 
             scope.resetSelection = function (e) {
-                console.log("resetSelection start");
-                console.log(e);
                 $("#time-chart-reset").css("visibility","hidden");
                 scope.selectedYears.clear();
                 scope.dimDate.filterAll();
                 MetadataService.triggerUpdate();
-                console.log("resetSelection end");
             }
 
             scope.resetHovers = function () {
