@@ -81,11 +81,9 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     scope.svgParams.height = 300;
 
                 scope.svgParams.x = d3.scale.ordinal().rangeRoundBands([0, scope.svgParams.width], .1);
-
                 scope.svgParams.y = d3.scale.linear().range([scope.svgParams.height, 0]);
 
-
-                scope.svgParams.x.domain(scope.svgParams.currentMappings.map(function(d) { return d.year; }));
+                scope.svgParams.x.domain(scope.svgParams.initialYears);
                 scope.svgParams.y.domain([0, d3.max(scope.svgParams.currentMappings, function(d) { return d.value; })]);
 
                 scope.svgParams.xAxis = d3.svg.axis()
@@ -123,49 +121,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .attr("dy", ".71em")
                     .style("text-anchor", "end")
                     .text("Anzahl der Datensätze");
-            }
 
-            scope.toggle = function(year) {
-                if(scope.selectedYears.contains(year)) {
-                    scope.selectedYears.remove(year);
-                }
-                else {
-                    scope.selectedYears.add(year);
-                }
-
-                if (scope.selectedYears.values().length == 0){
-                    $("#time-chart-reset").css("visibility","hidden");
-                    scope.dimDate.filterAll();
-                }
-                else{
-                    $("#time-chart-reset").css("visibility","visible");
-                    scope.dimDate.filter(scope.filterFunction);
-                }
-
-                MetadataService.triggerUpdate();
-            }
-
-            scope.filterFunction = function(d){
-                var years = scope.selectedYears.values();
-                for (var index in years) {
-                    var year = years[index];
-                    if (d.from != undefined && d.to != undefined){
-                        if (d.from.getFullYear() <= year && year <= d.to.getFullYear()){
-                            return true;
-                        }
-                    }
-                    else if (d.from != undefined){
-                        if (d.from.getFullYear() <= year){
-                            return true;
-                        }
-                    }
-                    else if (d.to != undefined){
-                        if (year <= d.to.getFullYear()){
-                            return true;
-                        }
-                    }
-                }
-                return false;
             }
 
             scope.$on('filterChanged', function() {
@@ -173,24 +129,12 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
                 scope.svg.selectAll(".bar").remove();
 
-                scope.svgParams.x.domain(scope.svgParams.initialYears);
+                //re-render y axis
                 scope.svgParams.y.domain([0, d3.max(scope.svgParams.currentMappings, function(d) { return d.value; })]);
-
-                scope.svgParams.xAxis = d3.svg.axis()
-                    .scale(scope.svgParams.x)
-                    .orient("bottom");
-
                 scope.svgParams.yAxis = d3.svg.axis()
                     .scale(scope.svgParams.y)
                     .tickFormat(d3.format("d"))
                     .orient("left");
-
-                scope.svg.select("g .x.axis")
-                    .call(scope.svgParams.xAxis)
-                    .selectAll("text")
-                    .style("text-anchor", "end")
-                    .attr("dx", "-.8em")
-                    .attr("dy", "-.45em");
 
                 scope.svg.select("g .y.axis")
                     .call(scope.svgParams.yAxis);
@@ -215,6 +159,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .enter()
                     .append("rect")
                     .attr("x", function(d) { return scope.svgParams.x(d.year); })
+                    .attr("id", function(d) { return "time-chart-bar-"+d.year; })
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", function(d) { return scope.svgParams.y(d.value); })
                     .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(d.value); })
@@ -225,6 +170,51 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
                 $compile(angular.element('#time-chart'))(scope);
             });
+
+            scope.toggle = function(year) {
+                console.log("toggle start");
+                if(scope.selectedYears.contains(year)) {
+                    scope.selectedYears.remove(year);
+                }
+                else {
+                    scope.selectedYears.add(year);
+                }
+
+                if (scope.selectedYears.values().length == 0){
+                    $("#time-chart-reset").css("visibility","hidden");
+                    scope.dimDate.filterAll();
+                }
+                else{
+                    $("#time-chart-reset").css("visibility","visible");
+                    scope.dimDate.filter(scope.filterFunction);
+                }
+
+                MetadataService.triggerUpdate();
+                console.log("toggle end");
+            }
+
+            scope.filterFunction = function(d){
+                var years = scope.selectedYears.values();
+                for (var index in years) {
+                    var year = years[index];
+                    if (d.from != undefined && d.to != undefined){
+                        if (d.from.getFullYear() <= year && year <= d.to.getFullYear()){
+                            return true;
+                        }
+                    }
+                    else if (d.from != undefined){
+                        if (d.from.getFullYear() <= year){
+                            return true;
+                        }
+                    }
+                    else if (d.to != undefined){
+                        if (year <= d.to.getFullYear()){
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
 
             scope.updateCurrentMappings = function(){
                 var yearsAndNumbers = scope.dateGroup.top(1)[0].value.years;
@@ -269,10 +259,12 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             }
 
             scope.resetSelection = function () {
+                console.log("resetSelection start");
                 $("#time-chart-reset").css("visibility","hidden");
                 scope.selectedYears.clear();
                 scope.dimDate.filterAll();
                 MetadataService.triggerUpdate();
+                console.log("resetSelection end");
             }
 
             scope.resetHovers = function () {

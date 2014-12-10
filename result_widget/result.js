@@ -16,7 +16,7 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
             }
 
             scope.$on('filterChanged', function () {
-                scope.entries = scope.dimOne.top(Infinity);
+                scope.entries = scope.dimOne.top(1);
                 scope.length = MetadataService.length();
             });
 
