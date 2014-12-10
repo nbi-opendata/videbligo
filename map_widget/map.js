@@ -27,7 +27,7 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                         value = scope.groupRegion.value()[region];
                     scope.districts.push({key:region , value: value, checked: true });
                 })
-                scope.map_mapping = category_mapping;
+                scope.map_mapping = map_mapping;
                 scope.selected_map = new StringSet();
                 scope.hovered_map = '';
             };
