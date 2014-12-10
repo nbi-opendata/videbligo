@@ -9,7 +9,7 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
             scope.regionsAll = ["Pankow", "Berlin-Mitte", "Lichtenberg", "Marzahn-Hellersdorf", "Reinickendorf", "Spandau",
                 "Treptow-Köpenick", "Neu-Köln", "Tempelhof-Schöneberg", "Steglitz-Zehlendorf", "Friedrichshain-Kreuzberg",
                 "Charlottenburg-Wilmersdorf", "Berlin"
-             ];
+            ];
 
             // alphabetisch sortieren
             scope.regionsAll.sort();
@@ -27,6 +27,9 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                         value = scope.groupRegion.value()[region];
                     scope.districts.push({key:region , value: value, checked: true });
                 })
+                scope.map_mapping = category_mapping;
+                scope.selected_map = new StringSet();
+                scope.hovered_map = '';
             };
 
             MetadataService.registerWidget(scope.init);
@@ -42,6 +45,12 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
             });
 
             scope.regionChecked = function(index){
+                if(scope.selected_map.contains(key)){
+                    scope.selected_map.remove(key);
+                }else{
+                    scope.selected_map.add(key);
+                }
+
                 var checkedRegion = [];
                 for(var key in scope.districts)
                     if(scope.districts[key].checked)
