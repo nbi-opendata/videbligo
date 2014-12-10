@@ -1,5 +1,23 @@
+
+
+
+<style>
+    result p {
+      font-size: 40px;
+    }
+
+    result li {
+
+        border-style: solid;
+        border-width: 1px;
+        text-align: justify;
+        border-spacing: inherit;
+    }
+
+</style>
 <div>
     <h1>Ergebnisliste</h1>
+
     sort by :
     <div>
         <select ng-model="orderProp">
@@ -8,44 +26,52 @@
         </select>
     </div>
 
+
     <div>
-        <ul class="result">
-            <li data-ng-repeat="entry in entries | orderBy:orderProp">
+
+
+            <li  class="result" data-ng-repeat="entry in entries | orderBy:orderProp">
+
                 <!--to make the img linkable-->
-                <a href="{{entry.datail}}" class="thumb">
+                <!-- <a href="{{entry.description}}" class="thumb"> -->
 
-
-
-                    <img data-ng-src="{{entry.img}}"></a>
+                   <!-- <img data-ng-src="{{entry.img}}"></a> -->
                 <!--i have to add a filter to bring the photo of the suitable category-->
+                <!-- or we can make the icon as list img -->
 
 
                 <!--to make the title linkable -->
-                <a href="{{entry.download_url}}">{{entry.title}}</a>
+                <a href="{{entry.download_url}}">{{entry.title | cut:false:100:'...'}}</a>
 
                 <!--trying to make the arrow for show and hide -->
-                <span class="snippetArrow" data-ng-click="toggleArrows($index)">toggle arrows</span>
+                <md-button class="snippetArrow" data-ng-click="toggleArrows($index)" ng-model="showSnippet"></md-button>
 
-                <div data-ng-hide="showSnippet" class="showSnippet"></div>
+               <span class="snippetArrow" data-ng-click="toggleArrows($index)">
+                   toggleArrow {{$index}}
+               </span>
 
-                <div data-ng-show="showSnippet" class="showSnippet">
+
+
+                <div data-ng-show="entry.showSnippet" class="showSnippet">
                     <ul>
                         <p>{{entry.description}} </p>
-                        Title :     <li>{{entry.title}}</li><br>
+                        Title :     <li>{{entry.title | limitTo:3}}</li><br>
                         Date from : <li>{{entry.extras["temporal_coverage-from"]}}</li><br>
                         Date to :   <li>{{entry.extras["temporal_coverage-to"]}}</li><br>
                         License :   <li>{{entry.license_id}}</li><br>
                         Kategorie : <li>{{entry.groups}}</li>
 
                         <li> <a href="{{entry.url}}">Zum Detensätze</a></li>
-                    </ul>
+                  </ul>
+
 
                 </div>
-
-
-
             </li>
 
-        </ul>
+        </div>
+
+
 
     </div>
+
+</div>
