@@ -84,7 +84,11 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 scope.svgParams.y = d3.scale.linear().range([scope.svgParams.height, 0]);
 
                 scope.svgParams.x.domain(scope.svgParams.initialYears);
-                scope.svgParams.y.domain([0, d3.max(scope.svgParams.currentMappings, function(d) { return d.value; })]);
+                var currentValues = [];
+                for(var key in scope.svgParams.currentMappings) {
+                    currentValues.push(scope.svgParams.currentMappings[key].value);
+                }
+                scope.svgParams.y.domain([0, d3.max(currentValues)]);
 
                 scope.svgParams.xAxis = d3.svg.axis()
                     .scale(scope.svgParams.x)
@@ -122,23 +126,6 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .style("text-anchor", "end")
                     .text("Anzahl der Datensätze");
 
-            }
-
-            scope.$on('filterChanged', function() {
-                scope.updateCurrentMappings();
-
-                scope.svg.selectAll(".bar").remove();
-
-                //re-render y axis
-                scope.svgParams.y.domain([0, d3.max(scope.svgParams.currentMappings, function(d) { return d.value; })]);
-                scope.svgParams.yAxis = d3.svg.axis()
-                    .scale(scope.svgParams.y)
-                    .tickFormat(d3.format("d"))
-                    .orient("left");
-
-                scope.svg.select("g .y.axis")
-                    .call(scope.svgParams.yAxis);
-
                 var onData = scope.svg.selectAll(".bar")
                     .data(scope.svgParams.currentMappings);
 
@@ -146,12 +133,11 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .enter()
                     .append("rect")
                     .attr("x", function(d) { return scope.svgParams.x(d.year); })
-                    .attr("class", "barbg")
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", "0")
                     .attr("height", function(d) { return scope.svgParams.height; })
                     .attr("ng-click", function(d){ return "toggle("+ d.year+")";})
-                    .attr("ng-class", function(d){ return "{'active': selectedYears.contains("+ d.year+")}";})
+                    .attr("ng-class", function(d){ return "{'barbg' : true, 'active': selectedYears.contains("+ d.year+")}";})
                     .attr("ng-mouseover", function(d){ return "hoveredYear='"+ d.year+"';hoveredValue='"+d.value+"'"})
                     .attr("ng-mouseleave", function(d){ return "resetHovers()"});
 
@@ -169,6 +155,52 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .attr("ng-mouseleave", function(d){ return "resetHovers()"});
 
                 $compile(angular.element('#time-chart'))(scope);
+
+            }
+
+            scope.$on('filterChanged', function() {
+                scope.updateCurrentMappings();
+
+                //for (var key in scope.svgParams.currentMappings){
+                //    console.log(key + " " + scope.svgParams.currentMappings[key]);
+                //}
+                //scope.svg.selectAll(".bar").remove();
+
+                //re-render y axis
+
+                //var currentYears = [];
+                //for(var key in scope.svgParams.currentMappings) {
+                //    currentYears.push(scope.svgParams.currentMappings[key].year);
+                //}
+
+                scope.svgParams.y.domain([0, d3.max(scope.svgParams.currentMappings, function (d) { return d.value; })]);
+                scope.svgParams.yAxis = d3.svg.axis()
+                    .scale(scope.svgParams.y)
+                    .tickFormat(d3.format("d"))
+                    .orient("left");
+
+                scope.svg.select("g .y.axis")
+                    .call(scope.svgParams.yAxis);
+
+                var minMappings = {};
+                for (var key in scope.svgParams.currentMappings){
+                    minMappings[scope.svgParams.currentMappings[key].year] = scope.svgParams.currentMappings[key].value;
+                }
+
+                for (var key in scope.svgParams.initialYears){
+                    var year = scope.svgParams.initialYears[key];
+                    var chartBar = angular.element("#time-chart-bar-"+year);
+                    if (minMappings[year]){
+                        chartBar
+                            .attr("y", scope.svgParams.y(minMappings[year]))
+                            .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(minMappings[year]); });
+                    }
+                    else {
+                        chartBar
+                            .attr("y", scope.svgParams.y(0))
+                            .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(0); });
+                    }
+                }
             });
 
             scope.toggle = function(year) {
@@ -219,9 +251,6 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             scope.updateCurrentMappings = function(){
                 var yearsAndNumbers = scope.dateGroup.top(1)[0].value.years;
                 var years = Object.keys(yearsAndNumbers);
-                //var values = years.map(function (key) {
-                //    return yearsAndNumbers[key];
-                //});
 
                 scope.svgParams.currentMappings = [];
                 for (var index in years){
