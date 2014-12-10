@@ -1,37 +1,37 @@
-var geographicalGranularity = {
-    block           : {
-        name : 'Block',
+var timeGranularity = {
+    jahr           : {
+        name : 'Jahr',
         size : 0,
         elements : 0
     },
-    hausnummer      : {
-        name : 'Hausnummer',
+    minute      : {
+        name : 'Minute',
         size : 0,
         elements : 0
     },
-    bezirk          : {
-        name : 'Bezirk',
+    quartal          : {
+        name : 'Quartal',
         size : 0,
         elements : 0
     },
-    bezirksregion   : {
+    stunde   : {
         name : 'Bezirksregion',
         size : 0,
         elements : 0
     },
-    berlin          : {
-        name : 'Berlin',
+    monat          : {
+        name : 'Monat',
         size : 0,
         elements : 0
     },
-    planungsraum    : {
+    Planungsraum    : {
         name : 'Planungsraum',
         size : 0,
         elements : 0
     },
-    others          : {
+    keine          : {
         name : 'Andere',
         size : 0,
         elements : 0
     }
-}
+};

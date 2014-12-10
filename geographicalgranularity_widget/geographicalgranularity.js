@@ -4,7 +4,8 @@ Videbligo.directive('geographicalGranularity', ['MetadataService', function(Meta
         restrict: 'AE',
         templateUrl: 'geographicalgranularity_widget/geographicalgranularity.html',
         scope: {
-            orientation : '@'
+            orientation : '@',
+            quantile    : '@'
         },
         link: function(scope, element, attrs) {
             scope.data = null;
@@ -13,6 +14,9 @@ Videbligo.directive('geographicalGranularity', ['MetadataService', function(Meta
             scope.geographicalGranularity = geographicalGranularity;
             if(attrs.orientation == undefined) {
                 scope.orientation = 'vertical';
+            }
+            if(attrs.quantile == undefined) {
+                scope.quantile = 4;
             }
 
             scope.init = function(){
@@ -25,10 +29,15 @@ Videbligo.directive('geographicalGranularity', ['MetadataService', function(Meta
             scope.mapGranularities = function(){
                 for(var i in scope.geographicalGranularityGroups) {
                     if(scope.geographicalGranularityGroups[i].key != '') {
-                        scope.geographicalGranularity[scope.geographicalGranularityGroups[i].key].elements = scope.geographicalGranularityGroups[i].value;
+                        var key = scope.geographicalGranularityGroups[i].key.toLowerCase();
                     } else {
-                        scope.geographicalGranularity.Others.elements = scope.geographicalGranularityGroups[i].value;
+                        var key = 'others';
                     }
+                    var allData = MetadataService.length();
+                    scope.geographicalGranularity[key].elements = scope.geographicalGranularityGroups[i].value;
+
+                    var percentage = (scope.geographicalGranularity[key].elements / allData)*100;
+                    scope.geographicalGranularity[key].size = Math.ceil(percentage/(100/scope.quantile));
                 }
             }
             scope.$on('filterChanged', function() {
