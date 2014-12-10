@@ -84,54 +84,6 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .attr("dy", ".71em")
                     .style("text-anchor", "end")
                     .text("Anzahl der Datensätze");
-            }
-
-            scope.toggle = function(month) {
-                if(scope.selectedMonths.contains(month)) {
-                    scope.selectedMonths.remove(month);
-                }
-                else {
-                    scope.selectedMonths.add(month);
-                }
-
-                if (scope.selectedMonths.values().length == 0){
-                    $("#last-modification-chart-reset").css("visibility","hidden");
-                    scope.dimLastMod.filterAll();
-                }
-                else{
-                    $("#last-modification-chart-reset").css("visibility","visible");
-                    scope.dimLastMod.filter(scope.filterFunction);
-                }
-
-                MetadataService.triggerUpdate();
-            }
-
-            scope.filterFunction = function(d){
-                var months = scope.selectedMonths.values();
-                for (var index in months) {
-                    var month = months[index];
-                    if (d == month){
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            scope.$on('filterChanged', function() {
-
-                scope.svg.selectAll(".bar").remove();
-
-                scope.svgParams.x.domain(scope.svgParams.initialMonths);
-                scope.svgParams.y.domain([0, d3.max(scope.lastModGroup.all(), function(d) { return d.value; })]);
-
-                scope.svgParams.xAxis = d3.svg.axis()
-                    .scale(scope.svgParams.x)
-                    .orient("bottom");
-
-                scope.svgParams.yAxis = d3.svg.axis()
-                    .scale(scope.svgParams.y)
-                    .tickFormat(d3.format("d"))
-                    .orient("left");
 
                 scope.svg.select("g .x.axis")
                     .call(scope.svgParams.xAxis)
@@ -170,13 +122,80 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .attr("ng-mouseleave", function(d){ return "resetHovers()"});
 
                 $compile(angular.element('#last-modification-chart'))(scope);
+            }
+
+            scope.toggle = function(month) {
+                if(scope.selectedMonths.contains(month)) {
+                    scope.selectedMonths.remove(month);
+                }
+                else {
+                    scope.selectedMonths.add(month);
+                }
+
+                if (scope.selectedMonths.values().length == 0){
+                    $("#last-modification-chart-reset").css("visibility","hidden");
+                    scope.dimLastMod.filterAll();
+                }
+                else{
+                    $("#last-modification-chart-reset").css("visibility","visible");
+                    scope.dimLastMod.filter(scope.filterFunction);
+                }
+
+                MetadataService.triggerUpdate();
+            }
+
+            scope.filterFunction = function(d){
+                var months = scope.selectedMonths.values();
+                for (var index in months) {
+                    var month = months[index];
+                    if (d == month){
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            scope.$on('filterChanged', function() {
+                scope.svgParams.y.domain([0, d3.max(scope.lastModGroup.all(), function(d) { return d.value; })]);
+                scope.svgParams.yAxis = d3.svg.axis()
+                    .scale(scope.svgParams.y)
+                    .tickFormat(d3.format("d"))
+                    .orient("left");
+
+                scope.svg.select("g .y.axis")
+                    .call(scope.svgParams.yAxis);
+
+
+                var minMappings = {};
+                for (var key in scope.lastModGroup.all()){
+                    minMappings[scope.lastModGroup.all()[key].key] = scope.lastModGroup.all()[key].value;
+                }
+
+                for (var key in scope.svgParams.initialMonths){
+                    var month = scope.svgParams.initialMonths[key].key;
+                    var chartBar = angular.element("#last-modification-chart-bar-"+month);
+                    if (minMappings[month]){
+                        chartBar
+                            .attr("y", scope.svgParams.y(minMappings[month]))
+                            .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(minMappings[month]); });
+                    }
+                    else {
+                        chartBar
+                            .attr("y", scope.svgParams.y(0))
+                            .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(0); });
+                    }
+
+                }
+
             });
 
             scope.resetSelection = function () {
+                console.log("resetSelection start");
                 $("#last-modification-chart-reset").css("visibility","hidden");
                 scope.selectedMonths.clear();
                 scope.dimLastMod.filterAll();
                 MetadataService.triggerUpdate();
+                console.log("resetSelection end");
             }
 
             scope.resetHovers = function () {

@@ -204,7 +204,6 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             });
 
             scope.toggle = function(year) {
-                console.log("toggle start");
                 if(scope.selectedYears.contains(year)) {
                     scope.selectedYears.remove(year);
                 }
@@ -222,7 +221,6 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 }
 
                 MetadataService.triggerUpdate();
-                console.log("toggle end");
             }
 
             scope.filterFunction = function(d){
