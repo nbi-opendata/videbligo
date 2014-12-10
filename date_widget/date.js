@@ -99,6 +99,8 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .orient("left")
                     .tickFormat(d3.format("d"));
 
+                d3.select("#time-chart")
+                    .html('<a id="time-chart-reset" ng-click="resetSelection()" style="cursor: pointer; display: block; visibility: hidden;">reset</a>');
 
                 scope.svg = d3.select("#time-chart").append("svg")
                     .attr("width", scope.svgParams.width + scope.svgParams.margin.left + scope.svgParams.margin.right)
@@ -160,18 +162,6 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
             scope.$on('filterChanged', function() {
                 scope.updateCurrentMappings();
-
-                //for (var key in scope.svgParams.currentMappings){
-                //    console.log(key + " " + scope.svgParams.currentMappings[key]);
-                //}
-                //scope.svg.selectAll(".bar").remove();
-
-                //re-render y axis
-
-                //var currentYears = [];
-                //for(var key in scope.svgParams.currentMappings) {
-                //    currentYears.push(scope.svgParams.currentMappings[key].year);
-                //}
 
                 scope.svgParams.y.domain([0, d3.max(scope.svgParams.currentMappings, function (d) { return d.value; })]);
                 scope.svgParams.yAxis = d3.svg.axis()
@@ -285,8 +275,9 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 }
             }
 
-            scope.resetSelection = function () {
+            scope.resetSelection = function (e) {
                 console.log("resetSelection start");
+                console.log(e);
                 $("#time-chart-reset").css("visibility","hidden");
                 scope.selectedYears.clear();
                 scope.dimDate.filterAll();

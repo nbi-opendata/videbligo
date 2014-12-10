@@ -37,12 +37,11 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     scope.svgParams.initialMonths.push(scope.lastModGroup.all()[i].key);
                 }
 
-                scope.svgParams.margin = {top: 20, right: 20, bottom: 50, left: 40},
-                    scope.svgParams.width = 500,
-                    scope.svgParams.height = 300;
+                scope.svgParams.margin = {top: 20, right: 20, bottom: 50, left: 40};
+                scope.svgParams.width = 500;
+                scope.svgParams.height = 300;
 
                 scope.svgParams.x = d3.scale.ordinal().rangeRoundBands([0, scope.svgParams.width], .1);
-
                 scope.svgParams.y = d3.scale.linear().range([scope.svgParams.height, 0]);
 
 
@@ -58,6 +57,8 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .orient("left")
                     .tickFormat(d3.format("d"));
 
+                d3.select("#last-modification-chart")
+                    .html('<a id="last-modification-chart-reset" ng-click="resetSelection()" style="cursor: pointer; display: inline; visibility: hidden;">reset</a>');
 
                 scope.svg = d3.select("#last-modification-chart").append("svg")
                     .attr("width", scope.svgParams.width + scope.svgParams.margin.left + scope.svgParams.margin.right)
@@ -165,7 +166,6 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 scope.svg.select("g .y.axis")
                     .call(scope.svgParams.yAxis);
 
-
                 var minMappings = {};
                 for (var key in scope.lastModGroup.all()){
                     minMappings[scope.lastModGroup.all()[key].key] = scope.lastModGroup.all()[key].value;
@@ -184,18 +184,14 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                             .attr("y", scope.svgParams.y(0))
                             .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(0); });
                     }
-
                 }
-
             });
 
             scope.resetSelection = function () {
-                console.log("resetSelection start");
                 $("#last-modification-chart-reset").css("visibility","hidden");
                 scope.selectedMonths.clear();
                 scope.dimLastMod.filterAll();
                 MetadataService.triggerUpdate();
-                console.log("resetSelection end");
             }
 
             scope.resetHovers = function () {
