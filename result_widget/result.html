@@ -118,24 +118,25 @@
     <div>
         <ul>
             <li class="result" data-ng-repeat="entry in entries | orderBy:orderProp">
+                <div data-ng-click="toggleVisible($index)">
+                    <!--Category Icons-->
+                    <span data-ng-repeat="group in entry.groups"
+                          class="category-icon icon-{{group}}"
+                          title="{{category_mapping[group]}}">
+                    </span>
 
-                <!--Category Icons-->
-                <span data-ng-repeat="group in entry.groups"
-                      class="category-icon icon-{{group}}"
-                      title="{{category_mapping[group]}}">
-                </span>
+                    <!--Title-->
+                    <span class="title">
+                        <a href="{{entry.download_url}}" target="_blank">{{entry.title | cut:false:150:'...'}}</a>
+                    </span>
 
-                <!--Title-->
-                <span class="title">
-                    <a href="{{entry.download_url}}">{{entry.title | cut:false:150:'...'}}</a>
-                </span>
-
-                <!--Toggle Arrow-->
-               <span class="toggle-arrow" data-ng-click="toggleVisible($index)">
-                   <span class="toggle-icon"
-                         ng-class="{'icon-arrow-up': visibleDetailsDivs.contains($index), 'icon-arrow-down': true}">
+                    <!--Toggle Arrow-->
+                   <span class="toggle-arrow">
+                       <span class="toggle-icon"
+                             ng-class="{'icon-arrow-up': visibleDetailsDivs.contains($index), 'icon-arrow-down': true}">
+                       </span>
                    </span>
-               </span>
+                </div>
 
                 <!--Details Div-->
                 <div class="details" ng-class="{'visible': visibleDetailsDivs.contains($index)}">
