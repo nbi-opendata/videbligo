@@ -17,7 +17,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 scope.data = MetadataService.getData();
                 scope.dimLastMod = scope.data.dimension(function(d){
                     var modDate = new Date(d.metadata_modified);
-                    var key = modDate.getFullYear()+"/";
+                    var key = modDate.getFullYear()+"_";
                     if (modDate.getMonth() <= 9){
                         key += "0";
                     }
@@ -113,6 +113,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
 
                 onData.enter()
                     .append("rect")
+                    .attr("id", function(d) { return "last-modification-chart-bar-"+d.key; })
                     .attr("x", function(d) { return scope.svgParams.x(d.key); })
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", function(d) { return scope.svgParams.y(d.value); })
@@ -168,12 +169,12 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
 
                 var minMappings = {};
                 for (var key in scope.lastModGroup.all()){
-                    minMappings[scope.lastModGroup.all()[key].key] = scope.lastModGroup.all()[key].value;
+                    minMappings[scope.lastModGroup.all()[key].key+''] = scope.lastModGroup.all()[key].value+'';
                 }
 
                 for (var key in scope.svgParams.initialMonths){
-                    var month = scope.svgParams.initialMonths[key].key;
-                    var chartBar = angular.element("#last-modification-chart-bar-"+month);
+                    var month = scope.svgParams.initialMonths[key]+"";
+                    var chartBar = $("#last-modification-chart-bar-"+month);
                     if (minMappings[month]){
                         chartBar
                             .attr("y", scope.svgParams.y(minMappings[month]))
