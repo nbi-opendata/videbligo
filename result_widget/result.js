@@ -17,7 +17,7 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
                 });
                 /* Set of */
                 scope.visibleDetailsDivs = new StringSet();
-            }
+            };
 
             scope.$on('filterChanged', function () {
                 scope.entries = scope.dimOne.top(25);
@@ -31,32 +31,37 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
             /**
              * Item *key* zum Set der aktuell sichtbaren Elemente hinzufuegen oder aus diesem loeschen
              *
-             * @param index
+             * @param key
              */
             scope.toggleVisible = function (key) {
-                if(scope.visibleDetailsDivs.contains(key)){
+                if(scope.visibleDetailsDivs.contains(key)) {
                     scope.visibleDetailsDivs.remove(key);
-                }else{
+                } else {
                     scope.visibleDetailsDivs.add(key);
                 }
-           };
+            };
         }
     };
 }]);
 
-
 Videbligo.filter('cut', function () {
     return function (value, wordwise, max, tail) {
-        if (!value) return '';
+        if(!value) {
+            return '';
+        }
 
         max = parseInt(max, 10);
-        if (!max) return value;
-        if (value.length <= max) return value;
+        if(!max) {
+            return value;
+        }
+        if(value.length <= max) {
+            return value;
+        }
 
         value = value.substr(0, max);
-        if (wordwise) {
+        if(wordwise) {
             var lastspace = value.lastIndexOf(' ');
-            if (lastspace != -1) {
+            if(lastspace != -1) {
                 value = value.substr(0, lastspace);
             }
         }
