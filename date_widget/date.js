@@ -187,8 +187,9 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     }
                     else {
                         chartBar
-                            .attr("y", scope.svgParams.y(0))
-                            .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(0); });
+                            //.attr("y", scope.svgParams.y(1))
+                            .attr("height", "0");
+                    //.attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(0); });
                     }
                 }
             });
