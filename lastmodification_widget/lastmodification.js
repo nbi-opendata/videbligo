@@ -17,7 +17,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 scope.data = MetadataService.getData();
                 scope.dimLastMod = scope.data.dimension(function(d){
                     var modDate = new Date(d.metadata_modified);
-                    var key = modDate.getFullYear()+"/";
+                    var key = modDate.getFullYear()+"_";
                     if (modDate.getMonth() <= 9){
                         key += "0";
                     }
@@ -37,12 +37,11 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     scope.svgParams.initialMonths.push(scope.lastModGroup.all()[i].key);
                 }
 
-                scope.svgParams.margin = {top: 20, right: 20, bottom: 50, left: 40},
-                    scope.svgParams.width = 500,
-                    scope.svgParams.height = 300;
+                scope.svgParams.margin = {top: 20, right: 20, bottom: 50, left: 40};
+                scope.svgParams.width = 500;
+                scope.svgParams.height = 300;
 
                 scope.svgParams.x = d3.scale.ordinal().rangeRoundBands([0, scope.svgParams.width], .1);
-
                 scope.svgParams.y = d3.scale.linear().range([scope.svgParams.height, 0]);
 
 
@@ -58,6 +57,8 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .orient("left")
                     .tickFormat(d3.format("d"));
 
+                d3.select("#last-modification-chart")
+                    .html('<a id="last-modification-chart-reset" ng-click="resetSelection()" style="cursor: pointer; display: inline; visibility: hidden;">reset</a>');
 
                 scope.svg = d3.select("#last-modification-chart").append("svg")
                     .attr("width", scope.svgParams.width + scope.svgParams.margin.left + scope.svgParams.margin.right)
@@ -84,6 +85,45 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .attr("dy", ".71em")
                     .style("text-anchor", "end")
                     .text("Anzahl der Datensätze");
+
+                scope.svg.select("g .x.axis")
+                    .call(scope.svgParams.xAxis)
+                    .selectAll("text")
+                    .style("text-anchor", "end")
+                    .attr("dx", "-.8em")
+                    .attr("dy", "-.45em");
+
+                scope.svg.select("g .y.axis")
+                    .call(scope.svgParams.yAxis);
+
+                var onData = scope.svg.selectAll(".bar")
+                    .data(scope.lastModGroup.all());
+
+                onData.enter()
+                    .append("rect")
+                    .attr("x", function(d) { return scope.svgParams.x(d.key); })
+                    .attr("class", "barbg")
+                    .attr("width", scope.svgParams.x.rangeBand())
+                    .attr("y", "0")
+                    .attr("height", function(d) { return scope.svgParams.height; })
+                    .attr("ng-click", function(d){ return "toggle('"+ d.key+"')";})
+                    .attr("ng-class", function(d){ return "{'active': selectedMonths.contains('"+ d.key+"')}";})
+                    .attr("ng-mouseover", function(d){ return "hoveredMonth='"+ d.key+"';hoveredValue='"+d.value+"'"})
+                    .attr("ng-mouseleave", function(d){ return "resetHovers()"});
+
+                onData.enter()
+                    .append("rect")
+                    .attr("id", function(d) { return "last-modification-chart-bar-"+d.key; })
+                    .attr("x", function(d) { return scope.svgParams.x(d.key); })
+                    .attr("width", scope.svgParams.x.rangeBand())
+                    .attr("y", function(d) { return scope.svgParams.y(d.value); })
+                    .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(d.value); })
+                    .attr("ng-click", function(d){ return "toggle('"+ d.key+"')";})
+                    .attr("ng-class", function(d){ return "{'bar': true, 'active': selectedMonths.contains('"+ d.key+"')}";})
+                    .attr("ng-mouseover", function(d){ return "hoveredMonth='"+ d.key+"';hoveredValue='"+d.value+"'"})
+                    .attr("ng-mouseleave", function(d){ return "resetHovers()"});
+
+                $compile(angular.element('#last-modification-chart'))(scope);
             }
 
             scope.toggle = function(month) {
@@ -118,58 +158,34 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
             }
 
             scope.$on('filterChanged', function() {
-
-                scope.svg.selectAll(".bar").remove();
-
-                scope.svgParams.x.domain(scope.svgParams.initialMonths);
                 scope.svgParams.y.domain([0, d3.max(scope.lastModGroup.all(), function(d) { return d.value; })]);
-
-                scope.svgParams.xAxis = d3.svg.axis()
-                    .scale(scope.svgParams.x)
-                    .orient("bottom");
-
                 scope.svgParams.yAxis = d3.svg.axis()
                     .scale(scope.svgParams.y)
                     .tickFormat(d3.format("d"))
                     .orient("left");
 
-                scope.svg.select("g .x.axis")
-                    .call(scope.svgParams.xAxis)
-                    .selectAll("text")
-                    .style("text-anchor", "end")
-                    .attr("dx", "-.8em")
-                    .attr("dy", "-.45em");
-
                 scope.svg.select("g .y.axis")
                     .call(scope.svgParams.yAxis);
 
-                var onData = scope.svg.selectAll(".bar")
-                    .data(scope.lastModGroup.all());
+                var minMappings = {};
+                for (var key in scope.lastModGroup.all()){
+                    minMappings[scope.lastModGroup.all()[key].key+''] = scope.lastModGroup.all()[key].value+'';
+                }
 
-                onData.enter()
-                    .append("rect")
-                    .attr("x", function(d) { return scope.svgParams.x(d.key); })
-                    .attr("class", "barbg")
-                    .attr("width", scope.svgParams.x.rangeBand())
-                    .attr("y", "0")
-                    .attr("height", function(d) { return scope.svgParams.height; })
-                    .attr("ng-click", function(d){ return "toggle('"+ d.key+"')";})
-                    .attr("ng-class", function(d){ return "{'active': selectedMonths.contains('"+ d.key+"')}";})
-                    .attr("ng-mouseover", function(d){ return "hoveredMonth='"+ d.key+"';hoveredValue='"+d.value+"'"})
-                    .attr("ng-mouseleave", function(d){ return "resetHovers()"});
-
-                onData.enter()
-                    .append("rect")
-                    .attr("x", function(d) { return scope.svgParams.x(d.key); })
-                    .attr("width", scope.svgParams.x.rangeBand())
-                    .attr("y", function(d) { return scope.svgParams.y(d.value); })
-                    .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(d.value); })
-                    .attr("ng-click", function(d){ return "toggle('"+ d.key+"')";})
-                    .attr("ng-class", function(d){ return "{'bar': true, 'active': selectedMonths.contains('"+ d.key+"')}";})
-                    .attr("ng-mouseover", function(d){ return "hoveredMonth='"+ d.key+"';hoveredValue='"+d.value+"'"})
-                    .attr("ng-mouseleave", function(d){ return "resetHovers()"});
-
-                $compile(angular.element('#last-modification-chart'))(scope);
+                for (var key in scope.svgParams.initialMonths){
+                    var month = scope.svgParams.initialMonths[key]+"";
+                    var chartBar = $("#last-modification-chart-bar-"+month);
+                    if (minMappings[month]){
+                        chartBar
+                            .attr("y", scope.svgParams.y(minMappings[month]))
+                            .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(minMappings[month]); });
+                    }
+                    else {
+                        chartBar
+                            .attr("y", scope.svgParams.y(0))
+                            .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(0); });
+                    }
+                }
             });
 
             scope.resetSelection = function () {
