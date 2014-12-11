@@ -85,6 +85,23 @@
     }
 
 
+    result .details table tr{
+        padding-bottom: 0.5em;
+    }
+
+    result .details table tr td:first-child{
+        width: 15em;
+        font-weight: bold;
+        text-align: right;
+        vertical-align: top;
+        padding-right: 1em;
+    }
+
+    result .details table tr:last-child td:last-child{
+        text-align: right;
+    }
+
+
 </style>
 
 <div>
@@ -122,7 +139,47 @@
 
                 <!--Details Div-->
                 <div class="details" ng-class="{'visible': visibleDetailsDivs.contains($index)}">
-                    <p>{{entry.notes}}</p>
+                    <table>
+                        <tr>
+                            <td>Title</td>
+                            <td>{{entry.title}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Beschreibung</td>
+                            <td><p>{{entry.notes}}</p></td>
+                        </tr>
+
+
+                        <tr>
+                            <td>Date from</td>
+                            <td>{{entry.extras["temporal_coverage-from"]}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Date to</td>
+                            <td>{{entry.extras["temporal_coverage-to"]}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>License</td>
+                            <td>{{entry.license_id}}</td>
+                        </tr>
+
+                        <tr>
+                            <td>Kategorie</td>
+                            <td>
+                                <span data-ng-repeat="group in entry.groups">{{group}}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td><a href="{{entry.url}}">Zum Datensatz</a></td>
+                        </tr>
+                    </table>
+
+                    <!--
                     <div>Title : {{entry.title}}</div>
                     <div>Date from : {{entry.extras["temporal_coverage-from"]}}</div>
                     <div>Date to : {{entry.extras["temporal_coverage-to"]}}</div>
@@ -133,6 +190,7 @@
                         </span>
                     </div>
                     <a href="{{entry.url}}">Zum Datensatz</a>
+                    -->
                 </div>
 
             </li>
