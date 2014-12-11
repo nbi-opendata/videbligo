@@ -15,6 +15,8 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
                 scope.dimOne = data.dimension(function (d) {
                     return d;
                 });
+                /* Set of */
+                scope.visibleDetailsDivs = new StringSet();
             }
 
             scope.$on('filterChanged', function () {
@@ -25,22 +27,19 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
             MetadataService.registerWidget(scope.init);
             //default value for orderProp
             scope.orderProp = 'age';
-            //to make the toggle Arrow
 
-            scope.toggleArrows = function (index) {
-                console.log(index);
-
-                var snippet = scope.entries[index];
-                console.log(snippet);
-                if (scope.entries[index].showSnippet != undefined) {
-                    console.log('has snippet');
-                    scope.entries[index].showSnippet = !scope.entries[index].showSnippet;
+            /**
+             * Item *key* zum Set der aktuell sichtbaren Elemente hinzufuegen oder aus diesem loeschen
+             *
+             * @param index
+             */
+            scope.toggleVisible = function (key) {
+                if(scope.visibleDetailsDivs.contains(key)){
+                    scope.visibleDetailsDivs.remove(key);
+                }else{
+                    scope.visibleDetailsDivs.add(key);
                 }
-                else {
-                    console.log('has no snippet');
-                    scope.entries[index].showSnippet = true;
-                }
-            }
+           };
         }
     };
 }]);

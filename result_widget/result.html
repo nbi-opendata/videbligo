@@ -40,6 +40,7 @@
 
     result ul{
         list-style-type: none;
+        padding: 0;
     }
 
     result li {
@@ -67,7 +68,7 @@
 
     result li .title{
         position: absolute;
-        left: 10em;
+        left: 6em;
     }
 
     result li .toggle-arrow{
@@ -77,6 +78,14 @@
 
     result li .toggle-arrow:hover{
         cursor: pointer;
+    }
+
+    result .details{
+        display: none;
+    }
+
+    result .details.visible{
+        display: block;
     }
 
 
@@ -93,66 +102,44 @@
         </select>
     </div>
 
-
     <div>
-
         <ul>
-
             <li class="result" data-ng-repeat="entry in entries | orderBy:orderProp">
 
-                <!--to make the img linkable-->
-                <!-- <a href="{{entry.description}}" class="thumb"> -->
-
-                <!-- <img data-ng-src="{{entry.img}}"></a> -->
-                <!--i have to add a filter to bring the photo of the suitable category-->
-                <!-- or we can make the icon as list img -->
-
+                <!--Category Icons-->
                 <span data-ng-repeat="group in entry.groups"
                       class="category-icon icon-{{group}}"
                       title="{{category_mapping[group]}}">
                 </span>
 
-
-                {{category_mapping}}
-                <!--to make the title linkable -->
+                <!--Title-->
                 <span class="title">
-                    <a href="{{entry.download_url}}">{{entry.title | cut:false:100:'...'}}</a>
+                    <a href="{{entry.download_url}}">{{entry.title | cut:false:150:'...'}}</a>
                 </span>
 
-                <!--trying to make the arrow for show and hide -->
-                <md-button class="snippetArrow" data-ng-click="toggleArrows($index)" ng-model="showSnippet"></md-button>
-
-               <span class="toggle-arrow" data-ng-click="toggleArrows($index)">
-                   <span class="toggle-icon icon-arrow-down"></span>
-                   <!--{{$index}}-->
+                <!--Toggle Arrow-->
+               <span class="toggle-arrow" data-ng-click="toggleVisible($index)">
+                   <span class="toggle-icon"
+                         ng-class="{'icon-arrow-up': visibleDetailsDivs.contains($index), 'icon-arrow-down': true}">
+                   </span>
                </span>
 
-
-                <div data-ng-show="entry.showSnippet" class="showSnippet">
-                    <ul>
-                        <p>{{entry.description}}</p>
-                        Title :
-                        <li>{{entry.title | limitTo:3}}</li>
-                        <br>
-                        Date from :
-                        <li>{{entry.extras["temporal_coverage-from"]}}</li>
-                        <br>
-                        Date to :
-                        <li>{{entry.extras["temporal_coverage-to"]}}</li>
-                        <br>
-                        License :
-                        <li>{{entry.license_id}}</li>
-                        <br>
-                        Kategorie :
-                        <li>{{entry.groups}}</li>
-
-                        <li><a href="{{entry.url}}">Zum Datensatz</a></li>
-                    </ul>
+                <!--Details Div-->
+                <div class="details" ng-class="{'visible': visibleDetailsDivs.contains($index)}">
+                    <p>{{entry.description}}</p>
+                    <div>Title : {{entry.title}}</div>
+                    <div>Date from : {{entry.extras["temporal_coverage-from"]}}</div>
+                    <div>Date to : {{entry.extras["temporal_coverage-to"]}}</div>
+                    <div>License : {{entry.license_id}}</div>
+                    <div>Kategorie :
+                        <span data-ng-repeat="group in entry.groups">
+                            {{group}}
+                        </span>
+                    </div>
+                    <a href="{{entry.url}}">Zum Datensatz</a>
                 </div>
+
             </li>
         </ul>
-
     </div>
-
-
 </div>
