@@ -34,10 +34,6 @@
     .icon-arrow-down4:before {content: "\e61d";}
     .icon-arrow-up4:before {content: "\e61e";}
 
-    result p {
-        font-size: 40px;
-    }
-
     result ul{
         list-style-type: none;
         padding: 0;
@@ -126,7 +122,7 @@
 
                 <!--Details Div-->
                 <div class="details" ng-class="{'visible': visibleDetailsDivs.contains($index)}">
-                    <p>{{entry.description}}</p>
+                    <p>{{entry.notes}}</p>
                     <div>Title : {{entry.title}}</div>
                     <div>Date from : {{entry.extras["temporal_coverage-from"]}}</div>
                     <div>Date to : {{entry.extras["temporal_coverage-to"]}}</div>
