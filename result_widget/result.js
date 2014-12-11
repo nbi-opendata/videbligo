@@ -12,11 +12,13 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
 
             scope.init = function () {
                 var data = MetadataService.getData();
-                scope.dimOne = data.dimension(function (d) {return d;});
+                scope.dimOne = data.dimension(function (d) {
+                    return d;
+                });
             }
 
             scope.$on('filterChanged', function () {
-                scope.entries = scope.dimOne.top(Infinity);
+                scope.entries = scope.dimOne.top(25);
                 scope.length = MetadataService.length();
             });
 
@@ -30,14 +32,15 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
 
                 var snippet = scope.entries[index];
                 console.log(snippet);
-                if(scope.entries[index].showSnippet!=undefined)
-                {
+                if (scope.entries[index].showSnippet != undefined) {
                     console.log('has snippet');
-                    scope.entries[index].showSnippet = !scope.entries[index].showSnippet;}
-            else {
+                    scope.entries[index].showSnippet = !scope.entries[index].showSnippet;
+                }
+                else {
                     console.log('has no snippet');
-                    scope.entries[index].showSnippet=true;
-                }}
+                    scope.entries[index].showSnippet = true;
+                }
+            }
         }
     };
 }]);
