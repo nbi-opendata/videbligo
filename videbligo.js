@@ -113,7 +113,7 @@ var category_mapping = {
     '': 'Verbraucherschutz'
     */
 };
-var map_mapping = {
+/*var map_mapping = {
     'reinickendorf':                   'Reinickendorf',
     'spandau':                          'Spandau',
     'charlottenburg_wilmersdorf':    'Charlottenburg-Wilmersdorf',
@@ -127,5 +127,5 @@ var map_mapping = {
     'friedrichshain_kreuzberg':       'Friedrichshain-Kreuzberg',
     'treptow_koepenick':               'Treptow-Köpenick',
     'berlin':                           'Berlin'
-     /* insgesamt 12 Bezirke und Berlin, SVG-Information von Berlin wird im SVG-Datei noch nicht definiert.*/
-};
+     // insgesamt 12 Bezirke und Berlin, SVG-Information von Berlin wird im SVG-Datei noch nicht definiert.
+};*/

@@ -30,6 +30,7 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                     scope.dataTemp[region] = ({value: value});
                 })
                 scope.dummyData = scope.dataTemp;
+                scope.selected_map = new StringSet();
             };
 
             MetadataService.registerWidget(scope.init);
@@ -43,24 +44,25 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                 });
             });
 
-            scope.regionChecked = function(index){
-                if(scope.selected_map.contains(key)){
-                    scope.selected_map.remove(key);
-                }else{
-                    scope.selected_map.add(key);
+            scope.regionChoice = function(index){
+                if(scope.selected_map.contains(index)){
+                    scope.selected_map.remove(index);
+                }else {
+                    scope.selected_map.add(index);
                 }
-
-                var checkedRegion = [];
-                for(var key in scope.districts)
-                    if(scope.districts[key].checked)
-                        checkedRegion.push(scope.districts[key].key);
-
-                scope.dimRegion.filter(function(d){
-                    return checkedRegion.indexOf(d) != -1
-                });
-
+                var filterFunction = function(d) {
+                    var tmp = d.filter(function(n) {
+                        return scope.selected_map.contains(n);
+                    });
+                    return tmp.length > 0;
+                };
+                if(scope.selected_map.values().length == 0) {
+                    scope.dimRegion.filterAll();
+                }else{
+                    scope.dimRegion.filter(filterFunction);
+                }
                 MetadataService.triggerUpdate();
-            }
+            };
 
             scope.reduceAdd = function(p, v) {
                 var val = v.extras["geographical_coverage"];
@@ -86,6 +88,7 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
     };
 }]);
 
+// for each divided districts parameter passed
 Videbligo.directive('svgMap', ['$compile', function ($compile) {
     return {
         restrict: 'AE',
@@ -103,6 +106,7 @@ Videbligo.directive('svgMap', ['$compile', function ($compile) {
     }
 }]);
 
+// User Interface : Mause-Click, Mause-Over
 Videbligo.directive('region', ['$compile', function ($compile) {
     return {
         restrict: 'AE',
@@ -111,16 +115,24 @@ Videbligo.directive('region', ['$compile', function ($compile) {
             hoverRegion: "="
         },
         link: function (scope, element, attrs) {
+            scope.selected_map = new StringSet();
             scope.elementId = element.attr("id");
             scope.regionClick = function () {
-                alert(scope.dummyData[scope.elementId].value);
+                //alert(scope.dummyData[scope.elementId].value);
+                if(scope.selected_map.contains(scope.dummyData[scope.elementId].value)){
+                    scope.selected_map.remove(scope.dummyData[scope.elementId].value);
+                    element[0].setAttribute("fill", "#5b95bc");
+                }else{
+                    scope.selected_map.add(scope.dummyData[scope.elementId].value);
+                    element[0].setAttribute("fill", "#C58D7E");
+                }
             };
             scope.regionMouseOver = function () {
                 scope.hoverRegion = scope.elementId;
                 element[0].parentNode.appendChild(element[0]);
             };
             element.attr("ng-click", "regionClick()");
-            element.attr("ng-attr-fill", "{{dummyData[elementId].value | map_colour}}");
+            element.attr("ng-attr-fill", "{{dummyData[elementId].value | map_color}}");
             element.attr("ng-mouseover", "regionMouseOver()");
             element.attr("ng-class", "{active:hoverRegion==elementId}");
             element.removeAttr("region");
@@ -129,9 +141,9 @@ Videbligo.directive('region', ['$compile', function ($compile) {
     }
 }]);
 
-Videbligo.filter('map_colour', [function () {
-    return function (input) {
+// Basic color of map
+Videbligo.filter('map_color', [function () {
+    return function () {
         return "#5b95bc";
     }
 }]);
-
