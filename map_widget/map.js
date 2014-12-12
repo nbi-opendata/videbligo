@@ -6,6 +6,7 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
         scope: {},
         link: function(scope, element, attrs) {
             scope.districts = [];
+            scope.dataTemp = {};
             scope.regionsAll = ["Pankow", "Berlin-Mitte", "Lichtenberg", "Marzahn-Hellersdorf", "Reinickendorf", "Spandau",
                 "Treptow-Köpenick", "Neu-Köln", "Tempelhof-Schöneberg", "Steglitz-Zehlendorf", "Friedrichshain-Kreuzberg",
                 "Charlottenburg-Wilmersdorf", "Berlin"
@@ -26,14 +27,12 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                     if(scope.groupRegion.value()[region] != undefined)
                         value = scope.groupRegion.value()[region];
                     scope.districts.push({key:region , value: value, checked: true });
+                    scope.dataTemp[region] = ({value: value});
                 })
-                scope.map_mapping = map_mapping;
-                scope.selected_map = new StringSet();
-                scope.hovered_map = '';
+                scope.dummyData = scope.dataTemp;
             };
 
             MetadataService.registerWidget(scope.init);
-
 
             scope.$on('filterChanged', function() {
                 scope.districts.forEach(function(district) {
@@ -86,3 +85,53 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
         }
     };
 }]);
+
+Videbligo.directive('svgMap', ['$compile', function ($compile) {
+    return {
+        restrict: 'AE',
+        templateUrl: 'map_widget/berlin_map.svg',
+        link: function (scope, element, attrs) {
+            var regions = element[0].querySelectorAll('.bezirk');
+            angular.forEach(regions, function (path, key) {
+                var regionElement = angular.element(path);
+                regionElement.attr("region", "");
+                regionElement.attr("dummy-data", "dummyData");
+                regionElement.attr("hover-region", "hoverRegion");
+                $compile(regionElement)(scope);
+            })
+        }
+    }
+}]);
+
+Videbligo.directive('region', ['$compile', function ($compile) {
+    return {
+        restrict: 'AE',
+        scope: {
+            dummyData: "=",
+            hoverRegion: "="
+        },
+        link: function (scope, element, attrs) {
+            scope.elementId = element.attr("id");
+            scope.regionClick = function () {
+                alert(scope.dummyData[scope.elementId].value);
+            };
+            scope.regionMouseOver = function () {
+                scope.hoverRegion = scope.elementId;
+                element[0].parentNode.appendChild(element[0]);
+            };
+            element.attr("ng-click", "regionClick()");
+            element.attr("ng-attr-fill", "{{dummyData[elementId].value | map_colour}}");
+            element.attr("ng-mouseover", "regionMouseOver()");
+            element.attr("ng-class", "{active:hoverRegion==elementId}");
+            element.removeAttr("region");
+            $compile(element)(scope);
+        }
+    }
+}]);
+
+Videbligo.filter('map_colour', [function () {
+    return function (input) {
+        return "#5b95bc";
+    }
+}]);
+

@@ -1,42 +1,28 @@
-<div class="svg-container" data-ng-include="'./assets/svg/berlin_grossbezirke.svg'"></div>
 <div>
     <h2>Map</h2>
     <ul>
-        <b><font size="150"> <p id="target"></p></font></b>
-
+        <div class="row">
+            <div class="panel panel-body">
+                <div svg-map></div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-s">
+                    <div class="panel panel-body">
+                        <div class="regionlist">
+                            <div ng-repeat="(key,region) in dummyData"
+                                 ng-class="{active:hoverRegion==key}"
+                                 ng-mouseover="changeHoverRegion(key)">
+                                <div>{{key}}</div>
+                                <div>{{region.value | number}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <li data-ng-repeat="region in districts">
             <input type="checkbox" data-ng-model="region.checked" data-ng-change="regionChecked()">{{region.key}} ({{region.value}})
 
         </li>
-        <script>
-            var click = false;
-            $("g").mouseover(function(event) {
-                var _path = event.target;
-                var city_name = _path.id;
-                var new_p = document.createElement('p');
-                document.getElementById('target').innerHTML = city_name;
-                var province = $(_path).parent()[0].id;
-                d3.select(_path).style("fill", "green");
-                console.log(province, city_name);
-            }).mouseout(function(event) {
-                var _path = event.target;
-                if (_path.choice != true) {
-                    d3.select(_path).style("fill", "#5b95bc");
-                }
-                else{
-                    d3.select(_path).style("fill", "red");
-                }
-            }).mouseup(function(event) {
-                var _path = event.target;
-                if(_path.choice != true){
-                    _path.choice = true;
-                    d3.select(_path).style("fill", "red");
-                }
-                else{
-                    _path.choice = false;
-                    d3.select(_path).style("fill", "#5b95bc");
-                }
-            });
-        </script>
     </ul>
 </div>
