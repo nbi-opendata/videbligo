@@ -52,14 +52,13 @@
 
 <div class="d3-example">
     <div id="time-chart">
-        <a id="time-chart-reset" ng-click="resetSelection()" style="cursor: pointer; display: block; visibility: hidden;">reset</a>
     </div>
 
-    <div ng-show="span_visible">
+    <div ng-show="spanVisible">
         Available timespan:
-        <span id="w3_from_label">{{available_from}}</span>
+        <span id="w3_from_label">{{availableFrom}}</span>
         -
-        <span id="w3_to_label">{{available_to}}</span>
+        <span id="w3_to_label">{{availableTo}}</span>
     </div>
     <span>{{hoveredYear}} {{hoveredValue}}</span>
 </div>

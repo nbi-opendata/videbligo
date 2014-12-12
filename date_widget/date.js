@@ -6,9 +6,9 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
         scope: {},
         link: function(scope, element, attrs) {
 
-            scope.available_from = "";
-            scope.available_to = "";
-            scope.span_visible = false;
+            scope.availableFrom = "";
+            scope.availableTo = "";
+            scope.spanVisible = false;
             scope.dateGroup = {};
             scope.dimDate = {};
             scope.selectedYears = new StringSet();
@@ -81,12 +81,14 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     scope.svgParams.height = 300;
 
                 scope.svgParams.x = d3.scale.ordinal().rangeRoundBands([0, scope.svgParams.width], .1);
-
                 scope.svgParams.y = d3.scale.linear().range([scope.svgParams.height, 0]);
 
-
-                scope.svgParams.x.domain(scope.svgParams.currentMappings.map(function(d) { return d.year; }));
-                scope.svgParams.y.domain([0, d3.max(scope.svgParams.currentMappings, function(d) { return d.value; })]);
+                scope.svgParams.x.domain(scope.svgParams.initialYears);
+                var currentValues = [];
+                for(var key in scope.svgParams.currentMappings) {
+                    currentValues.push(scope.svgParams.currentMappings[key].value);
+                }
+                scope.svgParams.y.domain([0, d3.max(currentValues)]);
 
                 scope.svgParams.xAxis = d3.svg.axis()
                     .scale(scope.svgParams.x)
@@ -97,6 +99,8 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .orient("left")
                     .tickFormat(d3.format("d"));
 
+                d3.select("#time-chart")
+                    .html('<a id="time-chart-reset" ng-click="resetSelection()" style="cursor: pointer; display: block; visibility: hidden;">reset</a>');
 
                 scope.svg = d3.select("#time-chart").append("svg")
                     .attr("width", scope.svgParams.width + scope.svgParams.margin.left + scope.svgParams.margin.right)
@@ -123,7 +127,71 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .attr("dy", ".71em")
                     .style("text-anchor", "end")
                     .text("Anzahl der Datensätze");
+
+                var onData = scope.svg.selectAll(".bar")
+                    .data(scope.svgParams.currentMappings);
+
+                onData
+                    .enter()
+                    .append("rect")
+                    .attr("x", function(d) { return scope.svgParams.x(d.year); })
+                    .attr("width", scope.svgParams.x.rangeBand())
+                    .attr("y", "0")
+                    .attr("height", function(d) { return scope.svgParams.height; })
+                    .attr("ng-click", function(d){ return "toggle("+ d.year+")";})
+                    .attr("ng-class", function(d){ return "{'barbg' : true, 'active': selectedYears.contains("+ d.year+")}";})
+                    .attr("ng-mouseover", function(d){ return "hoveredYear='"+ d.year+"';hoveredValue='"+d.value+"'"})
+                    .attr("ng-mouseleave", function(d){ return "resetHovers()"});
+
+                onData
+                    .enter()
+                    .append("rect")
+                    .attr("x", function(d) { return scope.svgParams.x(d.year); })
+                    .attr("id", function(d) { return "time-chart-bar-"+d.year; })
+                    .attr("width", scope.svgParams.x.rangeBand())
+                    .attr("y", function(d) { return scope.svgParams.y(d.value); })
+                    .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(d.value); })
+                    .attr("ng-click", function(d){ return "toggle("+ d.year+")";})
+                    .attr("ng-class", function(d){ return "{'bar': true, 'active': selectedYears.contains("+ d.year+")}";})
+                    .attr("ng-mouseover", function(d){ return "hoveredYear='"+ d.year+"';hoveredValue='"+d.value+"'"})
+                    .attr("ng-mouseleave", function(d){ return "resetHovers()"});
+
+                $compile(angular.element('#time-chart'))(scope);
+
             }
+
+            scope.$on('filterChanged', function() {
+                scope.updateCurrentMappings();
+
+                scope.svgParams.y.domain([0, d3.max(scope.svgParams.currentMappings, function (d) { return d.value; })]);
+                scope.svgParams.yAxis = d3.svg.axis()
+                    .scale(scope.svgParams.y)
+                    .tickFormat(d3.format("d"))
+                    .orient("left");
+
+                scope.svg.select("g .y.axis")
+                    .call(scope.svgParams.yAxis);
+
+                var minMappings = {};
+                for (var key in scope.svgParams.currentMappings){
+                    minMappings[scope.svgParams.currentMappings[key].year] = scope.svgParams.currentMappings[key].value;
+                }
+
+                for (var key in scope.svgParams.initialYears){
+                    var year = scope.svgParams.initialYears[key];
+                    var chartBar = angular.element("#time-chart-bar-"+year);
+                    if (minMappings[year]){
+                        chartBar
+                            .attr("y", scope.svgParams.y(minMappings[year]))
+                            .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(minMappings[year]); });
+                    }
+                    else {
+                        chartBar
+                            .attr("y", scope.svgParams.y(0))
+                            .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(0); });
+                    }
+                }
+            });
 
             scope.toggle = function(year) {
                 if(scope.selectedYears.contains(year)) {
@@ -168,70 +236,9 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 return false;
             }
 
-            scope.$on('filterChanged', function() {
-                scope.updateCurrentMappings();
-
-                scope.svg.selectAll(".bar").remove();
-
-                scope.svgParams.x.domain(scope.svgParams.initialYears);
-                scope.svgParams.y.domain([0, d3.max(scope.svgParams.currentMappings, function(d) { return d.value; })]);
-
-                scope.svgParams.xAxis = d3.svg.axis()
-                    .scale(scope.svgParams.x)
-                    .orient("bottom");
-
-                scope.svgParams.yAxis = d3.svg.axis()
-                    .scale(scope.svgParams.y)
-                    .tickFormat(d3.format("d"))
-                    .orient("left");
-
-                scope.svg.select("g .x.axis")
-                    .call(scope.svgParams.xAxis)
-                    .selectAll("text")
-                    .style("text-anchor", "end")
-                    .attr("dx", "-.8em")
-                    .attr("dy", "-.45em");
-
-                scope.svg.select("g .y.axis")
-                    .call(scope.svgParams.yAxis);
-
-                var onData = scope.svg.selectAll(".bar")
-                    .data(scope.svgParams.currentMappings);
-
-                onData
-                    .enter()
-                    .append("rect")
-                    .attr("x", function(d) { return scope.svgParams.x(d.year); })
-                    .attr("class", "barbg")
-                    .attr("width", scope.svgParams.x.rangeBand())
-                    .attr("y", "0")
-                    .attr("height", function(d) { return scope.svgParams.height; })
-                    .attr("ng-click", function(d){ return "toggle("+ d.year+")";})
-                    .attr("ng-class", function(d){ return "{'active': selectedYears.contains("+ d.year+")}";})
-                    .attr("ng-mouseover", function(d){ return "hoveredYear='"+ d.year+"';hoveredValue='"+d.value+"'"})
-                    .attr("ng-mouseleave", function(d){ return "resetHovers()"});
-
-                onData
-                    .enter()
-                    .append("rect")
-                    .attr("x", function(d) { return scope.svgParams.x(d.year); })
-                    .attr("width", scope.svgParams.x.rangeBand())
-                    .attr("y", function(d) { return scope.svgParams.y(d.value); })
-                    .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(d.value); })
-                    .attr("ng-click", function(d){ return "toggle("+ d.year+")";})
-                    .attr("ng-class", function(d){ return "{'bar': true, 'active': selectedYears.contains("+ d.year+")}";})
-                    .attr("ng-mouseover", function(d){ return "hoveredYear='"+ d.year+"';hoveredValue='"+d.value+"'"})
-                    .attr("ng-mouseleave", function(d){ return "resetHovers()"});
-
-                $compile(angular.element('#time-chart'))(scope);
-            });
-
             scope.updateCurrentMappings = function(){
                 var yearsAndNumbers = scope.dateGroup.top(1)[0].value.years;
                 var years = Object.keys(yearsAndNumbers);
-                //var values = years.map(function (key) {
-                //    return yearsAndNumbers[key];
-                //});
 
                 scope.svgParams.currentMappings = [];
                 for (var index in years){
@@ -242,8 +249,8 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     scope.svgParams.initialYears = years;
                 }
 
-                scope.span_visible = MetadataService.length() > 0;
-                if(scope.span_visible){//only do this if there are values to extract
+                scope.spanVisible = MetadataService.length() > 0;
+                if(scope.spanVisible){//only do this if there are values to extract
                     var all = scope.dimDate.top(Infinity);
                     var earliest = new Date(2900,0,1),
                         latest = new Date(1900, 0, 1);
@@ -253,14 +260,14 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                             if (ds.extras["temporal_coverage-from"] != undefined){
                                 if (parseDate(ds.extras["temporal_coverage-from"]) < earliest){
                                     earliest = parseDate(ds.extras["temporal_coverage-from"]);
-                                    scope.available_from = ds.extras["temporal_coverage-from"];
+                                    scope.availableFrom = ds.extras["temporal_coverage-from"];
                                 }
                             }
 
                             if (ds.extras["temporal_coverage-to"] != undefined){
                                 if (latest < parseDate(ds.extras["temporal_coverage-to"])){
                                     latest = parseDate(ds.extras["temporal_coverage-to"]);
-                                    scope.available_to = ds.extras["temporal_coverage-to"];
+                                    scope.availableTo = ds.extras["temporal_coverage-to"];
                                 }
                             }
                         }
@@ -268,7 +275,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 }
             }
 
-            scope.resetSelection = function () {
+            scope.resetSelection = function (e) {
                 $("#time-chart-reset").css("visibility","hidden");
                 scope.selectedYears.clear();
                 scope.dimDate.filterAll();
