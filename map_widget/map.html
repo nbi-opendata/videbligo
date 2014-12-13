@@ -3,18 +3,15 @@
     <ul>
         <div class="row">
             <div class="panel panel-body">
-                <div svg-map></div>
+                <div svg-map
+                     ng-click = "regionChoice()"></div>
             </div>
             <div class="col-md-6">
                 <div class="panel panel-s">
                     <div class="panel panel-body">
                         <div class="regionlist">
-                            <div ng-repeat="(key,region) in dummyData"
-                                 ng-mouseover="regionMouseOver()"
-                                 ng-click ="regionChoice(key)"
-                                 ng-class="{'active': selected_map.contains(key)}"
-                                 >
-                                <div>{{key}}</div>
+                            <div ng-repeat="region in districts">
+                                <div>{{region.key}}</div>
                                 <div>{{region.value | number}}</div>
                             </div>
                         </div>
@@ -22,9 +19,5 @@
                 </div>
             </div>
         </div>
-        <li data-ng-repeat="region in districts">
-            <input type="checkbox" data-ng-model="region.checked" data-ng-change="regionChoice()">{{region.key}} ({{region.value}})
-
-        </li>
     </ul>
 </div>

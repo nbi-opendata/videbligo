@@ -1,3 +1,5 @@
+var selected_map = new StringSet();
+
 Videbligo.directive('map', ['MetadataService', function(MetadataService) {
 
     return {
@@ -26,11 +28,10 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                     var value = 0;
                     if(scope.groupRegion.value()[region] != undefined)
                         value = scope.groupRegion.value()[region];
-                    scope.districts.push({key:region , value: value, checked: true });
+                    scope.districts.push({key:region , value: value, checked: false });
                     scope.dataTemp[region] = ({value: value});
                 })
                 scope.dummyData = scope.dataTemp;
-                scope.selected_map = new StringSet();
             };
 
             MetadataService.registerWidget(scope.init);
@@ -44,23 +45,15 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                 });
             });
 
-            scope.regionChoice = function(index){
-                if(scope.selected_map.contains(index)){
-                    scope.selected_map.remove(index);
-                }else {
-                    scope.selected_map.add(index);
-                }
-                var filterFunction = function(d) {
-                    var tmp = d.filter(function(n) {
-                        return scope.selected_map.contains(n);
-                    });
-                    return tmp.length > 0;
-                };
-                if(scope.selected_map.values().length == 0) {
+            scope.regionChoice = function(index) {
+                alert(selected_map.values());
+                if(selected_map.values().length == 0) {
                     scope.dimRegion.filterAll();
-                }else{
-                    scope.dimRegion.filter(filterFunction);
-                }
+                 }else{
+                    scope.dimRegion.filter(function(d){
+                        return selected_map.contains(d);
+                    });
+                 }
                 MetadataService.triggerUpdate();
             };
 
@@ -115,16 +108,16 @@ Videbligo.directive('region', ['$compile', function ($compile) {
             hoverRegion: "="
         },
         link: function (scope, element, attrs) {
-            scope.selected_map = new StringSet();
+            //scope.selected_map = new StringSet();
             scope.elementId = element.attr("id");
             scope.regionClick = function () {
-                //alert(scope.dummyData[scope.elementId].value);
-                if(scope.selected_map.contains(scope.dummyData[scope.elementId].value)){
-                    scope.selected_map.remove(scope.dummyData[scope.elementId].value);
+                if(selected_map.contains(scope.elementId)){
+                   selected_map.remove(scope.elementId);
                     element[0].setAttribute("fill", "#5b95bc");
                 }else{
-                    scope.selected_map.add(scope.dummyData[scope.elementId].value);
+                    selected_map.add(scope.elementId);
                     element[0].setAttribute("fill", "#C58D7E");
+                    alert(scope.elementId);
                 }
             };
             scope.regionMouseOver = function () {
