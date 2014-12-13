@@ -13,8 +13,11 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             scope.dimDate = {};
             scope.selectedYears = new StringSet();
             scope.svgParams = {};
-            scope.hoveredMonth = "";
-            scope.hoveredValue = "";
+            scope.hover = {};
+            scope.selectionType = {
+                ADD: {},
+                REMOVE: {}
+            };
 
             scope.init = function(){
                 scope.data = MetadataService.getData();
@@ -138,9 +141,10 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", "0")
                     .attr("height", function(d) { return scope.svgParams.height; })
-                    .attr("ng-click", function(d){ return "toggle("+ d.year+")";})
+                    .attr("ng-mousedown", function(d){ return "handleMouseDown('"+ d.year+"')";})
+                    .attr("ng-mouseup", function(d){ return "handleMouseUp('"+ d.year+"')";})
                     .attr("ng-class", function(d){ return "{'barbg' : true, 'active': selectedYears.contains("+ d.year+")}";})
-                    .attr("ng-mouseover", function(d){ return "hoveredYear='"+ d.year+"';hoveredValue='"+d.value+"'"})
+                    .attr("ng-mouseover", function(d){ return "handleHover($event, '"+ d.year+"', '"+d.value+"')"})
                     .attr("ng-mouseleave", function(d){ return "resetHovers()"});
 
                 onData
@@ -151,13 +155,13 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", function(d) { return scope.svgParams.y(d.value); })
                     .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(d.value); })
-                    .attr("ng-click", function(d){ return "toggle("+ d.year+")";})
+                    .attr("ng-mousedown", function(d){ return "handleMouseDown('"+ d.year+"')";})
+                    .attr("ng-mouseup", function(d){ return "handleMouseUp('"+ d.year+"')";})
                     .attr("ng-class", function(d){ return "{'bar': true, 'active': selectedYears.contains("+ d.year+")}";})
-                    .attr("ng-mouseover", function(d){ return "hoveredYear='"+ d.year+"';hoveredValue='"+d.value+"'"})
+                    .attr("ng-mouseover", function(d){ return "handleHover($event, '"+ d.year+"', '"+d.value+"')"})
                     .attr("ng-mouseleave", function(d){ return "resetHovers()"});
 
                 $compile(angular.element('#time-chart'))(scope);
-
             }
 
             scope.$on('filterChanged', function() {
@@ -187,31 +191,12 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     }
                     else {
                         chartBar
-                            .attr("y", scope.svgParams.y(0))
-                            .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(0); });
+                            //.attr("y", scope.svgParams.y(1))
+                            .attr("height", "0");
+                    //.attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(0); });
                     }
                 }
             });
-
-            scope.toggle = function(year) {
-                if(scope.selectedYears.contains(year)) {
-                    scope.selectedYears.remove(year);
-                }
-                else {
-                    scope.selectedYears.add(year);
-                }
-
-                if (scope.selectedYears.values().length == 0){
-                    $("#time-chart-reset").css("visibility","hidden");
-                    scope.dimDate.filterAll();
-                }
-                else{
-                    $("#time-chart-reset").css("visibility","visible");
-                    scope.dimDate.filter(scope.filterFunction);
-                }
-
-                MetadataService.triggerUpdate();
-            }
 
             scope.filterFunction = function(d){
                 var years = scope.selectedYears.values();
@@ -282,9 +267,62 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 MetadataService.triggerUpdate();
             }
 
+            scope.handleMouseDown = function (year) {
+                scope.hover.selectionType = scope.selectedYears.contains(year) ?
+                    scope.selectionType.REMOVE :
+                    scope.selectionType.ADD;
+                scope.hover.mouseDownYear = year;
+                scope.toggle(year);
+                MetadataService.triggerUpdate();
+            }
+
+            scope.handleMouseUp = function (year) {
+                var start = scope.svgParams.initialYears.indexOf(scope.hover.mouseDownYear);
+                var end = scope.svgParams.initialYears.indexOf(year);
+
+                if (start > end){
+                    var temp = end;
+                    end = start;
+                    start = temp;
+                }
+
+                for (var i = start; i <= end; i++) {
+                    scope.toggle(scope.svgParams.initialYears[i]);
+                }
+
+                MetadataService.triggerUpdate();
+            }
+
+            scope.toggle = function(year) {
+                if(scope.hover.selectionType == scope.selectionType.REMOVE) {
+                    scope.selectedYears.remove(year);
+                }
+                else {
+                    scope.selectedYears.add(year);
+                }
+
+                if (scope.selectedYears.values().length == 0){
+                    $("#time-chart-reset").css("visibility","hidden");
+                    scope.dimDate.filterAll();
+                }
+                else {
+                    $("#time-chart-reset").css("visibility","visible");
+                    scope.dimDate.filter(scope.filterFunction);
+                }
+            }
+
+            scope.handleHover = function ($event, year, value) {
+                scope.hover.year = year;
+                scope.hover.value = value;
+                if ($event.which == 1) {
+                    scope.toggle(year);
+                    MetadataService.triggerUpdate();
+                }
+            }
+
             scope.resetHovers = function () {
-                scope.hoveredYear = "";
-                scope.hoveredValue = "";
+                scope.hover.year = "";
+                scope.hover.value = "";
             }
 
             MetadataService.registerWidget(scope.init);
