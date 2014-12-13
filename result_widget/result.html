@@ -154,7 +154,7 @@
     <div>
 
         <ul>
-            <li class="result" data-ng-repeat="entry in entries | orderBy:orderProp">
+            <li class="result" data-ng-repeat="entry in entries | orderBy:orderProp | slice:(currentPage-1)*elementsPerPage:elementsPerPage">
 
                 <div data-ng-click="toggleVisible($index)" class="result-row">
                     <div class="result-row-container">
@@ -238,5 +238,8 @@
 
             </li>
         </ul>
+        <a href="#" data-ng-click="decrementPage();" ng-show="currentPage > 1">prev</a>
+        {{currentPage}}/{{maxPage}}
+        <a href="#" data-ng-click="incrementPage();" ng-show="currentPage < maxPage">next</a>
     </div>
 </div>

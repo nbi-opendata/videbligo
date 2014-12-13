@@ -10,6 +10,9 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
             scope.length = 0;
             scope.dimOne = null;
 
+            scope.currentPage = 1;
+            scope.elementsPerPage = 20;
+
             scope.init = function () {
                 var data = MetadataService.getData();
                 scope.dimOne = data.dimension(function (d) {
@@ -19,11 +22,14 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
                 scope.visibleDetailsDivs = new StringSet();
                 scope.licence_mapping = licence_mapping;
                 scope.category_mapping = category_mapping;
+
             };
 
             scope.$on('filterChanged', function () {
-                scope.entries = scope.dimOne.top(25);
+                scope.currentPage = 1;
+                scope.entries = scope.dimOne.top(Infinity);
                 scope.length = MetadataService.length();
+                scope.maxPage = Math.ceil(scope.length/scope.elementsPerPage);
             });
 
             MetadataService.registerWidget(scope.init);
@@ -42,32 +48,21 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
                     scope.visibleDetailsDivs.add(key);
                 }
             };
+
+            scope.incrementPage = function(){
+                scope.currentPage += 1;
+            };
+
+            scope.decrementPage = function(){
+                scope.currentPage -= 1;
+            };
         }
     };
 }]);
 
-Videbligo.filter('cut', function () {
-    return function (value, wordwise, max, tail) {
-        if(!value) {
-            return '';
-        }
 
-        max = parseInt(max, 10);
-        if(!max) {
-            return value;
-        }
-        if(value.length <= max) {
-            return value;
-        }
-
-        value = value.substr(0, max);
-        if(wordwise) {
-            var lastspace = value.lastIndexOf(' ');
-            if(lastspace != -1) {
-                value = value.substr(0, lastspace);
-            }
-        }
-
-        return value + (tail || ' …');
+Videbligo.filter('slice', function() {
+    return function(arr, start, number) {
+        return (arr || []).slice(Math.max(0,start), Math.min(start+number, arr.length));
     };
 });
