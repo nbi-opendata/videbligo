@@ -1,5 +1,8 @@
 .granularities {
   position: relative; }
+  .granularities ul {
+    padding: 0px;
+    margin: 0px; }
 
 .vertical .granularity-line {
   position: absolute;
@@ -49,11 +52,11 @@
   vertical-align: middle; }
 
 .granularities-max-size-1.vertical .granularity-line {
-  left: 13px; }
+  left: 10.5px; }
 .granularities-max-size-1 .granularity-container {
   width: 25px; }
 .granularities-max-size-1 .granularity-title {
-  right: -25px; }
+  right: -45px; }
 
 .granularity-size-1 {
   position: relative;
@@ -70,11 +73,11 @@
   top: 2.5px; }
 
 .granularities-max-size-2.vertical .granularity-line {
-  left: 38px; }
+  left: 23px; }
 .granularities-max-size-2 .granularity-container {
   width: 50px; }
 .granularities-max-size-2 .granularity-title {
-  right: -50px; }
+  right: -70px; }
 
 .granularity-size-2 {
   position: relative;
@@ -91,11 +94,11 @@
   top: 15px; }
 
 .granularities-max-size-3.vertical .granularity-line {
-  left: 63px; }
+  left: 35.5px; }
 .granularities-max-size-3 .granularity-container {
   width: 75px; }
 .granularities-max-size-3 .granularity-title {
-  right: -75px; }
+  right: -95px; }
 
 .granularity-size-3 {
   position: relative;
@@ -112,11 +115,11 @@
   top: 27.5px; }
 
 .granularities-max-size-4.vertical .granularity-line {
-  left: 88px; }
+  left: 48px; }
 .granularities-max-size-4 .granularity-container {
   width: 100px; }
 .granularities-max-size-4 .granularity-title {
-  right: -100px; }
+  right: -120px; }
 
 .granularity-size-4 {
   position: relative;
@@ -133,11 +136,11 @@
   top: 40px; }
 
 .granularities-max-size-5.vertical .granularity-line {
-  left: 113px; }
+  left: 60.5px; }
 .granularities-max-size-5 .granularity-container {
   width: 125px; }
 .granularities-max-size-5 .granularity-title {
-  right: -125px; }
+  right: -145px; }
 
 .granularity-size-5 {
   position: relative;
@@ -154,11 +157,11 @@
   top: 52.5px; }
 
 .granularities-max-size-6.vertical .granularity-line {
-  left: 138px; }
+  left: 73px; }
 .granularities-max-size-6 .granularity-container {
   width: 150px; }
 .granularities-max-size-6 .granularity-title {
-  right: -150px; }
+  right: -170px; }
 
 .granularity-size-6 {
   position: relative;
@@ -175,11 +178,11 @@
   top: 65px; }
 
 .granularities-max-size-7.vertical .granularity-line {
-  left: 163px; }
+  left: 85.5px; }
 .granularities-max-size-7 .granularity-container {
   width: 175px; }
 .granularities-max-size-7 .granularity-title {
-  right: -175px; }
+  right: -195px; }
 
 .granularity-size-7 {
   position: relative;
@@ -196,11 +199,11 @@
   top: 77.5px; }
 
 .granularities-max-size-8.vertical .granularity-line {
-  left: 188px; }
+  left: 98px; }
 .granularities-max-size-8 .granularity-container {
   width: 200px; }
 .granularities-max-size-8 .granularity-title {
-  right: -200px; }
+  right: -220px; }
 
 .granularity-size-8 {
   position: relative;
@@ -217,11 +220,11 @@
   top: 90px; }
 
 .granularities-max-size-9.vertical .granularity-line {
-  left: 213px; }
+  left: 110.5px; }
 .granularities-max-size-9 .granularity-container {
   width: 225px; }
 .granularities-max-size-9 .granularity-title {
-  right: -225px; }
+  right: -245px; }
 
 .granularity-size-9 {
   position: relative;
@@ -238,11 +241,11 @@
   top: 102.5px; }
 
 .granularities-max-size-10.vertical .granularity-line {
-  left: 238px; }
+  left: 123px; }
 .granularities-max-size-10 .granularity-container {
   width: 250px; }
 .granularities-max-size-10 .granularity-title {
-  right: -250px; }
+  right: -270px; }
 
 .granularity-size-10 {
   position: relative;

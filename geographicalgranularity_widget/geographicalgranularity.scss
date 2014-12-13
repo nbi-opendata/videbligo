@@ -36,6 +36,10 @@ $fontfamily-monospace: 'monospace' !default;
 
 .granularities {
   position: relative;
+  ul {
+    padding: 0px;
+    margin: 0px;
+  }
 }
 
 .vertical {
@@ -105,13 +109,13 @@ $fontfamily-monospace: 'monospace' !default;
 @for $i from 1 through 10 {
   .granularities-max-size-#{$i} {
     &.vertical .granularity-line {
-      left: $i/2*$bubble-base-size - $granularity-number-width/2;
+      left: $i/4*$bubble-base-size - 2px; // maybe border 2px should be a variable
     }
     .granularity-container {
       width: $i/2*$bubble-base-size;
     }
     .granularity-title {
-      right: -$i/2*$bubble-base-size;
+      right: -$i/2*$bubble-base-size - 20px; // the extra offset should be a variable
     }
   }
   .granularity-size-#{$i} {
