@@ -46,7 +46,7 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
             });
 
             scope.regionChoice = function(index) {
-                alert(selected_map.values());
+                //alert(selected_map.values());
                 if(selected_map.values().length == 0) {
                     scope.dimRegion.filterAll();
                  }else{
@@ -117,7 +117,8 @@ Videbligo.directive('region', ['$compile', function ($compile) {
                 }else{
                     selected_map.add(scope.elementId);
                     element[0].setAttribute("fill", "#C58D7E");
-                    alert(scope.elementId);
+                    //alert(scope.elementId);
+                    //alert(scope.dummyData[scope.elementId].value);
                 }
             };
             scope.regionMouseOver = function () {
