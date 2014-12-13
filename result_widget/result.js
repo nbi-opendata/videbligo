@@ -3,7 +3,9 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
     return {
         restrict: 'AE',
         templateUrl: 'result_widget/result.html',
-        scope: {},
+        scope: {
+            elementsPerPage: '@'
+        },
         link: function (scope, element, attrs) {
             scope.crossData = [];
             scope.entries = [];
@@ -23,6 +25,11 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
                 scope.licence_mapping = licence_mapping;
                 scope.category_mapping = category_mapping;
 
+                if(attrs.elementsPerPage){
+                    scope.elementsPerPage = parseInt(attrs.elementsPerPage);
+                }
+
+                scope.maxPage = Math.ceil(scope.length/scope.elementsPerPage);
             };
 
             scope.$on('filterChanged', function () {

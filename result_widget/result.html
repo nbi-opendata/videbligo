@@ -154,7 +154,8 @@
     <div>
 
         <ul>
-            <li class="result" data-ng-repeat="entry in entries | orderBy:orderProp | slice:(currentPage-1)*elementsPerPage:elementsPerPage">
+            <li class="result"
+                data-ng-repeat="entry in entries | orderBy:orderProp | slice:(currentPage-1)*elementsPerPage:elementsPerPage">
 
                 <div data-ng-click="toggleVisible($index)" class="result-row">
                     <div class="result-row-container">
