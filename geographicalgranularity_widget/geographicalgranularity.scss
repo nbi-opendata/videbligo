@@ -1,0 +1,70 @@
+// variable
+$primary-color: #000 !default;
+$secondary-color: #f00 !default;
+
+$bubble-base-size: 50px !default;
+$granularity-number-width: 24px !default;
+$granularity-number-height: 20px !default;
+
+// mixins
+// Single side border-radius
+@mixin border-top-radius($radius) {
+  border-top-right-radius: $radius;
+  border-top-left-radius: $radius;
+}
+@mixin border-right-radius($radius) {
+  border-bottom-right-radius: $radius;
+  border-top-right-radius: $radius;
+}
+@mixin border-bottom-radius($radius) {
+  border-bottom-right-radius: $radius;
+  border-bottom-left-radius: $radius;
+}
+@mixin border-left-radius($radius) {
+  border-bottom-left-radius: $radius;
+  border-top-left-radius: $radius;
+}
+
+.granularity {
+
+}
+
+.granularity-bubble {
+  border: 1px solid $primary-color;
+  &:hover {
+    border-color: $secondary-color;
+  }
+}
+
+.granularity-elements {
+  display: inline-block;
+  position: relative;
+  width: $granularity-number-width;
+  height: $granularity-number-height;
+  text-align: center;
+  vertical-align: middle;
+}
+
+@for $i from 1 through 10 {
+  .granularity-size-#{$i} {
+    position: relative;
+    width: $i/2*$bubble-base-size;
+    height: $i/2*$bubble-base-size;
+    @include border-top-radius($i/2*$bubble-base-size);
+    @include border-bottom-radius($i/2*$bubble-base-size);
+
+    .granularity-elements {
+      top: $i/2*$bubble-base-size/2 - $granularity-number-height/2;
+      left: $i/2*$bubble-base-size/2 - $granularity-number-width/2;
+    }
+  }
+}
+
+// this is need for if there is no size
+.granularity-size-0 {
+  position: relative;
+  width: $bubble-base-size/2;
+  height: $bubble-base-size/2;
+  @include border-top-radius($bubble-base-size/2);
+  @include border-bottom-radius($bubble-base-size/2);
+}
