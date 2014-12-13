@@ -113,3 +113,19 @@ var category_mapping = {
     '': 'Verbraucherschutz'
     */
 };
+
+var licence_mapping = {
+    'cc-by':        ['Creative Commons Namensnennung',                         'assets/icons/licence/cc-by.png',        'https://creativecommons.org/licenses/by/3.0/de/'],
+    'cc-by-sa':     ['Creative Commons Weitergabe unter gleichen Bedingungen', 'assets/icons/licence/cc-by-sa.png',     'https://creativecommons.org/licenses/by-sa/3.0/de/'],
+    'other-closed': ['Keine Freie Lizenz, siehe Website des Datensatzes',      'assets/icons/licence/other-closed.png', ''],
+    'odc-odbl':     ['Open Data Commons Open Database License',                'assets/icons/licence/odc-odbl.png',     'http://opendefinition.org/licenses/odc-odbl/'],
+    'cc-nc':        ['Creative Commons Namensnennung-Nicht-kommerziell',       'assets/icons/licence/cc-nc.png',        'https://creativecommons.org/licenses/by-nc/3.0/de/'],
+    'gfdl':         ['GNU-Lizenz für freie Dokumentation',                     'assets/icons/licence/gfdl.png',         'https://www.gnu.org/copyleft/fdl.html']
+}
+
+
+
+
+
+
+

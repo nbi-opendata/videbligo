@@ -17,6 +17,8 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
                 });
                 /* Set of */
                 scope.visibleDetailsDivs = new StringSet();
+                scope.licence_mapping = licence_mapping;
+                scope.category_mapping = category_mapping;
             };
 
             scope.$on('filterChanged', function () {

@@ -71,8 +71,15 @@
     }
 
     result li .title {
+        max-width: 80%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         position: absolute;
-        left: 6em;
+        left: 7em;
+    }
+
+    result li .title a{
     }
 
     result li .toggle-arrow {
@@ -94,6 +101,14 @@
 
     result .details table tr {
         padding-bottom: 0.5em;
+    }
+
+    result .details table tr .details-category:last-child::after {
+        content: '';
+    }
+
+    result .details table tr .details-category::after {
+        content: ', ';
     }
 
     result .details table tr td:first-child {
@@ -123,26 +138,36 @@
     </div>
 
     <div>
+
         <ul>
             <li class="result" data-ng-repeat="entry in entries | orderBy:orderProp">
+
                 <div data-ng-click="toggleVisible($index)">
                     <!--Category Icons-->
-                    <span data-ng-repeat="group in entry.groups"
-                          class="category-icon icon-{{group}}"
-                          title="{{category_mapping[group]}}">
-                    </span>
+                    <div class="">
+                        <span data-ng-repeat="group in entry.groups"
+                              class="category-icon icon-{{group}}"
+                              title="{{category_mapping[group]}}">
+                        </span>
+                    </div>
 
                     <!--Title-->
-                    <span class="title">
-                        <a href="{{entry.download_url}}" target="_blank">{{entry.title | cut:false:150:'...'}}</a>
-                    </span>
+                    <div class="">
+                        <span class="title">
+                            <!--<a href="{{entry.download_url}}" target="_blank">{{entry.title | cut:false:140:'…'}}</a>-->
+                            <a href="{{entry.download_url}}" target="_blank">{{entry.title}}</a>
+                            <!--{{entry.title}}-->
+                        </span>
+                    </div>
 
                     <!--Toggle Arrow-->
-                   <span class="toggle-arrow">
-                       <span class="toggle-icon"
-                             ng-class="{'icon-arrow-up': visibleDetailsDivs.contains($index), 'icon-arrow-down': true}">
-                       </span>
-                   </span>
+                    <div class="">
+                        <span class="toggle-arrow">
+                           <span class="toggle-icon"
+                                 ng-class="{'icon-arrow-up': visibleDetailsDivs.contains($index), 'icon-arrow-down': true}">
+                           </span>
+                        </span>
+                    </div>
                 </div>
 
                 <!--Details Div-->
@@ -171,13 +196,20 @@
 
                         <tr>
                             <td>License</td>
-                            <td>{{entry.license_id}}</td>
+                            <td>
+                                <a href="{{licence_mapping[entry.license_id][2]}}"
+                                   title="{{licence_mapping[entry.license_id][0]}}"
+                                   target="_blank">
+                                    <img src="{{licence_mapping[entry.license_id][1]}}"
+                                         alt="{{licence_mapping[entry.license_id][0]}}"/>
+                                </a>
+                            </td>
                         </tr>
 
                         <tr>
                             <td>Kategorie</td>
                             <td>
-                                <span data-ng-repeat="group in entry.groups">{{group}}</span>
+                                <span class="details-category" data-ng-repeat="group in entry.groups">{{category_mapping[group]}}</span>
                             </td>
                         </tr>
 
