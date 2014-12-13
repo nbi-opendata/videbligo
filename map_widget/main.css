@@ -2,9 +2,9 @@ svg .bezirk {
     stroke-width: 2;
     stroke: #fff;
 
-    -webkit-transition: stroke 0.1s, stroke-width 0.1s; /* Choice Animation */
-    -o-transition: stroke 0.1s, stroke-width 0.1s;
-    transition: stroke 0.1s, stroke-width 0.1s;
+    -webkit-transition: stroke 0.01s, stroke-width 0.01s; /* Choice Animation */
+    -o-transition: stroke 0.01s, stroke-width 0.01s;
+    transition: stroke 0.01s, stroke-width 0.01s;
 }
 svg .bezirk:hover , .bezirk.active {
     cursor: pointer;
