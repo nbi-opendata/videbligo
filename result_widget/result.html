@@ -144,30 +144,24 @@
 
                 <div data-ng-click="toggleVisible($index)">
                     <!--Category Icons-->
-                    <div class="">
-                        <span data-ng-repeat="group in entry.groups"
-                              class="category-icon icon-{{group}}"
-                              title="{{category_mapping[group]}}">
-                        </span>
-                    </div>
+                    <span data-ng-repeat="group in entry.groups"
+                          class="category-icon icon-{{group}}"
+                          title="{{category_mapping[group]}}">
+                    </span>
 
                     <!--Title-->
-                    <div class="">
-                        <span class="title">
-                            <!--<a href="{{entry.download_url}}" target="_blank">{{entry.title | cut:false:140:'…'}}</a>-->
-                            <a href="{{entry.download_url}}" target="_blank">{{entry.title}}</a>
-                            <!--{{entry.title}}-->
-                        </span>
-                    </div>
+                    <span class="title">
+                        <!--<a href="{{entry.download_url}}" target="_blank">{{entry.title | cut:false:140:'…'}}</a>-->
+                        <a href="{{entry.download_url}}" target="_blank">{{entry.title}}</a>
+                        <!--{{entry.title}}-->
+                    </span>
 
                     <!--Toggle Arrow-->
-                    <div class="">
-                        <span class="toggle-arrow">
-                           <span class="toggle-icon"
-                                 ng-class="{'icon-arrow-up': visibleDetailsDivs.contains($index), 'icon-arrow-down': true}">
-                           </span>
-                        </span>
-                    </div>
+                    <span class="toggle-arrow">
+                       <span class="toggle-icon"
+                             ng-class="{'icon-arrow-up': visibleDetailsDivs.contains($index), 'icon-arrow-down': true}">
+                       </span>
+                    </span>
                 </div>
 
                 <!--Details Div-->
