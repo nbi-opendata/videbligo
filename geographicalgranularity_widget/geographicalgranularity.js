@@ -4,15 +4,26 @@ Videbligo.directive('geographicalGranularity', ['MetadataService', function(Meta
         restrict: 'AE',
         templateUrl: 'geographicalgranularity_widget/geographicalgranularity.html',
         scope: {
-            orientation : '@'
+            orientation : '@',
+            quantile    : '@'
         },
         link: function(scope, element, attrs) {
             scope.data = null;
             scope.geographicalDimension = null;
             scope.geographicalGranularityGroups = null;
             scope.geographicalGranularity = geographicalGranularity;
+            scope.maxItemSize = 0;
+
             if(attrs.orientation == undefined) {
                 scope.orientation = 'vertical';
+            }
+            if(attrs.quantile == undefined) {
+                scope.quantile = 4;
+            }
+
+            scope.selectGranularity = function(item) {
+                item.active = !item.active;
+                console.log(item);
             }
 
             scope.init = function(){
@@ -25,9 +36,17 @@ Videbligo.directive('geographicalGranularity', ['MetadataService', function(Meta
             scope.mapGranularities = function(){
                 for(var i in scope.geographicalGranularityGroups) {
                     if(scope.geographicalGranularityGroups[i].key != '') {
-                        scope.geographicalGranularity[scope.geographicalGranularityGroups[i].key].elements = scope.geographicalGranularityGroups[i].value;
+                        var key = scope.geographicalGranularityGroups[i].key.toLowerCase();
                     } else {
-                        scope.geographicalGranularity.Others.elements = scope.geographicalGranularityGroups[i].value;
+                        var key = 'others';
+                    }
+                    var allData = MetadataService.length();
+                    scope.geographicalGranularity[key].elements = scope.geographicalGranularityGroups[i].value;
+
+                    var percentage = (scope.geographicalGranularity[key].elements / allData)*100;
+                    scope.geographicalGranularity[key].size = Math.ceil(percentage/(100/scope.quantile));
+                    if(scope.geographicalGranularity[key].size > scope.maxItemSize) {
+                        scope.maxItemSize = scope.geographicalGranularity[key].size;
                     }
                 }
             }

@@ -13,13 +13,16 @@
             <th width="50px">Date from</th>
             <th width="50px">Date to</th>
             <th width="50px">license</th>
+            <th width="50px">Region</th>
             <th width="200px">Title</th>
+
         </tr>
 
         <tr data-ng-repeat="entry in entries">
             <td>{{entry.extras["temporal_coverage-from"]}}</td>
             <td>{{entry.extras["temporal_coverage-to"]}}</td>
             <td>{{entry.license_id}}</td>
+            <td>{{entry.extras["geographical_coverage"]}}</td>
             <td>{{entry.title}}</td>
         </tr>
     </table>

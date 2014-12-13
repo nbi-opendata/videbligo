@@ -1,0 +1,150 @@
+// variable
+$primary-color: #000 !default;
+$secondary-color: #f00 !default;
+$tertiary-color: #fff !default;;
+
+$base-margin: 10px !default;
+
+$bubble-base-size: 50px !default;
+$granularity-number-width: 24px !default;
+$granularity-number-height: 20px !default;
+
+$granularity-title-maxwidth: 90px !default;
+
+$granularity-vertical-height: 310px !default;
+
+$fontfamily-monospace: 'monospace' !default;
+
+// mixins
+// Single side border-radius
+@mixin border-top-radius($radius) {
+  border-top-right-radius: $radius;
+  border-top-left-radius: $radius;
+}
+@mixin border-right-radius($radius) {
+  border-bottom-right-radius: $radius;
+  border-top-right-radius: $radius;
+}
+@mixin border-bottom-radius($radius) {
+  border-bottom-right-radius: $radius;
+  border-bottom-left-radius: $radius;
+}
+@mixin border-left-radius($radius) {
+  border-bottom-left-radius: $radius;
+  border-top-left-radius: $radius;
+}
+
+.granularities {
+  position: relative;
+}
+
+.vertical {
+  .granularity-line {
+    position: absolute;
+    height: $granularity-vertical-height;
+    width: 2px;
+    border: 2px solid $primary-color;
+  }
+}
+
+.granularity-container {
+  position: relative;
+  list-style-type: none;
+  margin-bottom: $base-margin;
+
+  &:before, &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.granularity {
+  margin: 0px auto;
+}
+
+.granularity-bubble {
+  margin: 0px auto;
+  border: 2px solid;
+
+  cursor: pointer;
+
+  &.active {
+    border-color: $primary-color;
+    background-color: $secondary-color;
+    color: $tertiary-color;
+
+  }
+  &.inactive {
+    border-color: $primary-color;
+    background-color: $tertiary-color;
+    color: $primary-color;
+    &:hover {
+      border-color: $secondary-color;
+    }
+  }
+}
+
+.granularity-title {
+  position: absolute;
+  width: $granularity-title-maxwidth;
+}
+
+.granularity-elements {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: $granularity-number-height;
+  font-family: $fontfamily-monospace;
+  text-align: center;
+  vertical-align: middle;
+}
+
+@for $i from 1 through 10 {
+  .granularities-max-size-#{$i} {
+    &.vertical .granularity-line {
+      left: $i/2*$bubble-base-size - $granularity-number-width/2;
+    }
+    .granularity-container {
+      width: $i/2*$bubble-base-size;
+    }
+    .granularity-title {
+      right: -$i/2*$bubble-base-size;
+    }
+  }
+  .granularity-size-#{$i} {
+    position: relative;
+    width: $i/2*$bubble-base-size;
+    height: $i/2*$bubble-base-size;
+    @include border-top-radius($i/2*$bubble-base-size);
+    @include border-bottom-radius($i/2*$bubble-base-size);
+
+    .granularity-elements {
+      top: floor($i/2*$bubble-base-size/2 - $granularity-number-height/2);
+    }
+  }
+  .granularity-title-intent-#{$i} {
+    top: $i/2*$bubble-base-size/2 - $granularity-number-height/2;
+  }
+}
+
+// this is need for if there is no size
+.granularity-size-0 {
+  position: relative;
+  width: $bubble-base-size/2;
+  height: $bubble-base-size/2;
+  @include border-top-radius($bubble-base-size/2);
+  @include border-bottom-radius($bubble-base-size/2);
+}
+
+.no-column-count {
+  -moz-column-count: auto;
+  -moz-column-gap: 0px;
+  -webkit-column-count: auto;
+  -webkit-column-gap: 0px;
+  column-count: auto;
+  column-gap: 0px;
+}
+

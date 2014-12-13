@@ -1,37 +1,44 @@
 var geographicalGranularity = {
-    Block           : {
+    block           : {
         name : 'Block',
         size : 0,
-        elements : 0
+        elements : 0,
+        active: false
     },
-    Hausnummer      : {
+    hausnummer      : {
         name : 'Hausnummer',
         size : 0,
-        elements : 0
+        elements : 0,
+        active: false
     },
-    Bezirk          : {
+    bezirk          : {
         name : 'Bezirk',
         size : 0,
-        elements : 0
+        elements : 0,
+        active: false
     },
-    Bezirksregion   : {
+    bezirksregion   : {
         name : 'Bezirksregion',
         size : 0,
-        elements : 0
+        elements : 0,
+        active: false
     },
-    Berlin          : {
+    berlin          : {
         name : 'Berlin',
         size : 0,
-        elements : 0
+        elements : 0,
+        active: false
     },
-    Planungsraum    : {
+    planungsraum    : {
         name : 'Planungsraum',
         size : 0,
-        elements : 0
+        elements : 0,
+        active: false
     },
-    Others          : {
+    others          : {
         name : 'Andere',
         size : 0,
-        elements : 0
+        elements : 0,
+        active: false
     }
 }

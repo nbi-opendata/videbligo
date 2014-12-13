@@ -1,0 +1,10 @@
+<div>
+    <h2>map</h2>
+
+    <ul>
+        <li data-ng-repeat="region in districts">
+            <input type="checkbox" data-ng-model="region.checked" data-ng-change="regionChecked()">{{region.key}} ({{region.value}})
+
+        </li>
+     </ul>
+</div>
