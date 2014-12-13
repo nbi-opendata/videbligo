@@ -164,9 +164,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                             .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(minMappings[month]); });
                     }
                     else {
-                        chartBar
-                            //.attr("y", scope.svgParams.y(0))
-                            .attr("height", "0");
+                        chartBar.attr("height", "0");
                     }
                 }
             });
