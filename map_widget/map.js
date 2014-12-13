@@ -1,5 +1,3 @@
-var selected_map = new StringSet();
-
 Videbligo.directive('map', ['MetadataService', function(MetadataService) {
 
     return {
@@ -23,14 +21,17 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                 // Dimension erstellen, und diese dann gruppieren
                 scope.dimRegion = scope.RegData.dimension(function(d){return d.extras["geographical_coverage"];});
                 scope.groupRegion = scope.dimRegion.groupAll().reduce(scope.reduceAdd, scope.reduceRemove, scope.reduceInitial);
+                scope.selected_map = new StringSet();
 
                 scope.regionsAll.forEach(function(region){
                     var value = 0;
-                    if(scope.groupRegion.value()[region] != undefined)
+                    if(scope.groupRegion.value()[region] != undefined) {
                         value = scope.groupRegion.value()[region];
-                    scope.districts.push({key:region , value: value, checked: false });
-                    scope.dataTemp[region] = ({value: value});
+                    }
+                    scope.districts.push({key:region , value: value, checked: true });
+                    scope.dataTemp[region] = ({value: value, hover:false, clicked:false});
                 })
+                scope.dataTemp["Lichtenberg"].clicked = true;
                 scope.dummyData = scope.dataTemp;
             };
 
@@ -39,21 +40,65 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
             scope.$on('filterChanged', function() {
                 scope.districts.forEach(function(district) {
                     var value = 0;
-                    if(scope.groupRegion.value()[district.key] != undefined)
+                    if (scope.groupRegion.value()[district.key] != undefined){
                         value = scope.groupRegion.value()[district.key];
+                    }
                     district.value = value;
+                    // test
+                    scope.dummyData[district.key].value = value;
                 });
             });
 
-            scope.regionChoice = function(index) {
-                //alert(selected_map.values());
-                if(selected_map.values().length == 0) {
-                    scope.dimRegion.filterAll();
-                 }else{
-                    scope.dimRegion.filter(function(d){
-                        return selected_map.contains(d);
-                    });
+
+            scope.regionChecked = function(key){
+                /*
+                 if(scope.selected_map.contains(key)){
+                 scope.selected_map.remove(key);
+                 =======
+                 scope.regionChoice = function(index){
+                 if(scope.selected_map.contains(index)){
+                 scope.selected_map.remove(index);
+                 }else {
+                 scope.selected_map.add(index);
                  }
+                 var filterFunction = function(d) {
+                 var tmp = d.filter(function(n) {
+                 return scope.selected_map.contains(n);
+                 });
+                 return tmp.length > 0;
+                 };
+                 if(scope.selected_map.values().length == 0) {
+                 scope.dimRegion.filterAll();
+
+                 }else{
+                 scope.dimRegion.filter(filterFunction);
+                 }
+
+
+                 var filterFunction = function(d) {
+                 var tmp = d.filter(function(n) {
+                 return scope.selected_map.contains(n);
+                 });
+                 return tmp.length > 0;
+                 };
+
+                 if(scope.selected_map.values().length == 0) {
+                 scope.dimRegion.filterAll();
+                 }else{
+                 scope.dimRegion.filter(filterFunction);
+                 }
+                 */
+
+
+                var checkedRegion = [];
+                for(var key in scope.districts)
+                    if(scope.districts[key].checked)
+                        checkedRegion.push(scope.districts[key].key);
+
+                scope.dimRegion.filter(function(d){
+                    return checkedRegion.indexOf(d) != -1
+                });
+
                 MetadataService.triggerUpdate();
             };
 
@@ -108,25 +153,42 @@ Videbligo.directive('region', ['$compile', function ($compile) {
             hoverRegion: "="
         },
         link: function (scope, element, attrs) {
-            //scope.selected_map = new StringSet();
+            scope.selected_map = new StringSet();
             scope.elementId = element.attr("id");
+            scope.regionsAllTemp = ["Pankow", "Berlin-Mitte", "Lichtenberg", "Marzahn-Hellersdorf", "Reinickendorf", "Spandau",
+                "Treptow-Köpenick", "Neu-Köln", "Tempelhof-Schöneberg", "Steglitz-Zehlendorf", "Friedrichshain-Kreuzberg",
+                "Charlottenburg-Wilmersdorf", "Berlin"
+            ];
             scope.regionClick = function () {
-                if(selected_map.contains(scope.elementId)){
-                   selected_map.remove(scope.elementId);
+
+                // alert(scope.dummyData[scope.elementId].value);
+                //  scope.dummyData[scope.elementId].clicked = !scope.dummyData[scope.elementId].clicked;
+
+                //alert(scope.dummyData[scope.elementId].value);
+                if(scope.selected_map.contains(scope.dummyData[scope.elementId].value)){
+                    scope.selected_map.remove(scope.dummyData[scope.elementId].value);
                     element[0].setAttribute("fill", "#5b95bc");
                 }else{
-                    selected_map.add(scope.elementId);
+                    scope.selected_map.add(scope.dummyData[scope.elementId].value);
                     element[0].setAttribute("fill", "#C58D7E");
-                    //alert(scope.elementId);
-                    //alert(scope.dummyData[scope.elementId].value);
                 }
+
             };
             scope.regionMouseOver = function () {
                 scope.hoverRegion = scope.elementId;
                 element[0].parentNode.appendChild(element[0]);
+
+                scope.regionsAllTemp.forEach(function(region){
+                    scope.dummyData[region].hover = false;
+                });
+                scope.dummyData[scope.elementId].hover = true;
             };
             element.attr("ng-click", "regionClick()");
-            element.attr("ng-attr-fill", "{{dummyData[elementId].value | map_color}}");
+
+            element.attr("ng-attr-fill", "{{dummyData[elementId] | map_color}}");
+
+            // element.attr("ng-attr-fill", "{{dummyData[elementId].value | map_color}}");
+
             element.attr("ng-mouseover", "regionMouseOver()");
             element.attr("ng-class", "{active:hoverRegion==elementId}");
             element.removeAttr("region");
@@ -135,9 +197,31 @@ Videbligo.directive('region', ['$compile', function ($compile) {
     }
 }]);
 
+/*
+ Videbligo.filter('map_colour', [function () {
+ return function (input) {
+
+ if(input.hover){
+ return "#0000FF";
+ }
+
+ if(input.clicked) {
+ return "#00FF00";
+ } else {
+ return "#FF0000";
+ }
+
+ */
+
 // Basic color of map
 Videbligo.filter('map_color', [function () {
-    return function () {
+    return function (input) {
+        if(input.hover){
+            return "#0000FF";
+        }
         return "#5b95bc";
+
     }
 }]);
+
+
