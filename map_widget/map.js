@@ -49,27 +49,45 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                 });
             });
 
+
             scope.regionChecked = function(key){
                 /*
-                if(scope.selected_map.contains(key)){
-                    scope.selected_map.remove(key);
-                }else{
-                    scope.selected_map.add(key);
-                }
+                 if(scope.selected_map.contains(key)){
+                 scope.selected_map.remove(key);
+                 =======
+                 scope.regionChoice = function(index){
+                 if(scope.selected_map.contains(index)){
+                 scope.selected_map.remove(index);
+                 }else {
+                 scope.selected_map.add(index);
+                 }
+                 var filterFunction = function(d) {
+                 var tmp = d.filter(function(n) {
+                 return scope.selected_map.contains(n);
+                 });
+                 return tmp.length > 0;
+                 };
+                 if(scope.selected_map.values().length == 0) {
+                 scope.dimRegion.filterAll();
 
-                var filterFunction = function(d) {
-                    var tmp = d.filter(function(n) {
-                        return scope.selected_map.contains(n);
-                    });
-                    return tmp.length > 0;
-                };
+                 }else{
+                 scope.dimRegion.filter(filterFunction);
+                 }
 
-                if(scope.selected_map.values().length == 0) {
-                    scope.dimRegion.filterAll();
-                }else{
-                    scope.dimRegion.filter(filterFunction);
-                }
-                */
+
+                 var filterFunction = function(d) {
+                 var tmp = d.filter(function(n) {
+                 return scope.selected_map.contains(n);
+                 });
+                 return tmp.length > 0;
+                 };
+
+                 if(scope.selected_map.values().length == 0) {
+                 scope.dimRegion.filterAll();
+                 }else{
+                 scope.dimRegion.filter(filterFunction);
+                 }
+                 */
 
 
                 var checkedRegion = [];
@@ -82,7 +100,7 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                 });
 
                 MetadataService.triggerUpdate();
-            }
+            };
 
             scope.reduceAdd = function(p, v) {
                 var val = v.extras["geographical_coverage"];
@@ -108,6 +126,7 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
     };
 }]);
 
+// for each divided districts parameter passed
 Videbligo.directive('svgMap', ['$compile', function ($compile) {
     return {
         restrict: 'AE',
@@ -125,6 +144,7 @@ Videbligo.directive('svgMap', ['$compile', function ($compile) {
     }
 }]);
 
+// User Interface : Mause-Click, Mause-Over
 Videbligo.directive('region', ['$compile', function ($compile) {
     return {
         restrict: 'AE',
@@ -133,25 +153,42 @@ Videbligo.directive('region', ['$compile', function ($compile) {
             hoverRegion: "="
         },
         link: function (scope, element, attrs) {
+            scope.selected_map = new StringSet();
             scope.elementId = element.attr("id");
             scope.regionsAllTemp = ["Pankow", "Berlin-Mitte", "Lichtenberg", "Marzahn-Hellersdorf", "Reinickendorf", "Spandau",
                 "Treptow-Köpenick", "Neu-Köln", "Tempelhof-Schöneberg", "Steglitz-Zehlendorf", "Friedrichshain-Kreuzberg",
                 "Charlottenburg-Wilmersdorf", "Berlin"
             ];
             scope.regionClick = function () {
+
                 // alert(scope.dummyData[scope.elementId].value);
-                scope.dummyData[scope.elementId].clicked = !scope.dummyData[scope.elementId].clicked;
+                //  scope.dummyData[scope.elementId].clicked = !scope.dummyData[scope.elementId].clicked;
+
+                //alert(scope.dummyData[scope.elementId].value);
+                if(scope.selected_map.contains(scope.dummyData[scope.elementId].value)){
+                    scope.selected_map.remove(scope.dummyData[scope.elementId].value);
+                    element[0].setAttribute("fill", "#5b95bc");
+                }else{
+                    scope.selected_map.add(scope.dummyData[scope.elementId].value);
+                    element[0].setAttribute("fill", "#C58D7E");
+                }
+
             };
             scope.regionMouseOver = function () {
                 scope.hoverRegion = scope.elementId;
                 element[0].parentNode.appendChild(element[0]);
+
                 scope.regionsAllTemp.forEach(function(region){
                     scope.dummyData[region].hover = false;
                 });
                 scope.dummyData[scope.elementId].hover = true;
             };
             element.attr("ng-click", "regionClick()");
-            element.attr("ng-attr-fill", "{{dummyData[elementId] | map_colour}}");
+
+            element.attr("ng-attr-fill", "{{dummyData[elementId] | map_color}}");
+
+            // element.attr("ng-attr-fill", "{{dummyData[elementId].value | map_color}}");
+
             element.attr("ng-mouseover", "regionMouseOver()");
             element.attr("ng-class", "{active:hoverRegion==elementId}");
             element.removeAttr("region");
@@ -160,20 +197,31 @@ Videbligo.directive('region', ['$compile', function ($compile) {
     }
 }]);
 
-Videbligo.filter('map_colour', [function () {
-    return function (input) {
+/*
+ Videbligo.filter('map_colour', [function () {
+ return function (input) {
 
+ if(input.hover){
+ return "#0000FF";
+ }
+
+ if(input.clicked) {
+ return "#00FF00";
+ } else {
+ return "#FF0000";
+ }
+
+ */
+
+// Basic color of map
+Videbligo.filter('map_color', [function () {
+    return function (input) {
         if(input.hover){
             return "#0000FF";
         }
-
-        if(input.clicked) {
-            return "#00FF00";
-        } else {
-            return "#FF0000";
-        }
-
+        return "#5b95bc";
 
     }
 }]);
+
 
