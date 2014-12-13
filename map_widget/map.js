@@ -138,6 +138,7 @@ Videbligo.directive('svgMap', ['$compile', function ($compile) {
                 regionElement.attr("region", "");
                 regionElement.attr("dummy-data", "dummyData");
                 regionElement.attr("hover-region", "hoverRegion");
+                regionElement.attr("regions-all","regionsAll")
                 $compile(regionElement)(scope);
             })
         }
@@ -150,21 +151,17 @@ Videbligo.directive('region', ['$compile', function ($compile) {
         restrict: 'AE',
         scope: {
             dummyData: "=",
-            hoverRegion: "="
+            hoverRegion: "=",
+            regionsAll: "="
         },
         link: function (scope, element, attrs) {
             scope.selected_map = new StringSet();
             scope.elementId = element.attr("id");
-            scope.regionsAllTemp = ["Pankow", "Berlin-Mitte", "Lichtenberg", "Marzahn-Hellersdorf", "Reinickendorf", "Spandau",
-                "Treptow-Köpenick", "Neu-Köln", "Tempelhof-Schöneberg", "Steglitz-Zehlendorf", "Friedrichshain-Kreuzberg",
-                "Charlottenburg-Wilmersdorf", "Berlin"
-            ];
+
             scope.regionClick = function () {
-
-                // alert(scope.dummyData[scope.elementId].value);
-                //  scope.dummyData[scope.elementId].clicked = !scope.dummyData[scope.elementId].clicked;
-
+                scope.dummyData[scope.elementId].clicked = !scope.dummyData[scope.elementId].clicked;
                 //alert(scope.dummyData[scope.elementId].value);
+                /*
                 if(scope.selected_map.contains(scope.dummyData[scope.elementId].value)){
                     scope.selected_map.remove(scope.dummyData[scope.elementId].value);
                     element[0].setAttribute("fill", "#5b95bc");
@@ -172,48 +169,56 @@ Videbligo.directive('region', ['$compile', function ($compile) {
                     scope.selected_map.add(scope.dummyData[scope.elementId].value);
                     element[0].setAttribute("fill", "#C58D7E");
                 }
-
+                */
             };
             scope.regionMouseOver = function () {
                 scope.hoverRegion = scope.elementId;
                 element[0].parentNode.appendChild(element[0]);
-
-                scope.regionsAllTemp.forEach(function(region){
-                    scope.dummyData[region].hover = false;
-                });
                 scope.dummyData[scope.elementId].hover = true;
+
+
             };
+
+            scope.regionMouseLeave = function(){
+                scope.dummyData[scope.elementId].hover = false;
+            }
+
+            scope.regionClass = function(){
+                return {active:hoverRegion== elementId};
+            }
             element.attr("ng-click", "regionClick()");
-
             element.attr("ng-attr-fill", "{{dummyData[elementId] | map_color}}");
-
-            // element.attr("ng-attr-fill", "{{dummyData[elementId].value | map_color}}");
-
+            //element.attr("ng-attr-fill", "{{dummyData[elementId].value | map_color}}");
             element.attr("ng-mouseover", "regionMouseOver()");
-            element.attr("ng-class", "{active:hoverRegion==elementId}");
+            element.attr("ng-mouseleave", "regionMouseLeave()");
+            element.attr("ng-class", "regionClass()");
             element.removeAttr("region");
             $compile(element)(scope);
         }
     }
 }]);
 
-/*
- Videbligo.filter('map_colour', [function () {
- return function (input) {
 
- if(input.hover){
- return "#0000FF";
- }
+ Videbligo.filter('map_color', [function () {
+     return function (input) {
+         var color = "#000000";
+         if (input.clicked) {
+             color = "#00FF00";
+         } else if(input.hover){
+             color = "#0000FF";
+         } else{
+             color ="#FF0000";
+         }
 
- if(input.clicked) {
- return "#00FF00";
- } else {
- return "#FF0000";
- }
+         return color;
+     }
+ }]);
 
- */
+
+
 
 // Basic color of map
+/*
 Videbligo.filter('map_color', [function () {
     return function (input) {
         if(input.hover){
@@ -223,5 +228,7 @@ Videbligo.filter('map_color', [function () {
 
     }
 }]);
+
+*/
 
 
