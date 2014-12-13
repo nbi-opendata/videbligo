@@ -10,7 +10,7 @@ Videbligo.directive('timeGranularity', ['MetadataService', function(MetadataServ
             scope.data = null;
             scope.dimTimeGranularity = null;
             scope.groupTimeGranularity = null;
-            //scope.timeGranularity = {};
+            scope.timeGranularity = timeGranularity;
             if (attrs.orientation == undefined) {
                 scope.orientation = 'vertical';
             }
