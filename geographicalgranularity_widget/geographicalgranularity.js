@@ -1,4 +1,4 @@
-Videbligo.directive('geographicalGranularity', ['MetadataService', function(MetadataService) {
+Videbligo.directive('geographicalgranularity', ['MetadataService', function(MetadataService) {
 
     return {
         restrict: 'AE',

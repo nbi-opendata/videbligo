@@ -1,4 +1,4 @@
-Videbligo.directive('timeGranularity', ['MetadataService', function(MetadataService) {
+Videbligo.directive('timegranularity', ['MetadataService', function(MetadataService) {
 
     return {
         restrict: 'AE',
