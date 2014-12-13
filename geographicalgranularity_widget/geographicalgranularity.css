@@ -1,59 +1,15 @@
-.granularities {
-  position: relative; }
-
-.vertical .granularity-line {
-  position: absolute;
-  height: 310px;
-  width: 2px;
-  border: 2px solid #000; }
-
-.granularity-container {
-  position: relative;
-  list-style-type: none;
-  margin-bottom: 10px; }
-  .granularity-container:before, .granularity-container:after {
-    content: " ";
-    display: table; }
-  .granularity-container:after {
-    clear: both; }
-
-.granularity {
-  margin: 0px auto; }
-
 .granularity-bubble {
-  margin: 0px auto;
-  border: 2px solid;
-  cursor: pointer; }
-  .granularity-bubble.active {
-    border-color: #000;
-    background-color: #f00;
-    color: #fff; }
-  .granularity-bubble.inactive {
-    border-color: #000;
-    background-color: #fff;
-    color: #000; }
-    .granularity-bubble.inactive:hover {
-      border-color: #f00; }
-
-.granularity-title {
-  position: absolute;
-  width: 90px; }
+  border: 1px solid #000; }
+  .granularity-bubble:hover {
+    border-color: #f00; }
 
 .granularity-elements {
-  display: block;
+  display: inline-block;
   position: relative;
-  width: 100%;
+  width: 24px;
   height: 20px;
-  font-family: "monospace";
   text-align: center;
   vertical-align: middle; }
-
-.granularities-max-size-1.vertical .granularity-line {
-  left: 13px; }
-.granularities-max-size-1 .granularity-container {
-  width: 25px; }
-.granularities-max-size-1 .granularity-title {
-  right: -25px; }
 
 .granularity-size-1 {
   position: relative;
@@ -64,17 +20,8 @@
   border-bottom-right-radius: 25px;
   border-bottom-left-radius: 25px; }
   .granularity-size-1 .granularity-elements {
-    top: 2px; }
-
-.granularity-title-intent-1 {
-  top: 2.5px; }
-
-.granularities-max-size-2.vertical .granularity-line {
-  left: 38px; }
-.granularities-max-size-2 .granularity-container {
-  width: 50px; }
-.granularities-max-size-2 .granularity-title {
-  right: -50px; }
+    top: 2.5px;
+    left: 0.5px; }
 
 .granularity-size-2 {
   position: relative;
@@ -85,17 +32,8 @@
   border-bottom-right-radius: 50px;
   border-bottom-left-radius: 50px; }
   .granularity-size-2 .granularity-elements {
-    top: 15px; }
-
-.granularity-title-intent-2 {
-  top: 15px; }
-
-.granularities-max-size-3.vertical .granularity-line {
-  left: 63px; }
-.granularities-max-size-3 .granularity-container {
-  width: 75px; }
-.granularities-max-size-3 .granularity-title {
-  right: -75px; }
+    top: 15px;
+    left: 13px; }
 
 .granularity-size-3 {
   position: relative;
@@ -106,17 +44,8 @@
   border-bottom-right-radius: 75px;
   border-bottom-left-radius: 75px; }
   .granularity-size-3 .granularity-elements {
-    top: 27px; }
-
-.granularity-title-intent-3 {
-  top: 27.5px; }
-
-.granularities-max-size-4.vertical .granularity-line {
-  left: 88px; }
-.granularities-max-size-4 .granularity-container {
-  width: 100px; }
-.granularities-max-size-4 .granularity-title {
-  right: -100px; }
+    top: 27.5px;
+    left: 25.5px; }
 
 .granularity-size-4 {
   position: relative;
@@ -127,17 +56,8 @@
   border-bottom-right-radius: 100px;
   border-bottom-left-radius: 100px; }
   .granularity-size-4 .granularity-elements {
-    top: 40px; }
-
-.granularity-title-intent-4 {
-  top: 40px; }
-
-.granularities-max-size-5.vertical .granularity-line {
-  left: 113px; }
-.granularities-max-size-5 .granularity-container {
-  width: 125px; }
-.granularities-max-size-5 .granularity-title {
-  right: -125px; }
+    top: 40px;
+    left: 38px; }
 
 .granularity-size-5 {
   position: relative;
@@ -148,17 +68,8 @@
   border-bottom-right-radius: 125px;
   border-bottom-left-radius: 125px; }
   .granularity-size-5 .granularity-elements {
-    top: 52px; }
-
-.granularity-title-intent-5 {
-  top: 52.5px; }
-
-.granularities-max-size-6.vertical .granularity-line {
-  left: 138px; }
-.granularities-max-size-6 .granularity-container {
-  width: 150px; }
-.granularities-max-size-6 .granularity-title {
-  right: -150px; }
+    top: 52.5px;
+    left: 50.5px; }
 
 .granularity-size-6 {
   position: relative;
@@ -169,17 +80,8 @@
   border-bottom-right-radius: 150px;
   border-bottom-left-radius: 150px; }
   .granularity-size-6 .granularity-elements {
-    top: 65px; }
-
-.granularity-title-intent-6 {
-  top: 65px; }
-
-.granularities-max-size-7.vertical .granularity-line {
-  left: 163px; }
-.granularities-max-size-7 .granularity-container {
-  width: 175px; }
-.granularities-max-size-7 .granularity-title {
-  right: -175px; }
+    top: 65px;
+    left: 63px; }
 
 .granularity-size-7 {
   position: relative;
@@ -190,17 +92,8 @@
   border-bottom-right-radius: 175px;
   border-bottom-left-radius: 175px; }
   .granularity-size-7 .granularity-elements {
-    top: 77px; }
-
-.granularity-title-intent-7 {
-  top: 77.5px; }
-
-.granularities-max-size-8.vertical .granularity-line {
-  left: 188px; }
-.granularities-max-size-8 .granularity-container {
-  width: 200px; }
-.granularities-max-size-8 .granularity-title {
-  right: -200px; }
+    top: 77.5px;
+    left: 75.5px; }
 
 .granularity-size-8 {
   position: relative;
@@ -211,17 +104,8 @@
   border-bottom-right-radius: 200px;
   border-bottom-left-radius: 200px; }
   .granularity-size-8 .granularity-elements {
-    top: 90px; }
-
-.granularity-title-intent-8 {
-  top: 90px; }
-
-.granularities-max-size-9.vertical .granularity-line {
-  left: 213px; }
-.granularities-max-size-9 .granularity-container {
-  width: 225px; }
-.granularities-max-size-9 .granularity-title {
-  right: -225px; }
+    top: 90px;
+    left: 88px; }
 
 .granularity-size-9 {
   position: relative;
@@ -232,17 +116,8 @@
   border-bottom-right-radius: 225px;
   border-bottom-left-radius: 225px; }
   .granularity-size-9 .granularity-elements {
-    top: 102px; }
-
-.granularity-title-intent-9 {
-  top: 102.5px; }
-
-.granularities-max-size-10.vertical .granularity-line {
-  left: 238px; }
-.granularities-max-size-10 .granularity-container {
-  width: 250px; }
-.granularities-max-size-10 .granularity-title {
-  right: -250px; }
+    top: 102.5px;
+    left: 100.5px; }
 
 .granularity-size-10 {
   position: relative;
@@ -253,10 +128,8 @@
   border-bottom-right-radius: 250px;
   border-bottom-left-radius: 250px; }
   .granularity-size-10 .granularity-elements {
-    top: 115px; }
-
-.granularity-title-intent-10 {
-  top: 115px; }
+    top: 115px;
+    left: 113px; }
 
 .granularity-size-0 {
   position: relative;
@@ -266,13 +139,5 @@
   border-top-left-radius: 25px;
   border-bottom-right-radius: 25px;
   border-bottom-left-radius: 25px; }
-
-.no-column-count {
-  -moz-column-count: auto;
-  -moz-column-gap: 0px;
-  -webkit-column-count: auto;
-  -webkit-column-gap: 0px;
-  column-count: auto;
-  column-gap: 0px; }
 
 /*# sourceMappingURL=geographicalgranularity.css.map */
