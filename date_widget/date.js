@@ -138,9 +138,9 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", "0")
                     .attr("height", function(d) { return scope.svgParams.height; })
-                    .attr("ng-click", function(d){ return "toggle("+ d.year+")";})
+                    .attr("ng-mousedown", function(d){ return "toggle("+ d.year+")";})
                     .attr("ng-class", function(d){ return "{'barbg' : true, 'active': selectedYears.contains("+ d.year+")}";})
-                    .attr("ng-mouseover", function(d){ return "hoveredYear='"+ d.year+"';hoveredValue='"+d.value+"'"})
+                    .attr("ng-mouseover", function(d){ return "handleHover($event, '"+ d.year+"', '"+d.value+"')"})
                     .attr("ng-mouseleave", function(d){ return "resetHovers()"});
 
                 onData
@@ -151,9 +151,9 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", function(d) { return scope.svgParams.y(d.value); })
                     .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(d.value); })
-                    .attr("ng-click", function(d){ return "toggle("+ d.year+")";})
+                    .attr("ng-mousedown", function(d){ return "toggle("+ d.year+")";})
                     .attr("ng-class", function(d){ return "{'bar': true, 'active': selectedYears.contains("+ d.year+")}";})
-                    .attr("ng-mouseover", function(d){ return "hoveredYear='"+ d.year+"';hoveredValue='"+d.value+"'"})
+                    .attr("ng-mouseover", function(d){ return "handleHover($event, '"+ d.year+"', '"+d.value+"')"})
                     .attr("ng-mouseleave", function(d){ return "resetHovers()"});
 
                 $compile(angular.element('#time-chart'))(scope);
@@ -281,6 +281,14 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 scope.selectedYears.clear();
                 scope.dimDate.filterAll();
                 MetadataService.triggerUpdate();
+            }
+
+            scope.handleHover = function ($event, year, value) {
+                scope.hoveredYear = year;
+                scope.hoveredValue = value;
+                if ($event.which == 1) {
+                    scope.toggle(year);
+                }
             }
 
             scope.resetHovers = function () {

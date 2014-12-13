@@ -106,9 +106,9 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", "0")
                     .attr("height", function(d) { return scope.svgParams.height; })
-                    .attr("ng-click", function(d){ return "toggle('"+ d.key+"')";})
+                    .attr("ng-mousedown", function(d){ return "toggle('"+ d.key+"')";})
                     .attr("ng-class", function(d){ return "{'active': selectedMonths.contains('"+ d.key+"')}";})
-                    .attr("ng-mouseover", function(d){ return "hoveredMonth='"+ d.key+"';hoveredValue='"+d.value+"'"})
+                    .attr("ng-mouseover", function(d){ return "handleHover($event, '"+ d.key+"', '"+d.value+"')"})
                     .attr("ng-mouseleave", function(d){ return "resetHovers()"});
 
                 onData.enter()
@@ -118,9 +118,9 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", function(d) { return scope.svgParams.y(d.value); })
                     .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(d.value); })
-                    .attr("ng-click", function(d){ return "toggle('"+ d.key+"')";})
+                    .attr("ng-mousedown", function(d){ return "toggle('"+ d.key+"')";})
                     .attr("ng-class", function(d){ return "{'bar': true, 'active': selectedMonths.contains('"+ d.key+"')}";})
-                    .attr("ng-mouseover", function(d){ return "hoveredMonth='"+ d.key+"';hoveredValue='"+d.value+"'"})
+                    .attr("ng-mouseover", function(d){ return "handleHover($event, '"+ d.key+"', '"+d.value+"')"})
                     .attr("ng-mouseleave", function(d){ return "resetHovers()"});
 
                 $compile(angular.element('#last-modification-chart'))(scope);
@@ -193,6 +193,14 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 scope.selectedMonths.clear();
                 scope.dimLastMod.filterAll();
                 MetadataService.triggerUpdate();
+            }
+
+            scope.handleHover = function ($event, month, value) {
+                scope.hoveredMonth = month;
+                scope.hoveredValue = value;
+                if ($event.which == 1) {
+                    scope.toggle(month);
+                }
             }
 
             scope.resetHovers = function () {
