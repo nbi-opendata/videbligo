@@ -141,7 +141,8 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", "0")
                     .attr("height", function(d) { return scope.svgParams.height; })
-                    .attr("ng-mousedown", function(d){ return "handleMouseDown("+ d.year+")";})
+                    .attr("ng-mousedown", function(d){ return "handleMouseDown('"+ d.year+"')";})
+                    .attr("ng-mouseup", function(d){ return "handleMouseUp('"+ d.year+"')";})
                     .attr("ng-class", function(d){ return "{'barbg' : true, 'active': selectedYears.contains("+ d.year+")}";})
                     .attr("ng-mouseover", function(d){ return "handleHover($event, '"+ d.year+"', '"+d.value+"')"})
                     .attr("ng-mouseleave", function(d){ return "resetHovers()"});
@@ -154,13 +155,13 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", function(d) { return scope.svgParams.y(d.value); })
                     .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(d.value); })
-                    .attr("ng-mousedown", function(d){ return "handleMouseDown("+ d.year+")";})
+                    .attr("ng-mousedown", function(d){ return "handleMouseDown('"+ d.year+"')";})
+                    .attr("ng-mouseup", function(d){ return "handleMouseUp('"+ d.year+"')";})
                     .attr("ng-class", function(d){ return "{'bar': true, 'active': selectedYears.contains("+ d.year+")}";})
                     .attr("ng-mouseover", function(d){ return "handleHover($event, '"+ d.year+"', '"+d.value+"')"})
                     .attr("ng-mouseleave", function(d){ return "resetHovers()"});
 
                 $compile(angular.element('#time-chart'))(scope);
-
             }
 
             scope.$on('filterChanged', function() {
@@ -267,37 +268,47 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             }
 
             scope.handleMouseDown = function (year) {
-                scope.hover.addOrRemove = scope.selectedYears.contains(year) ?
-                                        scope.selectionType.REMOVE :
-                                        scope.selectionType.ADD;
-
+                scope.hover.selectionType = scope.selectedYears.contains(year) ?
+                    scope.selectionType.REMOVE :
+                    scope.selectionType.ADD;
+                scope.hover.mouseDownYear = year;
                 scope.toggle(year);
+                MetadataService.triggerUpdate();
+            }
+
+            scope.handleMouseUp = function (year) {
+                var start = scope.svgParams.initialYears.indexOf(scope.hover.mouseDownYear);
+                var end = scope.svgParams.initialYears.indexOf(year);
+
+                if (start > end){
+                    var temp = end;
+                    end = start;
+                    start = temp;
+                }
+
+                for (var i = start; i <= end; i++) {
+                    scope.toggle(scope.svgParams.initialYears[i]);
+                }
+
+                MetadataService.triggerUpdate();
             }
 
             scope.toggle = function(year) {
-                if(scope.hover.addOrRemove == scope.selectionType.REMOVE) {
+                if(scope.hover.selectionType == scope.selectionType.REMOVE) {
                     scope.selectedYears.remove(year);
                 }
                 else {
                     scope.selectedYears.add(year);
                 }
-                //if(scope.selectedYears.contains(year)) {
-                //    scope.selectedYears.remove(year);
-                //}
-                //else {
-                //    scope.selectedYears.add(year);
-                //}
 
                 if (scope.selectedYears.values().length == 0){
                     $("#time-chart-reset").css("visibility","hidden");
                     scope.dimDate.filterAll();
                 }
-                else{
+                else {
                     $("#time-chart-reset").css("visibility","visible");
                     scope.dimDate.filter(scope.filterFunction);
                 }
-
-                MetadataService.triggerUpdate();
             }
 
             scope.handleHover = function ($event, year, value) {
@@ -305,6 +316,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 scope.hover.value = value;
                 if ($event.which == 1) {
                     scope.toggle(year);
+                    MetadataService.triggerUpdate();
                 }
             }
 
