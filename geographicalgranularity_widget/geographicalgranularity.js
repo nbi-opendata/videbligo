@@ -53,7 +53,14 @@ Videbligo.directive('geographicalGranularity', ['MetadataService', function(Meta
 
             scope.init = function(){
                 scope.data = MetadataService.getData();
-                scope.geographicalDimension = scope.data.dimension(function(d){return d.extras.geographical_granularity;});
+                scope.geographicalDimension = scope.data.dimension(function(d){
+                    if(d.extras != undefined && d.extras.geographical_granularity != undefined) {
+                        return d.extras.geographical_granularity;
+                    } else {
+
+                        return "";
+                    }
+                });
                 scope.mapGranularities();
             }
 
