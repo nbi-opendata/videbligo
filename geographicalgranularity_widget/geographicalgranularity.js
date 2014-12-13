@@ -24,11 +24,28 @@ Videbligo.directive('geographicalGranularity', ['MetadataService', function(Meta
 
             scope.selectGranularity = function(item) {
                 item.active = !item.active;
-                console.log(item);
                 if(scope.selectedGranularities.contains(item.key)){
                     scope.selectedGranularities.remove(item.key);
                 }else{
                     scope.selectedGranularities.add(item.key);
+                }
+
+                var filterFunction = function(d) {
+                    if(d == undefined) {
+                        console.log('undefined?');
+                        return false;
+                    }
+                    if(d != '') {
+                        return scope.selectedGranularities.contains(d.toLowerCase());
+                    } else {
+                        return scope.selectedGranularities.contains('others');
+                    }
+                };
+
+                if(scope.selectedGranularities.values().length == 0) {
+                    scope.geographicalDimension.filterAll();
+                }else{
+                    scope.geographicalDimension.filter(filterFunction);
                 }
 
                 MetadataService.triggerUpdate();
@@ -37,19 +54,20 @@ Videbligo.directive('geographicalGranularity', ['MetadataService', function(Meta
             scope.init = function(){
                 scope.data = MetadataService.getData();
                 scope.geographicalDimension = scope.data.dimension(function(d){return d.extras.geographical_granularity;});
-                scope.geographicalGranularityGroups = scope.geographicalDimension.group().all();
                 scope.mapGranularities();
             }
 
             scope.mapGranularities = function(){
-                for(var i in scope.geographicalGranularityGroups) {
-                    if(scope.geographicalGranularityGroups[i].key != '') {
-                        var key = scope.geographicalGranularityGroups[i].key.toLowerCase();
+                var geographicalGranularityGroups = scope.geographicalDimension.group().all();
+                for(var i in geographicalGranularityGroups) {
+                    if(geographicalGranularityGroups[i].key != '') {
+                        var key = geographicalGranularityGroups[i].key.toLowerCase();
                     } else {
                         var key = 'others';
                     }
-                    var allData = MetadataService.length();
-                    scope.geographicalGranularity[key].elements = scope.geographicalGranularityGroups[i].value;
+                    var allData = scope.geographicalDimension.groupAll().value();
+                    // changes with selection needs to be fix when only granularity is selected
+                    scope.geographicalGranularity[key].elements = geographicalGranularityGroups[i].value;
 
                     var percentage = (scope.geographicalGranularity[key].elements / allData)*100;
                     scope.geographicalGranularity[key].size = Math.ceil(percentage/(100/scope.quantile));
