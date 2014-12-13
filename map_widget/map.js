@@ -21,14 +21,17 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                 // Dimension erstellen, und diese dann gruppieren
                 scope.dimRegion = scope.RegData.dimension(function(d){return d.extras["geographical_coverage"];});
                 scope.groupRegion = scope.dimRegion.groupAll().reduce(scope.reduceAdd, scope.reduceRemove, scope.reduceInitial);
+                scope.selected_map = new StringSet();
 
                 scope.regionsAll.forEach(function(region){
                     var value = 0;
-                    if(scope.groupRegion.value()[region] != undefined)
+                    if(scope.groupRegion.value()[region] != undefined) {
                         value = scope.groupRegion.value()[region];
+                    }
                     scope.districts.push({key:region , value: value, checked: true });
-                    scope.dataTemp[region] = ({value: value});
+                    scope.dataTemp[region] = ({value: value, hover:false, clicked:false});
                 })
+                scope.dataTemp["Lichtenberg"].clicked = true;
                 scope.dummyData = scope.dataTemp;
             };
 
@@ -37,18 +40,37 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
             scope.$on('filterChanged', function() {
                 scope.districts.forEach(function(district) {
                     var value = 0;
-                    if(scope.groupRegion.value()[district.key] != undefined)
+                    if (scope.groupRegion.value()[district.key] != undefined){
                         value = scope.groupRegion.value()[district.key];
+                    }
                     district.value = value;
+                    // test
+                    scope.dummyData[district.key].value = value;
                 });
             });
 
-            scope.regionChecked = function(index){
+            scope.regionChecked = function(key){
+                /*
                 if(scope.selected_map.contains(key)){
                     scope.selected_map.remove(key);
                 }else{
                     scope.selected_map.add(key);
                 }
+
+                var filterFunction = function(d) {
+                    var tmp = d.filter(function(n) {
+                        return scope.selected_map.contains(n);
+                    });
+                    return tmp.length > 0;
+                };
+
+                if(scope.selected_map.values().length == 0) {
+                    scope.dimRegion.filterAll();
+                }else{
+                    scope.dimRegion.filter(filterFunction);
+                }
+                */
+
 
                 var checkedRegion = [];
                 for(var key in scope.districts)
@@ -112,15 +134,24 @@ Videbligo.directive('region', ['$compile', function ($compile) {
         },
         link: function (scope, element, attrs) {
             scope.elementId = element.attr("id");
+            scope.regionsAllTemp = ["Pankow", "Berlin-Mitte", "Lichtenberg", "Marzahn-Hellersdorf", "Reinickendorf", "Spandau",
+                "Treptow-Köpenick", "Neu-Köln", "Tempelhof-Schöneberg", "Steglitz-Zehlendorf", "Friedrichshain-Kreuzberg",
+                "Charlottenburg-Wilmersdorf", "Berlin"
+            ];
             scope.regionClick = function () {
-                alert(scope.dummyData[scope.elementId].value);
+                // alert(scope.dummyData[scope.elementId].value);
+                scope.dummyData[scope.elementId].clicked = !scope.dummyData[scope.elementId].clicked;
             };
             scope.regionMouseOver = function () {
                 scope.hoverRegion = scope.elementId;
                 element[0].parentNode.appendChild(element[0]);
+                scope.regionsAllTemp.forEach(function(region){
+                    scope.dummyData[region].hover = false;
+                });
+                scope.dummyData[scope.elementId].hover = true;
             };
             element.attr("ng-click", "regionClick()");
-            element.attr("ng-attr-fill", "{{dummyData[elementId].value | map_colour}}");
+            element.attr("ng-attr-fill", "{{dummyData[elementId] | map_colour}}");
             element.attr("ng-mouseover", "regionMouseOver()");
             element.attr("ng-class", "{active:hoverRegion==elementId}");
             element.removeAttr("region");
@@ -131,7 +162,18 @@ Videbligo.directive('region', ['$compile', function ($compile) {
 
 Videbligo.filter('map_colour', [function () {
     return function (input) {
-        return "#5b95bc";
+
+        if(input.hover){
+            return "#0000FF";
+        }
+
+        if(input.clicked) {
+            return "#00FF00";
+        } else {
+            return "#FF0000";
+        }
+
+
     }
 }]);
 
