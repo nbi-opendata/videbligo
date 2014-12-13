@@ -1,41 +1,36 @@
 var timeGranularity = {
-    Qurtal   : {
-        name : 'Quartal',
-        size : 0,
-        elements : 0
-    },
-    Jahr     : {
+    jahr           : {
         name : 'Jahr',
         size : 0,
         elements : 0
     },
-    minute   : {
-        name : 'minute',
+    minute      : {
+        name : 'Minute',
+        size : 0,
+        elements : 0
+    },
+    quartal          : {
+        name : 'Quartal',
         size : 0,
         elements : 0
     },
     stunde   : {
-        name : 'stunde',
+        name : 'Bezirksregion',
         size : 0,
         elements : 0
     },
-    Keine    : {
-        name : 'Keine',
+    monat          : {
+        name : 'Monat',
         size : 0,
         elements : 0
     },
-    jahr     : {
-        name : 'jahr',
+    Planungsraum    : {
+        name : 'Planungsraum',
         size : 0,
         elements : 0
     },
-    Others   : {
+    keine          : {
         name : 'Andere',
-        size : 0,
-        elements : 0
-    },
-    monat    : {
-        name : 'monat',
         size : 0,
         elements : 0
     }
