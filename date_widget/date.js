@@ -13,8 +13,11 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             scope.dimDate = {};
             scope.selectedYears = new StringSet();
             scope.svgParams = {};
-            scope.hoveredMonth = "";
-            scope.hoveredValue = "";
+            scope.hover = {};
+            scope.selectionType = {
+                ADD: {},
+                REMOVE: {}
+            };
 
             scope.init = function(){
                 scope.data = MetadataService.getData();
@@ -138,7 +141,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", "0")
                     .attr("height", function(d) { return scope.svgParams.height; })
-                    .attr("ng-mousedown", function(d){ return "toggle("+ d.year+")";})
+                    .attr("ng-mousedown", function(d){ return "handleMouseDown("+ d.year+")";})
                     .attr("ng-class", function(d){ return "{'barbg' : true, 'active': selectedYears.contains("+ d.year+")}";})
                     .attr("ng-mouseover", function(d){ return "handleHover($event, '"+ d.year+"', '"+d.value+"')"})
                     .attr("ng-mouseleave", function(d){ return "resetHovers()"});
@@ -151,7 +154,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .attr("width", scope.svgParams.x.rangeBand())
                     .attr("y", function(d) { return scope.svgParams.y(d.value); })
                     .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(d.value); })
-                    .attr("ng-mousedown", function(d){ return "toggle("+ d.year+")";})
+                    .attr("ng-mousedown", function(d){ return "handleMouseDown("+ d.year+")";})
                     .attr("ng-class", function(d){ return "{'bar': true, 'active': selectedYears.contains("+ d.year+")}";})
                     .attr("ng-mouseover", function(d){ return "handleHover($event, '"+ d.year+"', '"+d.value+"')"})
                     .attr("ng-mouseleave", function(d){ return "resetHovers()"});
@@ -193,26 +196,6 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     }
                 }
             });
-
-            scope.toggle = function(year) {
-                if(scope.selectedYears.contains(year)) {
-                    scope.selectedYears.remove(year);
-                }
-                else {
-                    scope.selectedYears.add(year);
-                }
-
-                if (scope.selectedYears.values().length == 0){
-                    $("#time-chart-reset").css("visibility","hidden");
-                    scope.dimDate.filterAll();
-                }
-                else{
-                    $("#time-chart-reset").css("visibility","visible");
-                    scope.dimDate.filter(scope.filterFunction);
-                }
-
-                MetadataService.triggerUpdate();
-            }
 
             scope.filterFunction = function(d){
                 var years = scope.selectedYears.values();
@@ -283,17 +266,51 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 MetadataService.triggerUpdate();
             }
 
+            scope.handleMouseDown = function (year) {
+                scope.hover.addOrRemove = scope.selectedYears.contains(year) ?
+                                        scope.selectionType.REMOVE :
+                                        scope.selectionType.ADD;
+
+                scope.toggle(year);
+            }
+
+            scope.toggle = function(year) {
+                if(scope.hover.addOrRemove == scope.selectionType.REMOVE) {
+                    scope.selectedYears.remove(year);
+                }
+                else {
+                    scope.selectedYears.add(year);
+                }
+                //if(scope.selectedYears.contains(year)) {
+                //    scope.selectedYears.remove(year);
+                //}
+                //else {
+                //    scope.selectedYears.add(year);
+                //}
+
+                if (scope.selectedYears.values().length == 0){
+                    $("#time-chart-reset").css("visibility","hidden");
+                    scope.dimDate.filterAll();
+                }
+                else{
+                    $("#time-chart-reset").css("visibility","visible");
+                    scope.dimDate.filter(scope.filterFunction);
+                }
+
+                MetadataService.triggerUpdate();
+            }
+
             scope.handleHover = function ($event, year, value) {
-                scope.hoveredYear = year;
-                scope.hoveredValue = value;
+                scope.hover.year = year;
+                scope.hover.value = value;
                 if ($event.which == 1) {
                     scope.toggle(year);
                 }
             }
 
             scope.resetHovers = function () {
-                scope.hoveredYear = "";
-                scope.hoveredValue = "";
+                scope.hover.year = "";
+                scope.hover.value = "";
             }
 
             MetadataService.registerWidget(scope.init);
