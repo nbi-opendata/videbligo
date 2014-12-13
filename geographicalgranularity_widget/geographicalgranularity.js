@@ -13,6 +13,7 @@ Videbligo.directive('geographicalGranularity', ['MetadataService', function(Meta
             scope.geographicalGranularityGroups = null;
             scope.geographicalGranularity = geographicalGranularity;
             scope.maxItemSize = 0;
+            scope.selectedGranularities = new StringSet();
 
             if(attrs.orientation == undefined) {
                 scope.orientation = 'vertical';
@@ -24,6 +25,13 @@ Videbligo.directive('geographicalGranularity', ['MetadataService', function(Meta
             scope.selectGranularity = function(item) {
                 item.active = !item.active;
                 console.log(item);
+                if(scope.selectedGranularities.contains(item.key)){
+                    scope.selectedGranularities.remove(item.key);
+                }else{
+                    scope.selectedGranularities.add(item.key);
+                }
+
+                MetadataService.triggerUpdate();
             };
 
             scope.init = function(){
@@ -45,6 +53,7 @@ Videbligo.directive('geographicalGranularity', ['MetadataService', function(Meta
 
                     var percentage = (scope.geographicalGranularity[key].elements / allData)*100;
                     scope.geographicalGranularity[key].size = Math.ceil(percentage/(100/scope.quantile));
+
                     if(scope.geographicalGranularity[key].size > scope.maxItemSize) {
                         scope.maxItemSize = scope.geographicalGranularity[key].size;
                     }
