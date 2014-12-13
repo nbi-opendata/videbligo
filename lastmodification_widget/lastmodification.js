@@ -110,7 +110,6 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .attr("y", "0")
                     .attr("height", function(d) { return scope.svgParams.height; })
                     .attr("ng-mousedown", function(d){ return "handleMouseDown('"+ d.key+"')";})
-                    .attr("ng-mouseup", function(d){ return "handleMouseUp('"+ d.key+"')";})
                     .attr("ng-class", function(d){ return "{'active': selectedMonths.contains('"+ d.key+"')}";})
                     .attr("ng-mouseover", function(d){ return "handleHover($event, '"+ d.key+"', '"+d.value+"')"})
                     .attr("ng-mouseleave", function(d){ return "resetHovers()"});
@@ -123,7 +122,6 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .attr("y", function(d) { return scope.svgParams.y(d.value); })
                     .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(d.value); })
                     .attr("ng-mousedown", function(d){ return "handleMouseDown('"+ d.key+"')";})
-                    .attr("ng-mouseup", function(d){ return "handleMouseUp('"+ d.key+"')";})
                     .attr("ng-class", function(d){ return "{'bar': true, 'active': selectedMonths.contains('"+ d.key+"')}";})
                     .attr("ng-mouseover", function(d){ return "handleHover($event, '"+ d.key+"', '"+d.value+"')"})
                     .attr("ng-mouseleave", function(d){ return "resetHovers()"});
@@ -189,23 +187,6 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 MetadataService.triggerUpdate();
             }
 
-            scope.handleMouseUp = function (month) {
-                var start = scope.svgParams.initialMonths.indexOf(scope.hover.mouseDownMonth);
-                var end = scope.svgParams.initialMonths.indexOf(month);
-
-                if (start > end){
-                    var temp = end;
-                    end = start;
-                    start = temp;
-                }
-
-                for (var i = start; i <= end; i++) {
-                    scope.toggle(scope.svgParams.initialMonths[i]);
-                }
-
-                MetadataService.triggerUpdate();
-            }
-
             scope.toggle = function(month) {
                 if(scope.hover.selectionType == scope.selectionType.REMOVE) {
                     scope.selectedMonths.remove(month);
@@ -228,7 +209,19 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 scope.hover.month = month;
                 scope.hover.value = value;
                 if ($event.which == 1) {
-                    scope.toggle(month);
+                    var start = scope.svgParams.initialMonths.indexOf(scope.hover.mouseDownMonth);
+                    var end = scope.svgParams.initialMonths.indexOf(month);
+
+                    if (start > end){
+                        var temp = end;
+                        end = start;
+                        start = temp;
+                    }
+
+                    for (var i = start; i <= end; i++) {
+                        scope.toggle(scope.svgParams.initialMonths[i]);
+                    }
+
                     MetadataService.triggerUpdate();
                 }
             }
