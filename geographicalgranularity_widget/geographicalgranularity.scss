@@ -131,6 +131,9 @@ $fontfamily-monospace: 'monospace' !default;
 }
 
 // this is need for if there is no size
+.granularity-title-intent-0 {
+  top: 1/2*$bubble-base-size/2 - $granularity-number-height/2;
+}
 .granularity-size-0 {
   position: relative;
   width: $bubble-base-size/2;
