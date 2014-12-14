@@ -191,7 +191,7 @@ Videbligo.directive('region', ['$compile', function ($compile) {
             //element.attr("ng-attr-fill", "{{dummyData[elementId].value | map_color}}");
             element.attr("ng-mouseover", "regionMouseOver()");
             element.attr("ng-mouseleave", "regionMouseLeave()");
-            element.attr("ng-class", "regionClass()");
+            element.attr("ng-class", "{active:hoverRegion== elementId}");
             element.removeAttr("region");
             $compile(element)(scope);
         }
@@ -208,6 +208,9 @@ Videbligo.directive('region', ['$compile', function ($compile) {
              color = "#0000FF";
          } else{
              color ="#FF0000";
+         }
+         if(input == undefined){
+             color = "#FFFFFF";
          }
 
          return color;
