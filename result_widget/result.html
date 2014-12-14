@@ -131,6 +131,9 @@
         display: block;
     }
 
+    result .details table {
+        width:100%;
+    }
     result .details table tr {
         padding-bottom: 0.5em;
     }
@@ -208,22 +211,22 @@
                 <!--Details Div-->
                 <div class="details" ng-class="{'visible': visibleDetailsDivs.contains($index)}">
                     <table>
-                        <tr>
+                        <tr ng-show='entry.title != null'>
                             <td>Titel</td>
                             <td>{{entry.title}}</td>
                         </tr>
 
-                        <tr>
+                        <tr ng-show='entry.notes != null'>
                             <td>Beschreibung</td>
                             <td><p>{{entry.notes}}</p></td>
                         </tr>
 
-                        <tr>
+                        <tr ng-show='entry.extras["temporal_coverage-from"] != null'>
                             <td>G&uuml;ltig von</td>
                             <td>{{entry.extras["temporal_coverage-from"]}}</td>
                         </tr>
 
-                        <tr>
+                        <tr ng-show='entry.extras["temporal_coverage-to"] != null'>
                             <td>G&uuml;ltig bis</td>
                             <td>{{entry.extras["temporal_coverage-to"]}}</td>
                         </tr>
@@ -247,7 +250,7 @@
                             </td>
                         </tr>
 
-                        <tr>
+                        <tr ng-show='entry.url != null'>
                             <td></td>
                             <td><a href="{{entry.url}}">Zum Datensatz</a></td>
                         </tr>
