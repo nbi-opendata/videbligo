@@ -198,6 +198,7 @@ Videbligo.directive('region', ['$compile', function ($compile) {
                 scope.dummyData[scope.elementId].hover = true;
                 element[0].style.strokeWidth = 4;
                 element[0].style.stroke = "#000";
+
             };
 
             scope.regionMouseLeave = function(){
@@ -224,7 +225,6 @@ Videbligo.directive('region', ['$compile', function ($compile) {
     }
 }]);
 
-
  Videbligo.filter('map_color', [function () {
      return function (input) {
          var color = "#000000";
@@ -240,10 +240,18 @@ Videbligo.directive('region', ['$compile', function ($compile) {
      }
  }]);
 
-
-
-
-
+Videbligo.directive('tooltip', function () {
+    return {
+        restrict:'AE',
+        link: function(scope, element, attrs)
+        {
+            $(element)
+                //.attr('title',scope.$eval(attrs.tooltip))
+                .attr('title',"ABC")
+                .tooltip({placement: "right"});
+        }
+    }
+})
 // Basic color of map
 /*
 Videbligo.filter('map_color', [function () {

@@ -2,11 +2,16 @@
     <h2>Map</h2>
     <ul>
         <div class="row">
-            <div class="panel panel-body" >
+            <div class="panel panel-body">
                 <div svg-map
                      ng-click = "regionChoice()">
-                </div>
+                  </div>
             </div>
+            <li ng-repeat="region in districts" >
+                <a tooltip="region.key">{{region.key}}</a>
+            </li>
+                <h1>Popup1</h1>
+                <a popup-show="map_widget/popup.html">Show popup!</a>
         </div>
     </ul>
 </div>
