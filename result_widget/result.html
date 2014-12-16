@@ -50,15 +50,24 @@
     .icon-umwelt_und_klima:before {content: "\e60e";}
     .icon-verbraucherschutz:before {content: "\e60f";}
 
-    .icon-cross:before { content: "\e616"; }
-    .icon-arrow-down:before { content: "\e617"; }
-    .icon-arrow-up:before { content: "\e618"; }
-    .icon-arrow-down2:before { content: "\e619"; }
-    .icon-arrow-up2:before { content: "\e61a"; }
-    .icon-arrow-down3:before { content: "\e61b"; }
-    .icon-arrow-up3:before { content: "\e61c"; }
-    .icon-arrow-down4:before { content: "\e61d"; }
-    .icon-arrow-up4:before { content: "\e61e"; }
+
+    .icon-cross:before {content: "\e616";}
+    .icon-arrow-left:before {content: "\e61f";}
+    .icon-arrow-down:before {content: "\e617";}
+    .icon-arrow-up:before {content: "\e618";}
+    .icon-arrow-right:before {content: "\e620";}
+    .icon-arrow-left2:before {content: "\e621";}
+    .icon-arrow-down2:before {content: "\e619";}
+    .icon-arrow-up2:before {content: "\e61a";}
+    .icon-arrow-right2:before {content: "\e622";}
+    .icon-arrow-left3:before {content: "\e623";}
+    .icon-arrow-down3:before {content: "\e61b";}
+    .icon-arrow-up3:before {content: "\e61c";}
+    .icon-arrow-right3:before {content: "\e624";}
+    .icon-arrow-left4:before {content: "\e625";}
+    .icon-arrow-down4:before {content: "\e61d";}
+    .icon-arrow-up4:before {content: "\e61e";}
+    .icon-uniE626:before {content: "\e626";}
 
     result ul {
         list-style-type: none;
@@ -261,11 +270,11 @@
             </li>
         </ul>
         <a href="#" data-ng-click="decrementPage();" ng-show="currentPage > 1">
-            <img src="result_widget/prev.svg">
+            <span class="icon-arrow-left2"></span>
         </a>
         {{currentPage}}/{{maxPage}}
         <a href="#" data-ng-click="incrementPage();" ng-show="currentPage < maxPage">
-            <img ng-src="result_widget/next.svg">
+            <span class="icon-arrow-right2"></span>
         </a>
         <br>
         <span ng-repeat="n in [] | paginator:currentPage:maxPage">
