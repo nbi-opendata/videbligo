@@ -228,6 +228,10 @@ Videbligo.directive('region', ['$compile', function ($compile) {
  Videbligo.filter('map_color', [function () {
      return function (input) {
          var color = "#000000";
+         if(input == undefined){
+             return color;
+         }
+
          if (input.clicked) {
              color = "#00FF00";
          } else if(input.hover){
