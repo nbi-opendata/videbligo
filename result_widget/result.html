@@ -260,8 +260,17 @@
 
             </li>
         </ul>
-        <a href="#" data-ng-click="decrementPage();" ng-show="currentPage > 1">prev</a>
+        <a href="#" data-ng-click="decrementPage();" ng-show="currentPage > 1">
+            <img src="result_widget/prev.svg">
+        </a>
         {{currentPage}}/{{maxPage}}
-        <a href="#" data-ng-click="incrementPage();" ng-show="currentPage < maxPage">next</a>
+        <a href="#" data-ng-click="incrementPage();" ng-show="currentPage < maxPage">
+            <img ng-src="result_widget/next.svg">
+        </a>
+        <br>
+        <span ng-repeat="n in [] | paginator:currentPage:maxPage">
+            <a href="#" ng-click="setPage(n)">{{n}}</a>
+        </span>
+
     </div>
 </div>

@@ -63,6 +63,11 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
             scope.decrementPage = function(){
                 scope.currentPage -= 1;
             };
+
+            scope.setPage = function(n)
+            {
+                scope.currentPage = n;
+            }
         }
     };
 }]);
@@ -71,5 +76,23 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
 Videbligo.filter('slice', function() {
     return function(arr, start, number) {
         return (arr || []).slice(Math.max(0,start), Math.min(start+number, arr.length));
+    };
+});
+
+Videbligo.filter('paginator', function() {
+    return function(arr, currentPage, lastPage) {
+        currentPage = parseInt(currentPage);
+        lastPage = parseInt(lastPage);
+        var paginating = 2;
+        var firstPage = 1;
+        firstPage = Math.max(currentPage - paginating, firstPage);
+        lastPage = Math.min(firstPage + paginating * 2, lastPage);
+
+        //build pages
+        for(var i=firstPage; i <= lastPage; i++) {
+            arr.push(i);
+        }
+
+        return arr;
     };
 });
