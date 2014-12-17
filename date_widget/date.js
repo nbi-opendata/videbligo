@@ -80,7 +80,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 scope.updateCurrentMappings();
 
                 scope.svgParams.margin = {top: 20, right: 20, bottom: 30, left: 40},
-                    scope.svgParams.width = 500,
+                    scope.svgParams.width = 400,
                     scope.svgParams.height = 300;
 
                 scope.svgParams.x = d3.scale.ordinal().rangeRoundBands([0, scope.svgParams.width], .1);
@@ -102,8 +102,11 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .orient("left")
                     .tickFormat(d3.format("d"));
 
-                d3.select("#time-chart")
-                    .html('<a id="time-chart-reset" ng-click="resetSelection()" style="cursor: pointer; display: block; visibility: hidden;">reset</a>');
+                d3.select("#time-chart").append("a")
+                    .attr("id", "time-chart-reset")
+                    .attr("ng-click", "resetSelection()")
+                    .attr("style", "cursor: pointer; display: block; visibility: hidden;")
+                    .text("reset");
 
                 scope.svg = d3.select("#time-chart").append("svg")
                     .attr("width", scope.svgParams.width + scope.svgParams.margin.left + scope.svgParams.margin.right)
