@@ -29,13 +29,11 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 });
 
                 scope.dateGroup = scope.dimDate.group().reduce(
-                    //add
                     function (p,v){
                         var from = v.extras["temporal_coverage-from"];
                         var to = v.extras["temporal_coverage-to"];
                         var fromDate = {}
                         var toDate = to == undefined ? new Date() : parseDate(to);
-
                         if (from != undefined){
                             for (var i = parseDate(from).getFullYear(); i <= toDate.getFullYear(); i++){
                                 if (i in p.years){
@@ -48,13 +46,11 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                         }
                         return p;
                     },
-                    //remove
                     function (p,v) {
                         var from = v.extras["temporal_coverage-from"];
                         var to = v.extras["temporal_coverage-to"];
                         var fromDate = {}
                         var toDate = to == undefined ? new Date() : parseDate(to);
-
                         if (from != undefined){
                             for (var i = parseDate(from).getFullYear(); i <= toDate.getFullYear(); i++){
                                 p.years[i]--;
@@ -65,7 +61,6 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                         }
                         return p;
                     },
-                    //initial
                     function (){
                         return {
                             years: {}
@@ -146,8 +141,8 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .attr("height", function(d) { return scope.svgParams.height; })
                     .attr("ng-mousedown", function(d){ return "handleMouseDown('"+ d.year+"')";})
                     .attr("ng-class", function(d){ return "{'barbg' : true, 'active': selectedYears.contains("+ d.year+")}";})
-                    .attr("ng-mouseover", function(d){ return "handleHover($event, '"+ d.year+"', '"+d.value+"')"})
-                    .attr("ng-mouseleave", function(d){ return "resetHovers()"});
+                    .attr("ng-mouseover", function(d){ return "handleHover($event, '"+ d.year+"', '"+d.value+"')";})
+                    .attr("ng-mouseleave", function(d){ return "resetHovers()";});
 
                 onData
                     .enter()
@@ -159,8 +154,8 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(d.value); })
                     .attr("ng-mousedown", function(d){ return "handleMouseDown('"+ d.year+"')";})
                     .attr("ng-class", function(d){ return "{'bar': true, 'active': selectedYears.contains("+ d.year+")}";})
-                    .attr("ng-mouseover", function(d){ return "handleHover($event, '"+ d.year+"', '"+d.value+"')"})
-                    .attr("ng-mouseleave", function(d){ return "resetHovers()"});
+                    .attr("ng-mouseover", function(d){ return "handleHover($event, '"+ d.year+"', '"+d.value+"')";})
+                    .attr("ng-mouseleave", function(d){ return "resetHovers()";});
 
                 $compile(angular.element('#time-chart'))(scope);
             }
@@ -174,8 +169,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .tickFormat(d3.format("d"))
                     .orient("left");
 
-                scope.svg.select("g .y.axis")
-                    .call(scope.svgParams.yAxis);
+                scope.svg.select("g .y.axis").call(scope.svgParams.yAxis);
 
                 var minMappings = {};
                 for (var key in scope.svgParams.currentMappings){
@@ -246,7 +240,6 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                                     scope.availableFrom = ds.extras["temporal_coverage-from"];
                                 }
                             }
-
                             if (ds.extras["temporal_coverage-to"] != undefined){
                                 if (latest < parseDate(ds.extras["temporal_coverage-to"])){
                                     latest = parseDate(ds.extras["temporal_coverage-to"]);
