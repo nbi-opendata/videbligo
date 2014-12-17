@@ -32,6 +32,10 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                     scope.dataTemp[region] = ({key:region, value: value, hover:false, clicked:false});
                 })
                 scope.dummyData = scope.dataTemp;
+                d3.select("#mapInfoBox")
+                    .html('<div id="mapChart" ng-click="resetSelection()" style="position:absolute; right:30%;  visibility:hidden; border:2px solid cornflowerblue; background-color:yellow;">' +
+                    'WRECK IT RALPH!!!  ' + scope.dataTemp["Lichtenberg"].value +
+                    '</div>');
             };
 
             MetadataService.registerWidget(scope.init);
@@ -50,51 +54,6 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
 
 
             scope.regionChoice = function(key) {
-                /*
-                 if(scope.selected_map.contains(key)){
-                 scope.selected_map.remove(key);
-                 =======
-                 scope.regionChoice = function(index){
-                 if(scope.selected_map.contains(index)){
-                 scope.selected_map.remove(index);
-                 }else {
-                 scope.selected_map.add(index);
-                 }
-                 var filterFunction = function(d) {
-                 var tmp = d.filter(function(n) {
-                 return scope.selected_map.contains(n);
-                 });
-                 return tmp.length > 0;
-                 };
-                 if(scope.selected_map.values().length == 0) {
-                 scope.dimRegion.filterAll();
-
-                 }else{
-                 scope.dimRegion.filter(filterFunction);
-                 }
-
-
-                 var filterFunction = function(d) {
-                 var tmp = d.filter(function(n) {
-                 return scope.selected_map.contains(n);
-                 });
-                 return tmp.length > 0;
-                 };
-
-                 if(scope.selected_map.values().length == 0) {
-                 scope.dimRegion.filterAll();
-                 }else{
-                 scope.dimRegion.filter(filterFunction);
-                 }
-                 */
-
-                /*
-                 var checkedRegion = [];
-                 for(var key in scope.districts)
-                 if(scope.districts[key].checked)
-                 checkedRegion.push(scope.districts[key].key);
-
-                 */
 
                 var checkedRegion = [];
                 for (var obj in scope.dummyData)
@@ -111,13 +70,6 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                 } else {
                     scope.dimRegion.filterAll();
                 }
-
-
-                /*
-                scope.dimRegion.filter(function(d){
-                    return checkedRegion.indexOf(d) != -1;
-                });
-                */
 
                 MetadataService.triggerUpdate();
             };
@@ -177,33 +129,42 @@ Videbligo.directive('region', ['$compile', function ($compile) {
         link: function (scope, element, attrs) {
             // scope.selected_map = new StringSet();
             scope.elementId = element.attr("id");
+            scope.colorUnclicked = "#FF0000";
+            scope.colorClicked = "#00FF00";
+            scope.colorHover = "#0000FF";
 
             scope.regionClick = function () {
                 scope.dummyData[scope.elementId].clicked = !scope.dummyData[scope.elementId].clicked;
-                //alert(scope.dummyData[scope.elementId].value);
-                /*
-                if(scope.selected_map.contains(scope.dummyData[scope.elementId].value)){
-                    scope.selected_map.remove(scope.dummyData[scope.elementId].value);
-                    element[0].setAttribute("fill", "#5b95bc");
-                }else{
-                    scope.selected_map.add(scope.dummyData[scope.elementId].value);
-                    element[0].setAttribute("fill", "#C58D7E");
+                if(element[0].getAttribute("fill") !=scope.colorClicked){
+                    element[0].setAttribute("fill", scope.colorClicked);
                 }
-                */
-
+                else{
+                    element[0].setAttribute("fill", scope.colorHover);
+                }
             };
+
             scope.regionMouseOver = function () {
                 scope.hoverRegion = scope.elementId;
                 element[0].parentNode.appendChild(element[0]);
                 scope.dummyData[scope.elementId].hover = true;
                 element[0].style.strokeWidth = 2.5;
                 element[0].style.stroke = "#000";
+
+                if(element[0].getAttribute("fill") !=scope.colorClicked){
+                    element[0].setAttribute("fill", scope.colorHover);
+                }
+               d3.select("#mapChart").text(scope.elementId + "(" + scope.dummyData[scope.elementId].value + ")");
+               $("#mapChart").css("visibility", "visible");
             };
 
             scope.regionMouseLeave = function(){
                 scope.dummyData[scope.elementId].hover = false;
                 element[0].style.strokeWidth = 2;
                 element[0].style.stroke = "#fff";
+                if(element[0].getAttribute("fill") !=scope.colorClicked){
+                    element[0].setAttribute("fill", scope.colorUnclicked);
+                }
+                $("#mapChart").css("visibility", "hidden");
             }
 
             /*
@@ -226,15 +187,7 @@ Videbligo.directive('region', ['$compile', function ($compile) {
 
  Videbligo.filter('map_color', [function () {
      return function (input) {
-         var color = "#000000";
-         if (input.clicked) {
-             color = "#00FF00";
-         } else if(input.hover){
-             color = "#0000FF";
-         } else{
-             color ="#FF0000";
-         }
-
+         var color = "#FF0000";
          return color;
      }
  }]);
