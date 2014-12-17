@@ -39,9 +39,15 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     scope.svgParams.initialMonths.push(scope.lastModGroup.all()[i].key);
                 }
 
-                scope.svgParams.margin = {top: 20, right: 20, bottom: 50, left: 40};
-                scope.svgParams.width = 400;
-                scope.svgParams.height = 300;
+                /*
+                 - oben und rechts braucht man keine Abstaende
+                 (1px muss wegen des kleinen vertikalen Strichs am Ende der x-Achse da sein)
+                 - kleinere Unten- und Linkswerte schneiden die Achsenbeschriftungen ab
+                 - NUR mit der Breite und Hoehe darf fuer die Anpassung gespielt werden
+                 */
+                scope.svgParams.margin = {top: 0, right: 1, bottom: 50, left: 27};
+                scope.svgParams.width = 500;
+                scope.svgParams.height = 200;
 
                 scope.svgParams.x = d3.scale.ordinal().rangeRoundBands([0, scope.svgParams.width], .1);
                 scope.svgParams.y = d3.scale.linear().range([scope.svgParams.height, 0]);
