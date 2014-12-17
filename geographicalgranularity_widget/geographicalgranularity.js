@@ -61,7 +61,7 @@ Videbligo.directive('geographicalgranularity', ['MetadataService', function(Meta
                 scope.data = MetadataService.getData();
                 scope.geographicalDimension = scope.data.dimension(function(d){
                     if(d.extras != undefined && d.extras.geographical_granularity != undefined) {
-                        return d.extras.geographical_granularity;
+                        return d.extras.geographical_granularity.toLowerCase();
                     } else {
 
                         return "";
