@@ -196,9 +196,8 @@ Videbligo.directive('region', ['$compile', function ($compile) {
                 scope.hoverRegion = scope.elementId;
                 element[0].parentNode.appendChild(element[0]);
                 scope.dummyData[scope.elementId].hover = true;
-                element[0].style.strokeWidth = 4;
+                element[0].style.strokeWidth = 2.5;
                 element[0].style.stroke = "#000";
-
             };
 
             scope.regionMouseLeave = function(){
@@ -246,8 +245,8 @@ Videbligo.directive('tooltip', function () {
         link: function(scope, element, attrs)
         {
             $(element)
-                //.attr('title',scope.$eval(attrs.tooltip))
-                .attr('title',"ABC")
+                .attr('title',scope.$eval(attrs.tooltip))
+                //.attr('title', element.attr("id"))
                 .tooltip({placement: "right"});
         }
     }

@@ -10,6 +10,9 @@
             <li ng-repeat="region in districts" >
                 <a tooltip="region.key">{{region.key}}</a>
             </li>
+            <li ng-repeat="region in districts" >
+                <a popup-show="map_widget/popup.html">{{region.key}}</a>
+            </li>
                 <h1>Popup1</h1>
                 <a popup-show="map_widget/popup.html">Show popup!</a>
         </div>
