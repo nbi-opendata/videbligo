@@ -32,7 +32,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     function (p,v){
                         var from = v.extras["temporal_coverage-from"];
                         var to = v.extras["temporal_coverage-to"];
-                        var fromDate = {}
+                        var fromDate = {};
                         var toDate = to == undefined ? new Date() : parseDate(to);
                         if (from != undefined){
                             for (var i = parseDate(from).getFullYear(); i <= toDate.getFullYear(); i++){
@@ -49,7 +49,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     function (p,v) {
                         var from = v.extras["temporal_coverage-from"];
                         var to = v.extras["temporal_coverage-to"];
-                        var fromDate = {}
+                        var fromDate = {};
                         var toDate = to == undefined ? new Date() : parseDate(to);
                         if (from != undefined){
                             for (var i = parseDate(from).getFullYear(); i <= toDate.getFullYear(); i++){
@@ -69,7 +69,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 );
 
                 scope.initSvg();
-            }
+            };
 
             scope.initSvg = function(){
                 scope.updateCurrentMappings();
@@ -164,7 +164,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .attr("ng-mouseleave", function(d){ return "resetHovers()";});
 
                 $compile(angular.element('#time-chart'))(scope);
-            }
+            };
 
             scope.$on('filterChanged', function() {
                 scope.updateCurrentMappings();
@@ -217,7 +217,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     }
                 }
                 return false;
-            }
+            };
 
             scope.updateCurrentMappings = function(){
                 var yearsAndNumbers = scope.dateGroup.top(1)[0].value.years;
@@ -255,14 +255,14 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                         }
                     }
                 }
-            }
+            };
 
             scope.resetSelection = function (e) {
                 $("#time-chart-reset").css("visibility","hidden");
                 scope.selectedYears.clear();
                 scope.dimDate.filterAll();
                 MetadataService.triggerUpdate();
-            }
+            };
 
             scope.handleMouseDown = function (year) {
                 scope.hover.selectionType = scope.selectedYears.contains(year) ?
@@ -271,7 +271,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 scope.hover.mouseDownYear = year;
                 scope.toggle(year);
                 MetadataService.triggerUpdate();
-            }
+            };
 
             scope.toggle = function(year) {
                 if(scope.hover.selectionType == scope.selectionType.REMOVE) {
@@ -289,7 +289,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     $("#time-chart-reset").css("visibility","visible");
                     scope.dimDate.filter(scope.filterFunction);
                 }
-            }
+            };
 
             scope.handleHover = function ($event, year, value) {
                 scope.hover.year = year;
@@ -310,12 +310,12 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     scope.hover.mouseDownYear = year;
                     MetadataService.triggerUpdate();
                 }
-            }
+            };
 
             scope.resetHovers = function () {
                 scope.hover.year = "";
                 scope.hover.value = "";
-            }
+            };
 
             MetadataService.registerWidget(scope.init);
         }
