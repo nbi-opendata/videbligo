@@ -13,6 +13,10 @@
 
     <!-- Videbligo imports -->
     <link rel="stylesheet" type="text/css" href="map_widget/map.css"/>
+    <link rel="stylesheet" type="text/css" href="timegranularity_widget/timegranularity.css"/>
+    <link rel="stylesheet" type="text/css" href="geographicalgranularity_widget/geographicalgranularity.css"/>
+    <script type="text/javascript" src="timegranularity_widget/mapping.js"></script>
+    <script type="text/javascript" src="geographicalgranularity_widget/mapping.js"></script>
     <script type="text/javascript" src="videbligo.js"></script>
     <script type="text/javascript" src="search_widget/search.js"></script>
     <script type="text/javascript" src="result_widget/result.js"></script>
@@ -20,6 +24,8 @@
     <script type="text/javascript" src="category_widget/category.js"></script>
     <script type="text/javascript" src="map_widget/map.js"></script>
     <script type="text/javascript" src="lastmodification_widget/lastmodification.js"></script>
+    <script type="text/javascript" src="timegranularity_widget/timegranularity.js"></script>
+    <script type="text/javascript" src="geographicalgranularity_widget/geographicalgranularity.js"></script>
 </head>
 <body data-ng-app="Videbligo">
     <div style="float:left;">
@@ -40,6 +46,17 @@
     <div style="margin-left:50px; float:left;">
         <category></category>
     </div>
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-lg-6">
+            <timegranularity></timegranularity>
+        </div>
+        <div class="col-lg-6">
+            <geographicalgranularity></geographicalgranularity>
+        </div>
+
+    </div>
+
     <div style="clear:both" >
         <map></map>
     </div>
