@@ -74,18 +74,19 @@
         padding: 0;
     }
 
-    result li {
+    result .result-list li {
         vertical-align: middle;
         padding: 0.25em;
         border-color: black;
         border-style: solid;
     }
 
-    result li {
+    result .result-list li {
         border-width: 1px 1px 0 1px;
     }
 
-    result li:last-child {
+
+    result .result-list li:last-child {
         border-bottom-width: 1px;
     }
 
@@ -169,7 +170,6 @@
 
 
 </style>
-
 <div>
     <h1>Ergebnisliste</h1>
 
@@ -180,12 +180,10 @@
             <option value="age">Newest</option>
         </select>
     </div>
-
     <div>
-
-        <ul>
-            <li class="result"
-                data-ng-repeat="entry in entries | orderBy:orderProp | slice:(currentPage-1)*elementsPerPage:elementsPerPage">
+        <dir-pagination-controls template-url="bower_components/angular-utils-pagination/dirPagination.tpl.html"></dir-pagination-controls>
+        <ul class="result-list">
+            <li dir-paginate="entry in entries  | itemsPerPage: elementsPerPage">
 
                 <div data-ng-click="toggleVisible($index)" class="result-row">
                     <div class="result-row-container">
@@ -269,17 +267,6 @@
 
             </li>
         </ul>
-        <a href="#" data-ng-click="decrementPage();" ng-show="currentPage > 1">
-            <span class="icon-arrow-left2"></span>
-        </a>
-        {{currentPage}}/{{maxPage}}
-        <a href="#" data-ng-click="incrementPage();" ng-show="currentPage < maxPage">
-            <span class="icon-arrow-right2"></span>
-        </a>
-        <br>
-        <span ng-repeat="n in [] | paginator:currentPage:maxPage">
-            <a href="#" ng-click="setPage(n)">{{n}}</a>
-        </span>
 
     </div>
 </div>
