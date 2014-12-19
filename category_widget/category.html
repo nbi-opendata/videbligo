@@ -54,6 +54,7 @@
         -moz-column-count: 6;
         -webkit-column-count: 6;
         column-count: 6;
+        padding: 0;
     }
 
     ul.category_matrix li {
@@ -82,14 +83,19 @@
     <h2>Kategorien</h2>
 
     <ul class="category_matrix">
-        <li ng-repeat="(key,value) in category_mapping">
+        <li ng-repeat="(key,value) in category_mapping"
+            ng-mouseover="$parent.hovered_category=key"
+            ng-mouseleave="$parent.hovered_category='none'">
             <span class="category_icon icon-{{key}}" title="{{value}}"
                   ng-click="toggle(key)"
-                  ng-mouseover="$parent.hovered_category=key"
                   ng-class="{'active': selected_categories.contains(key)}"></span>
         </li>
     </ul>
-    <span>{{category_mapping[hovered_category]}} ({{categories[hovered_category].size}})</span>
+
+    <div ng-switch on="hovered_category">
+        <span ng-switch-default>{{category_mapping[hovered_category]}} ({{categories[hovered_category].size}})</span>
+        <span ng-switch-when="none">&nbsp;</span>
+    </div>
 
     <!--
     <div>
