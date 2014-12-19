@@ -17,7 +17,7 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
                 }
                 scope.category_mapping = category_mapping;
                 scope.selected_categories = new StringSet();
-                scope.hovered_category = '';
+                scope.hovered_category = 'none';
             };
 
             MetadataService.registerWidget(scope.init);
