@@ -39,18 +39,26 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .xUnits(d3.time.months);
 
                 chart.on("filtered", function(chart, filter){//SUPER MEGA HACKY, besserer weg muss her
-                    if(!scope.triggerInProgress){
-                        scope.triggerInProgress = true;
-                        setTimeout(function(){
-                            scope.triggerInProgress = false;
-                            MetadataService.triggerUpdate();
-                        }, 1000);
-                    }
-
+                    //if(!scope.triggerInProgress){
+                    //    scope.triggerInProgress = true;
+                    //    setTimeout(function(){
+                    //        scope.triggerInProgress = false;
+                    //    }, 1000);
+                    //}
+                    //console.log('whoooop whooop');
+                    //console.log(filter);
+                    //MetadataService.triggerUpdate();
                 });
 
                 chart.render();
                 scope.chart = chart;
+
+
+                scope.lastModMouseUp = function() {
+                    console.log('mouseup');
+                    MetadataService.triggerUpdate();
+                };
+
             }
 
 
