@@ -20,14 +20,11 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 var last = new Date(scope.dimLastMod.top(1)[0].metadata_modified);
                 var first = new Date(scope.dimLastMod.bottom(1)[0].metadata_modified);
 
-                var yMax = d3.max(scope.groupLastMod.all(), function(d) { return d.value; });
-                var chart = dc.barChart('#last-modification-chart');
-
                 scope.debounceTriggerUpdate = debounce(function () {
-                    console.log("executing");
-                    MetadataService.triggerUpdate();
-                }, 500);
+                    MetadataService.triggerUpdate(this);
+                }, 250);
 
+                var chart = dc.barChart('#last-modification-chart');
                 chart.width(600)
                     .height(200)
                     .margins({top: 0, right: 50, bottom: 20, left: 40})
@@ -46,14 +43,11 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     scope.debounceTriggerUpdate();
                 });
 
-                $compile(angular.element("#last-modification-chart"))(scope);
                 chart.render();
-                scope.chart = chart;
             }
 
 
             scope.$on('filterChanged', function() {
-                scope.chart.render();
             });
 
 

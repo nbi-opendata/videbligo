@@ -1,6 +1,6 @@
 var Videbligo = angular.module('Videbligo', ['angularUtils.directives.dirPagination']);
 
-Videbligo.service('MetadataService', ["$rootScope", "$location", "$http", function ($rootScope, $location, $http) {
+Videbligo.service('MetadataService', ["$rootScope", "$location", "$http", "$timeout", function ($rootScope, $location, $http, $timeout) {
     var crossData = null;
     var all = null;
     var initCallbacks = [];
@@ -34,7 +34,8 @@ Videbligo.service('MetadataService', ["$rootScope", "$location", "$http", functi
     }
 
     this.triggerUpdate = function () {
-        $rootScope.$broadcast('filterChanged');
+        $timeout(function() {$rootScope.$broadcast('filterChanged');}, 0);
+        dc.redrawAll();
     }
 
     this.length = function () {
