@@ -1,57 +1,8 @@
-<style>
-
-
-    .bar {
-        fill: #000;
-        /*fill: steelblue;*/
-    }
-
-    .bar:hover {
-        fill: #99CC00;
-        /*fill: brown;*/
-    }
-
-    .bar.active {
-        fill: #7f99b2;
-        /*fill: green;*/
-    }
-
-    .bar.active:hover {
-        fill: #608000;
-    }
-
-    .barbg {
-        fill-opacity: 0.0;
-    }
-    .barbg.active {
-        fill-opacity: 0.1;
-    }
-    .barbg:hover {
-        fill-opacity: 1;
-        fill: #99CC00;
-    }
-
-    .axis {
-        font: 10px sans-serif;
-    }
-
-    .axis path,
-    .axis line {
-        fill: none;
-        stroke: #000;
-        shape-rendering: crispEdges;
-    }
-
-    .x.axis path {
-        display: block;
-    }
-
-</style>
 
 <h2>Letzte Änderung</h2>
 
 <div class="d3-example">
-    <div id="last-modification-chart" ng-mouseup="lastModMouseUp()">
+    <div id="last-modification-chart">
     </div>
     <span>{{hover.month}}&nbsp;{{hover.value}}</span>
 </div>
