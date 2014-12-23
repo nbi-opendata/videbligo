@@ -20,11 +20,14 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 var last = new Date(scope.dimLastMod.top(1)[0].metadata_modified);
                 var first = new Date(scope.dimLastMod.bottom(1)[0].metadata_modified);
 
-                dc.constants.EVENT_DELAY = 100;
-
+                var yMax = d3.max(scope.groupLastMod.all(), function(d) { return d.value; });
                 var chart = dc.barChart('#last-modification-chart');
 
-                var yMax = d3.max(scope.groupLastMod.all(), function(d) { return d.value; });
+                scope.debounceTriggerUpdate = debounce(function () {
+                    console.log("executing");
+                    MetadataService.triggerUpdate();
+                }, 500);
+
                 chart.width(600)
                     .height(200)
                     .margins({top: 0, right: 50, bottom: 20, left: 40})
@@ -38,27 +41,14 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .round(d3.time.month.round)
                     .xUnits(d3.time.months);
 
-                chart.on("filtered", function(chart, filter){//SUPER MEGA HACKY, besserer weg muss her
-                    //if(!scope.triggerInProgress){
-                    //    scope.triggerInProgress = true;
-                    //    setTimeout(function(){
-                    //        scope.triggerInProgress = false;
-                    //    }, 1000);
-                    //}
-                    //console.log('whoooop whooop');
-                    //console.log(filter);
-                    //MetadataService.triggerUpdate();
+                chart.on("filtered", function(chart, filter){
+                    console.log("debouncing");
+                    scope.debounceTriggerUpdate();
                 });
 
+                $compile(angular.element("#last-modification-chart"))(scope);
                 chart.render();
                 scope.chart = chart;
-
-
-                scope.lastModMouseUp = function() {
-                    console.log('mouseup');
-                    MetadataService.triggerUpdate();
-                };
-
             }
 
 
@@ -71,3 +61,18 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
         }
     };
 }]);
+
+function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+        var context = this, args = arguments;
+        var later = function() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+}
