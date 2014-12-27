@@ -7,7 +7,6 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
         link: function(scope, element, attrs) {
             scope.groupLastMod = {};
             scope.dimLastMod = {};
-            scope.triggerInProgress = false;
 
             scope.init = function(){
                 scope.data = MetadataService.getData();
