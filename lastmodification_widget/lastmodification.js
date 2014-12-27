@@ -38,7 +38,6 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .xUnits(d3.time.months);
 
                 chart.on("filtered", function(chart, filter){
-                    console.log("debouncing");
                     scope.debounceTriggerUpdate();
                 });
 
