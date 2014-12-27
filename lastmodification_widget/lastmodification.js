@@ -24,6 +24,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 }, 250);
 
                 var chart = dc.barChart('#last-modification-chart');
+                scope.chart = chart;
                 chart.width(600)
                     .height(200)
                     .margins({top: 0, right: 50, bottom: 20, left: 40})
@@ -46,6 +47,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
 
 
             scope.$on('filterChanged', function() {
+                scope.chart.redraw();
             });
 
 

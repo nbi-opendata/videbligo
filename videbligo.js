@@ -35,7 +35,6 @@ Videbligo.service('MetadataService', ["$rootScope", "$location", "$http", "$time
 
     this.triggerUpdate = function () {
         $timeout(function() {$rootScope.$broadcast('filterChanged');}, 0);
-        dc.redrawAll();
     }
 
     this.length = function () {
