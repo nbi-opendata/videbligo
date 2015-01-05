@@ -154,13 +154,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
 
             scope.$on('filterChanged', function() {
-                //var first = scope.groupWrapper.all()[0].key;
-                //var length = scope.groupWrapper.size();
-                //var last = scope.groupWrapper.all()[length-1].key;
-
-                //scope.chart.x(d3.scale.linear().domain([first, last]));
                 scope.chart.redraw();
-                scope.chart.redrawBrush();
             });
 
             MetadataService.registerWidget(scope.init);
