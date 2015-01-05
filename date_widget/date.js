@@ -17,7 +17,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 d = d[0].value;
                 for(var key in d){
                     var v = {
-                        'key': key,
+                        'key': parseInt(key),
                         'value': d[key]
                     }
                     groupValues.push(v)
@@ -120,12 +120,14 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .margins({top: 0, right: 50, bottom: 20, left: 40})
                     .dimension(scope.dimDate)
                     .group(scope.groupWrapper)
+                    .elasticX(true)
                     .elasticY(true)
-                    .centerBar(true)
                     .gap(1)
-                    .round(d3.round())
+                    .round(dc.round.floor)
                     .transitionDuration(1000)
                     .x(d3.scale.linear().domain([first, last]));
+                //so the x axis has no limiter in the years
+                chart.xAxis().tickFormat(function (v) {return v;});
 
                 chart.on("filtered", function(chart, filter){
                     scope.debounceTriggerUpdate(chart, filter);
