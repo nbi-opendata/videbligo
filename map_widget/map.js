@@ -28,20 +28,21 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                 scope.dimRegion = scope.RegData.dimension(function(d){return d.extras['geographical_coverage'];});
                 scope.groupRegion = scope.dimRegion.groupAll().reduce(scope.reduceAdd, scope.reduceRemove, scope.reduceInitial);
 
-                // Daten von den Regionen in ein Array stecken
+                // Daten(Name, Anzahl der Datensätze ) von den Regionen in eine Liste stecken
                 scope.regionsAll.forEach(function(region){
                     var value = 0;
                     if(scope.groupRegion.value()[region] != undefined) {
                         value = scope.groupRegion.value()[region];
                     }
-                    scope.districts.push({key:region , value: value, checked: true });
-                    scope.dataTemp[region] = ({key:region, value: value});
+                    scope.districts.push({key:region , value: value});
+                    scope.dataTemp[region] = ({key:region, value: value, clicked:false});
                 })
                 scope.regionData = scope.dataTemp;
             };
 
             MetadataService.registerWidget(scope.init);
 
+            // Hier werden die Werte geupdatet, wenn ein neuer Filter irgendwo gesetzt wird
             scope.$on('filterChanged', function() {
                 scope.districts.forEach(function(district) {
                     var value = 0;
@@ -49,11 +50,13 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                         value = scope.groupRegion.value()[district.key];
                     }
                     district.value = value;
-                    // test
                     scope.regionData[district.key].value = value;
                 });
             });
 
+            // Wir setzen einen boolean, falls eine Region ausgewählt wird.
+            // Über diesen boolean, können über alle ausgewählten regionen iterieren und dann auf diesen Filtern
+            // Falls keine Region ausgewählt ist, werden die Filter zurückgesetzt
             scope.regionChoice = function(key) {
                 var checkedRegion = [];
                 for (var obj in scope.regionData)
@@ -74,6 +77,7 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                 MetadataService.triggerUpdate();
             };
 
+            // Eigene Reduce-Funktionen zum individuellen Gruppieren
             scope.reduceAdd = function(p, v) {
                 var val = v.extras['geographical_coverage'];
                 if(val === undefined || val === null)
@@ -128,14 +132,9 @@ Videbligo.directive('region', ['$compile', function ($compile) {
         link: function (scope, element, attrs) {
             scope.elementId = element.attr("id");
 
-            // Hier kann man die Farbe der Karte ändern
-            /*
-             scope.colorUnclicked = '#FF0000';
-             scope.colorClicked = '#00FF00';
-             scope.colorHover = '#0000FF';
-             */
-
+            // Falls eine Region angeklickt wird, setzen wir einen boolean um den Zustand zu speichern und ändern die Farbe
             scope.regionClick = function () {
+                scope.regionData[scope.elementId].clicked = !scope.regionData[scope.elementId].clicked;
                 if(element[0].getAttribute("fill") !=colorClicked){
                     element[0].setAttribute("fill", colorClicked);
                 }
@@ -144,6 +143,7 @@ Videbligo.directive('region', ['$compile', function ($compile) {
                 }
             };
 
+            // Beim Hover / MouseOver verändern wir die Farbe der Region und zeigen das div pop-up an
             scope.regionMouseOver = function () {
                 scope.hoverRegion = scope.elementId;
                 element[0].parentNode.appendChild(element[0]);
@@ -157,6 +157,7 @@ Videbligo.directive('region', ['$compile', function ($compile) {
                 $('#mapChart').css('visibility', 'visible');
             };
 
+            // Beim MouseLeave setzen wir die richtige Farbe durch einen Vergleich
             scope.regionMouseLeave = function(){
                 element[0].style.strokeWidth = 2;
                 element[0].style.stroke = '#fff';
@@ -166,6 +167,7 @@ Videbligo.directive('region', ['$compile', function ($compile) {
                 $('#mapChart').css('visibility', 'hidden');
             }
 
+            // Hier werden Funktionen zugeordnet
             element.attr('ng-click', 'regionClick()');
             element.attr('ng-attr-fill', '{{regionData[elementId] | map_color}}');
             element.attr('ng-mouseover', 'regionMouseOver()');
@@ -177,23 +179,10 @@ Videbligo.directive('region', ['$compile', function ($compile) {
     }
 }]);
 
+// Initialisierungsfarbe der Regionen.
 Videbligo.filter('map_color', [function () {
     return function (input) {
-
-        // Initialisierungsfarbe der Regionen. Sollte äquivalent zu colorUnclicked sein
-        // var color = '#FF0000';
         return colorUnclicked;
     }
 }]);
 
-Videbligo.directive('tooltip', function () {
-    return {
-        restrict:'AE',
-        link: function(scope, element, attrs)
-        {
-            $(element)
-                .attr('title',scope.$eval(attrs.tooltip))
-                .tooltip({placement: 'right'});
-        }
-    }
-})
