@@ -177,13 +177,13 @@
 <div>
     <h1>Ergebnisliste</h1>
 
-    sort by :
-    <div>
-        <select ng-model="orderProp">
-            <option value="name">Alphabetical</option>
-            <option value="age">Newest</option>
-        </select>
-    </div>
+    <!--sort by :-->
+    <!--<div>-->
+        <!--<select ng-model="orderProp">-->
+            <!--<option value="name">Alphabetical</option>-->
+            <!--<option value="age">Newest</option>-->
+        <!--</select>-->
+    <!--</div>-->
     <div>
         <div style="display: table; margin: 0 auto;">
             <dir-pagination-controls template-url="bower_components/angular-utils-pagination/dirPagination.tpl.html"></dir-pagination-controls>
@@ -257,7 +257,7 @@
                         </tr>
 
                         <tr>
-                            <td>Kategorie</td>
+                            <td>Kategorie{{entry.groups.length > 1 ? 'n':''}}</td>
                             <td>
                                 <span class="details-category" data-ng-repeat="group in entry.groups">{{category_mapping[group]}}</span>
                             </td>
