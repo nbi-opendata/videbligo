@@ -51,12 +51,35 @@
     .icon-verbraucherschutz:before {content: "\e60f";}
 
     ul.category_matrix {
-        -moz-column-count: 6;
-        -webkit-column-count: 6;
-        column-count: 6;
+        -moz-column-count: {{numberOfColumns}};
+        -webkit-column-count: {{numberOfColumns}};
+        column-count: {{numberOfColumns}};
         padding: 0;
     }
 
+    .columns-1 {
+        width: 42px;
+    }
+
+    .columns-2 {
+        width: 84px;
+    }
+
+    .columns-3 {
+        width: 126px;
+    }
+
+    .columns-4 {
+        width: 168px;
+    }
+
+    .columns-5 {
+        width: 210px;
+    }
+
+    .columns-6 {
+        width: 252px;
+    }
     ul.category_matrix li {
         padding-bottom: 1em;
     }
@@ -79,7 +102,7 @@
 
 
 </style>
-<div>
+<div class="columns-{{numberOfColumns}}">
     <h2>Kategorien</h2>
 
     <ul class="category_matrix">
@@ -91,21 +114,9 @@
                   ng-class="{'active': selected_categories.contains(key)}"></span>
         </li>
     </ul>
+</div>
 
-    <div ng-switch on="hovered_category">
-        <span ng-switch-default>{{category_mapping[hovered_category]}} ({{categories[hovered_category].size}})</span>
-        <span ng-switch-when="none">&nbsp;</span>
-    </div>
-
-    <!--
-    <div>
-        <strong>selected:</strong>
-        <ul>
-            <li data-ng-repeat="key in selected_categories.values()">
-                {{category_mapping[key]}} ({{categories[key].size}})
-            </li>
-        </ul>
-    </div>
-    -->
-
+<div class="columns-{{numberOfColumns}}" ng-switch on="hovered_category">
+    <span ng-switch-default>{{category_mapping[hovered_category]}} ({{categories[hovered_category].size}})</span>
+    <span ng-switch-when="none">&nbsp;</span>
 </div>

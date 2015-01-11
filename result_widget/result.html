@@ -177,13 +177,13 @@
 <div>
     <h1>Ergebnisliste</h1>
 
-    sort by :
-    <div>
-        <select ng-model="orderProp">
-            <option value="name">Alphabetical</option>
-            <option value="age">Newest</option>
-        </select>
-    </div>
+    <!--sort by :-->
+    <!--<div>-->
+        <!--<select ng-model="orderProp">-->
+            <!--<option value="name">Alphabetical</option>-->
+            <!--<option value="age">Newest</option>-->
+        <!--</select>-->
+    <!--</div>-->
     <div>
         <div style="display: table; margin: 0 auto;">
             <dir-pagination-controls template-url="bower_components/angular-utils-pagination/dirPagination.tpl.html"></dir-pagination-controls>
@@ -191,7 +191,7 @@
         <ul class="result-list">
             <li dir-paginate="entry in entries  | itemsPerPage: elementsPerPage">
 
-                <div data-ng-click="toggleVisible($index)" class="result-row">
+                <div data-ng-click="toggleVisible(entry.id)" class="result-row">
                     <div class="result-row-container">
 
                         <!--Category Icons-->
@@ -206,7 +206,7 @@
                         <div class="result-col-3">
                             <span class="toggle-arrow">
                                <span class="toggle-icon"
-                                     ng-class="{'icon-arrow-up': visibleDetailsDivs.contains($index), 'icon-arrow-down': true}">
+                                     ng-class="{'icon-arrow-up': visibleDetailsDivs.contains(entry.id), 'icon-arrow-down': true}">
                                </span>
                             </span>
                         </div>
@@ -222,7 +222,7 @@
                 </div>
 
                 <!--Details Div-->
-                <div class="details" ng-class="{'visible': visibleDetailsDivs.contains($index)}">
+                <div class="details" ng-class="{'visible': visibleDetailsDivs.contains(entry.id)}">
                     <table>
                         <tr ng-show='entry.title != null'>
                             <td>Titel</td>
@@ -257,7 +257,7 @@
                         </tr>
 
                         <tr>
-                            <td>Kategorie</td>
+                            <td>Kategorie{{entry.groups.length > 1 ? 'n':''}}</td>
                             <td>
                                 <span class="details-category" data-ng-repeat="group in entry.groups">{{category_mapping[group]}}</span>
                             </td>

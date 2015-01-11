@@ -3,9 +3,13 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
     return {
         restrict: 'AE',
         templateUrl: 'category_widget/category.html',
-        scope: {},
+        scope: {
+            numberOfColumns: '@'
+        },
         link: function(scope, element, attrs) {
             scope.categories = {};
+
+            scope.numberOfColumns = 5;
 
             scope.init = function(){
                 var data = MetadataService.getData();
@@ -18,6 +22,11 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
                 scope.category_mapping = category_mapping;
                 scope.selected_categories = new StringSet();
                 scope.hovered_category = 'none';
+
+                if(attrs.numberOfColumns) {
+                    scope.numberOfColumns = parseInt(attrs.numberOfColumns);
+                }
+
             };
 
             MetadataService.registerWidget(scope.init);
