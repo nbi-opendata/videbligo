@@ -57,6 +57,29 @@
         padding: 0;
     }
 
+    .columns-1 {
+        width: 42px;
+    }
+
+    .columns-2 {
+        width: 84px;
+    }
+
+    .columns-3 {
+        width: 126px;
+    }
+
+    .columns-4 {
+        width: 168px;
+    }
+
+    .columns-5 {
+        width: 210px;
+    }
+
+    .columns-6 {
+        width: 252px;
+    }
     ul.category_matrix li {
         padding-bottom: 1em;
     }
@@ -79,7 +102,7 @@
 
 
 </style>
-<div>
+<div class="columns-{{numberOfColumns}}">
     <h2>Kategorien</h2>
 
     <ul class="category_matrix">
@@ -93,7 +116,7 @@
     </ul>
 </div>
 
-<div ng-switch on="hovered_category">
+<div class="columns-{{numberOfColumns}}" ng-switch on="hovered_category">
     <span ng-switch-default>{{category_mapping[hovered_category]}} ({{categories[hovered_category].size}})</span>
     <span ng-switch-when="none">&nbsp;</span>
 </div>
