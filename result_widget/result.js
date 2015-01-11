@@ -12,7 +12,6 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
             scope.length = 0;
             scope.dimOne = null;
 
-            scope.currentPage = 1;
             scope.elementsPerPage = 20;
 
             scope.init = function () {
@@ -25,24 +24,23 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
                 scope.licence_mapping = licence_mapping;
                 scope.category_mapping = category_mapping;
 
-                if(attrs.elementsPerPage){
+                if(attrs.elementsPerPage) {
                     scope.elementsPerPage = parseInt(attrs.elementsPerPage);
                 }
 
-                scope.maxPage = Math.ceil(scope.length/scope.elementsPerPage);
+                scope.maxPage = Math.ceil(scope.length / scope.elementsPerPage);
             };
+            MetadataService.registerWidget(scope.init);
 
             scope.$on('filterChanged', function () {
-                scope.currentPage = 1;
                 scope.entries = scope.dimOne.top(Infinity);
                 scope.length = MetadataService.length();
-                scope.maxPage = Math.ceil(scope.length/scope.elementsPerPage);
             });
 
-            MetadataService.registerWidget(scope.init);
             //default value for orderProp
             scope.orderProp = 'age';
 
+            
             /**
              * Item *key* zum Set der aktuell sichtbaren Elemente hinzufuegen oder aus diesem loeschen
              *
@@ -56,20 +54,6 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
                 }
             };
 
-            scope.incrementPage = function(){
-                scope.currentPage += 1;
-            };
-
-            scope.decrementPage = function(){
-                scope.currentPage -= 1;
-            };
         }
     };
 }]);
-
-
-Videbligo.filter('slice', function() {
-    return function(arr, start, number) {
-        return (arr || []).slice(Math.max(0,start), Math.min(start+number, arr.length));
-    };
-});

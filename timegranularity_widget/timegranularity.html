@@ -1,10 +1,13 @@
 <!-- list of granularity scale -->
-<div class="granularity" data-ng-class="orientation">
-    <ul>
-        <li data-ng-repeat="item in timeGranularity">
-            {{item}}
-            <div class="granularity-bubble" data-ng-class="'granularity-size-' + item.size">
-
+<div class="granularities granularities-max-size-{{maxItemSize}}" data-ng-class="orientation">
+    <div class="granularity-line"></div>
+    <ul class="no-column-count">
+        <li class="granularity-container"  data-ng-repeat="item in timeGranularity">
+            <div class="granularity-bubble granularity-size-{{item.size}}" data-ng-click="selectGranularity(item)" data-ng-class="{true :'active', false: 'inactive'}[item.active]">
+                <span class="granularity-elements">{{item.elements}}</span>
+            </div>
+            <div class="granularity-title granularity-title-intent-{{item.size}}">
+                {{item.name}}
             </div>
         </li>
     </ul>

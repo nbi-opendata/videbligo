@@ -1,23 +1,15 @@
 <div>
-    <h2>Map</h2>
-    <ul>
-        <div class="row">
-            <div class="panel panel-body" >
-                <div svg-map
-                     ng-click = "regionChoice()"></div>
+    <h2>Karte</h2>
+    <div class="row">
+        <div class="panel panel-body">
+            <div svg-map
+                 ng-click = "regionChoice()">
             </div>
-            <div class="col-md-6">
-                <div class="panel panel-s">
-                    <div class="panel panel-body">
-                        <div class="regionlist">
-                            <div ng-repeat="region in districts">
-                                <div>{{region.key}}</div>
-                                <div>{{region.value | number}}</div>
-                            </div>
-                        </div>
-                    </div>
+            <div id = "mapInfoBox">
+                <div id="mapChart" ng-click="resetSelection()" >
                 </div>
             </div>
         </div>
-    </ul>
+    </div>
 </div>
+

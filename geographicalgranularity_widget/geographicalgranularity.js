@@ -1,5 +1,17 @@
 Videbligo.directive('geographicalgranularity', ['MetadataService', function(MetadataService) {
 
+    function setOptions(scope, attrs) {
+        if(attrs.orientation == undefined) {
+            scope.orientation = 'vertical';
+        }
+        if(attrs.orientation != 'vertical' || attrs.orientation != 'horizontal') {
+            scope.orientation = 'vertical';
+        }
+        if(attrs.quantile == undefined) {
+            scope.quantile = 4;
+        }
+    };
+
     return {
         restrict: 'AE',
         templateUrl: 'geographicalgranularity_widget/geographicalgranularity.html',
@@ -14,13 +26,7 @@ Videbligo.directive('geographicalgranularity', ['MetadataService', function(Meta
             scope.geographicalGranularity = geographicalGranularity;
             scope.maxItemSize = 0;
             scope.selectedGranularities = new StringSet();
-
-            if(attrs.orientation == undefined) {
-                scope.orientation = 'vertical';
-            }
-            if(attrs.quantile == undefined) {
-                scope.quantile = 4;
-            }
+            setOptions(scope, attrs);
 
             scope.selectGranularity = function(item) {
                 item.active = !item.active;
@@ -55,7 +61,7 @@ Videbligo.directive('geographicalgranularity', ['MetadataService', function(Meta
                 scope.data = MetadataService.getData();
                 scope.geographicalDimension = scope.data.dimension(function(d){
                     if(d.extras != undefined && d.extras.geographical_granularity != undefined) {
-                        return d.extras.geographical_granularity;
+                        return d.extras.geographical_granularity.toLowerCase();
                     } else {
 
                         return "";
@@ -76,8 +82,12 @@ Videbligo.directive('geographicalgranularity', ['MetadataService', function(Meta
                     // changes with selection needs to be fix when only granularity is selected
                     scope.geographicalGranularity[key].elements = geographicalGranularityGroups[i].value;
 
-                    var percentage = (scope.geographicalGranularity[key].elements / allData)*100;
-                    scope.geographicalGranularity[key].size = Math.ceil(percentage/(100/scope.quantile));
+                    if(allData > 0) {
+                        var percentage = (scope.geographicalGranularity[key].elements / allData)*100;
+                        scope.geographicalGranularity[key].size = Math.ceil(percentage/(100/scope.quantile));
+                    } else {
+                        scope.geographicalGranularity[key].size = 0;
+                    }
 
                     if(scope.geographicalGranularity[key].size > scope.maxItemSize) {
                         scope.maxItemSize = scope.geographicalGranularity[key].size;

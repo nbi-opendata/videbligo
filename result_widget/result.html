@@ -50,33 +50,47 @@
     .icon-umwelt_und_klima:before {content: "\e60e";}
     .icon-verbraucherschutz:before {content: "\e60f";}
 
-    .icon-cross:before { content: "\e616"; }
-    .icon-arrow-down:before { content: "\e617"; }
-    .icon-arrow-up:before { content: "\e618"; }
-    .icon-arrow-down2:before { content: "\e619"; }
-    .icon-arrow-up2:before { content: "\e61a"; }
-    .icon-arrow-down3:before { content: "\e61b"; }
-    .icon-arrow-up3:before { content: "\e61c"; }
-    .icon-arrow-down4:before { content: "\e61d"; }
-    .icon-arrow-up4:before { content: "\e61e"; }
+
+    .icon-cross:before {content: "\e616";}
+    .icon-arrow-left:before {content: "\e61f";}
+    .icon-arrow-down:before {content: "\e617";}
+    .icon-arrow-up:before {content: "\e618";}
+    .icon-arrow-right:before {content: "\e620";}
+    .icon-arrow-left2:before {content: "\e621";}
+    .icon-arrow-down2:before {content: "\e619";}
+    .icon-arrow-up2:before {content: "\e61a";}
+    .icon-arrow-right2:before {content: "\e622";}
+    .icon-arrow-left3:before {content: "\e623";}
+    .icon-arrow-down3:before {content: "\e61b";}
+    .icon-arrow-up3:before {content: "\e61c";}
+    .icon-arrow-right3:before {content: "\e624";}
+    .icon-arrow-left4:before {content: "\e625";}
+    .icon-arrow-down4:before {content: "\e61d";}
+    .icon-arrow-up4:before {content: "\e61e";}
+    .icon-uniE626:before {content: "\e626";}
+
+    .center-me {
+        margin: 0 auto;
+    }
 
     result ul {
         list-style-type: none;
         padding: 0;
     }
 
-    result li {
+    result .result-list li {
         vertical-align: middle;
         padding: 0.25em;
         border-color: black;
         border-style: solid;
     }
 
-    result li {
+    result .result-list li {
         border-width: 1px 1px 0 1px;
     }
 
-    result li:last-child {
+
+    result .result-list li:last-child {
         border-bottom-width: 1px;
     }
 
@@ -160,25 +174,24 @@
 
 
 </style>
-
 <div>
     <h1>Ergebnisliste</h1>
 
-    sort by :
+    <!--sort by :-->
+    <!--<div>-->
+        <!--<select ng-model="orderProp">-->
+            <!--<option value="name">Alphabetical</option>-->
+            <!--<option value="age">Newest</option>-->
+        <!--</select>-->
+    <!--</div>-->
     <div>
-        <select ng-model="orderProp">
-            <option value="name">Alphabetical</option>
-            <option value="age">Newest</option>
-        </select>
-    </div>
+        <div style="display: table; margin: 0 auto;">
+            <dir-pagination-controls template-url="bower_components/angular-utils-pagination/dirPagination.tpl.html"></dir-pagination-controls>
+        </div>
+        <ul class="result-list">
+            <li dir-paginate="entry in entries  | itemsPerPage: elementsPerPage">
 
-    <div>
-
-        <ul>
-            <li class="result"
-                data-ng-repeat="entry in entries | orderBy:orderProp | slice:(currentPage-1)*elementsPerPage:elementsPerPage">
-
-                <div data-ng-click="toggleVisible($index)" class="result-row">
+                <div data-ng-click="toggleVisible(entry.id)" class="result-row">
                     <div class="result-row-container">
 
                         <!--Category Icons-->
@@ -193,7 +206,7 @@
                         <div class="result-col-3">
                             <span class="toggle-arrow">
                                <span class="toggle-icon"
-                                     ng-class="{'icon-arrow-up': visibleDetailsDivs.contains($index), 'icon-arrow-down': true}">
+                                     ng-class="{'icon-arrow-up': visibleDetailsDivs.contains(entry.id), 'icon-arrow-down': true}">
                                </span>
                             </span>
                         </div>
@@ -209,7 +222,7 @@
                 </div>
 
                 <!--Details Div-->
-                <div class="details" ng-class="{'visible': visibleDetailsDivs.contains($index)}">
+                <div class="details" ng-class="{'visible': visibleDetailsDivs.contains(entry.id)}">
                     <table>
                         <tr ng-show='entry.title != null'>
                             <td>Titel</td>
@@ -244,7 +257,7 @@
                         </tr>
 
                         <tr>
-                            <td>Kategorie</td>
+                            <td>Kategorie{{entry.groups.length > 1 ? 'n':''}}</td>
                             <td>
                                 <span class="details-category" data-ng-repeat="group in entry.groups">{{category_mapping[group]}}</span>
                             </td>
@@ -260,8 +273,9 @@
 
             </li>
         </ul>
-        <a href="#" data-ng-click="decrementPage();" ng-show="currentPage > 1">prev</a>
-        {{currentPage}}/{{maxPage}}
-        <a href="#" data-ng-click="incrementPage();" ng-show="currentPage < maxPage">next</a>
+
+        <div style="display: table; margin: 0 auto;">
+            <dir-pagination-controls template-url="bower_components/angular-utils-pagination/dirPagination.tpl.html"></dir-pagination-controls>
+        </div>
     </div>
 </div>

@@ -1,4 +1,4 @@
-var Videbligo = angular.module('Videbligo', []);
+var Videbligo = angular.module('Videbligo', ['angularUtils.directives.dirPagination']);
 
 Videbligo.service('MetadataService', ["$rootScope", "$location", "$http", function ($rootScope, $location, $http) {
     var crossData = null;
