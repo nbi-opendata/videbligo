@@ -116,7 +116,7 @@
     </ul>
 </div>
 
-<div class="columns-{{numberOfColumns}}" ng-switch on="hovered_category">
+<div class="columns-{{numberOfColumns}}" ng-switch on="hovered_category" style="white-space: nowrap;">
     <span ng-switch-default>{{category_mapping[hovered_category]}} ({{categories[hovered_category].size}})</span>
     <span ng-switch-when="none">&nbsp;</span>
 </div>
