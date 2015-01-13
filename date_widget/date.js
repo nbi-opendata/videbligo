@@ -250,7 +250,6 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
                 }
                 scope.svgParams.y.domain([0, d3.max(usedMappings, function (d) { return d.value; })]);
-                console.log(scope.svgParams.y.domain());
                 scope.svgParams.yAxis.scale(scope.svgParams.y);
                 scope.main.select("#yAxis").call(scope.svgParams.yAxis);
 
