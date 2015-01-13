@@ -175,6 +175,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
                 scope.mini.append("g")
                     .attr("class", "axis")
+                    .attr("id", "yAxisMini")
                     .attr("transform", "translate(0," + scope.svgParams.miniHeight + ")")
                     .call(scope.svgParams.xAxisMini)
                     .selectAll("text")
@@ -248,16 +249,21 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     usedMappings = scope.svgParams.currentMappings;
 
                 }
-                scope.svgParams.y.domain([0, d3.max(usedMappings, function (d) { return d.value; })]);
-                scope.svgParams.yMini.domain([0, d3.max(usedMappings, function (d) { return d.value; })]);
+                scope.svgParams.y.domain([0, d3.max(scope.svgParams.currentMappings, function (d) { return d.value; })]);
                 scope.svgParams.yAxis.scale(scope.svgParams.y);
-                scope.svgParams.yAxisMini.scale(scope.svgParams.yMini);
-
                 scope.main.select("#yAxis").call(scope.svgParams.yAxis);
 
-                var simplifiedGlobalMappings = {};
+                scope.svgParams.yMini.domain([0, d3.max(scope.svgParams.currentMappings, function (d) { return d.value; })]);
+                scope.svgParams.yAxisMini.scale(scope.svgParams.yMini);
+                scope.main.select("#yAxisMini").call(scope.svgParams.yAxisMini);
+
+                scope.svgParams.currentMappingsMod = {};
                 for (var key in scope.svgParams.currentMappings){
-                    simplifiedGlobalMappings[scope.svgParams.currentMappings[key].year] = scope.svgParams.currentMappings[key].value;
+                    scope.svgParams.currentMappingsMod[scope.svgParams.currentMappings[key].year] = scope.svgParams.currentMappings[key].value;
+                }
+                var simplifiedBrushMappings = {};
+                for (var key in scope.brushParams.brushedMappings){
+                    simplifiedBrushMappings[scope.brushParams.brushedMappings[key].year] = scope.brushParams.brushedMappings[key].value;
                 }
 
                 for (var key in scope.svgParams.initialYears){
@@ -265,19 +271,20 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     var chartBarMain = angular.element("#time-chart-bar-"+year);
                     var chartBarMini = angular.element("#time-chart-bar-mini-"+year);
 
-                    if (simplifiedGlobalMappings[year]){
+                    if (scope.svgParams.currentMappingsMod[year]){
                         chartBarMain
-                            .attr("y", scope.svgParams.y(simplifiedGlobalMappings[year]))
-                            .attr("height", function(d) { return scope.svgParams.mainHeight - scope.svgParams.y(simplifiedGlobalMappings[year]); });
+                            .attr("y", scope.svgParams.y(scope.svgParams.currentMappingsMod[year]))
+                            .attr("height", function(d) { return scope.svgParams.mainHeight - scope.svgParams.y(scope.svgParams.currentMappingsMod[year]); });
                         chartBarMini
-                            .attr("y", scope.svgParams.yMini(simplifiedGlobalMappings[year]))
-                            .attr("height", function(d) { return scope.svgParams.miniHeight - scope.svgParams.yMini(simplifiedGlobalMappings[year]); });
+                            .attr("y", scope.svgParams.yMini(scope.svgParams.currentMappingsMod[year]))
+                            .attr("height", function(d) { return scope.svgParams.miniHeight - scope.svgParams.yMini(scope.svgParams.currentMappingsMod[year]); });
                     }
                     else {
                         chartBarMain.attr("height", "0");
                         chartBarMini.attr("height", "0");
                     }
                 }
+
             });
 
             scope.filterFunction = function(d){
@@ -377,7 +384,13 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
             scope.handleHover = function ($event, year, value) {
                 scope.hover.year = year;
-                scope.hover.value = value;
+                var val = 0;
+                for (var key in scope.svgParams.currentMappings){
+                    if (scope.svgParams.currentMappings[key].year == year){
+                        val = scope.svgParams.currentMappings[key].value;
+                    }
+                }
+                scope.hover.value = val;
                 if ($event.which == 1) {
                     var start = scope.svgParams.initialYears.indexOf(scope.hover.mouseDownYear);
                     var end = scope.svgParams.initialYears.indexOf(year);
@@ -471,12 +484,18 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     });
 
                 scope.main.selectAll(".bar")
-                    .attr("y", function(d) { return scope.svgParams.y(d.value); })
-                    .attr("height", function(d) { return scope.svgParams.mainHeight - scope.svgParams.y(d.value); });
+                    .attr("y", function(d) {
+                        var currentValueForYear = scope.currentValueForYear(d.year);
+                        return scope.svgParams.y(currentValueForYear);
+                    })
+                    .attr("height", function(d) {
+                        var currentValueForYear = scope.currentValueForYear(d.year);
+                        return scope.svgParams.mainHeight - scope.svgParams.y(currentValueForYear);
+                    });
 
                 scope.main.selectAll(".barbg")
                     .attr("y", "0")
-                    .attr("height", function(d) { return scope.svgParams.mainHeight; });
+                    .attr("height", scope.svgParams.mainHeight);
 
             };
 
@@ -494,6 +513,11 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
                 return scope.svgParams.initialYears[offset];
             };
+
+            scope.currentValueForYear = function(year){
+                var retVal = (scope.svgParams.currentMappingsMod[year]) ? scope.svgParams.currentMappingsMod[year] : 0;
+                return retVal;
+            }
 
             MetadataService.registerWidget(scope.init);
         }
