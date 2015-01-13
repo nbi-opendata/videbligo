@@ -79,11 +79,11 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     - kleinere Unten- und Linkswerte schneiden die Achsenbeschriftungen ab
                     - NUR mit der Breite und Hoehe darf fuer die Anpassung gespielt werden
                  */
-                scope.svgParams.mainMargin = {top: 5, right: 1, bottom: 130, left: 27};
-                scope.svgParams.miniMargin = {top: 235, right: 1, bottom: 30, left: 27};
-                scope.svgParams.width = 750;
-                scope.svgParams.mainHeight = 300 - scope.svgParams.mainMargin.top - scope.svgParams.mainMargin.bottom;
-                scope.svgParams.miniHeight = 300 - scope.svgParams.miniMargin.top - scope.svgParams.miniMargin.bottom;
+                scope.svgParams.mainMargin = {top: 5, right: 1, bottom: 110, left: 27};
+                scope.svgParams.miniMargin = {top: 170, right: 1, bottom: 30, left: 27};
+                scope.svgParams.width = 550;
+                scope.svgParams.mainHeight = 240 - scope.svgParams.mainMargin.top - scope.svgParams.mainMargin.bottom;
+                scope.svgParams.miniHeight = 240 - scope.svgParams.miniMargin.top - scope.svgParams.miniMargin.bottom;
 
                 scope.svgParams.zoom = d3.scale.linear()
                     .range([0, scope.svgParams.width])
@@ -178,12 +178,43 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .attr("id", "yAxisMini")
                     .attr("transform", "translate(0," + scope.svgParams.miniHeight + ")")
                     .call(scope.svgParams.xAxisMini)
-                    .selectAll("text")
-                    .style("text-anchor", "end")
-                    .attr("dx", "-.8em")
-                    .attr("dy", "-.45em")
-                    .attr("transform", function(d){return "rotate(-80)"});
+                    //.selectAll("text")
+                    //.style("text-anchor", "end")
+                    //.attr("dx", "-.8em")
+                    //.attr("dy", "-.45em")
+                    //.attr("transform", function(d){return "rotate(-80)"})
+                    ;
+                // flag to alternate between long and short ticks
+                var alternate_ticks = false;
 
+                var short_tick_length = 4;
+                var long_tick_length = 16;
+
+// Alternate the tick line between long and short ticks
+                d3.select("#yAxisMini").selectAll(".tick line")
+                    .attr("y2", function () {
+                        if (alternate_ticks) {
+                            alternate_ticks = false;
+                            return long_tick_length;
+                        } else {
+                            alternate_ticks = true;
+                            return short_tick_length;
+                        }
+                    });
+
+                var alternate_text = false;
+
+// Alternate the tick label text to match up with the tick length
+                d3.select("#yAxisMini").selectAll(".tick text")
+                    .attr("y", function () {
+                        if (alternate_text) {
+                            alternate_text = false;
+                            return long_tick_length + 1;
+                        } else {
+                            alternate_text = true;
+                            return short_tick_length + 1;
+                        }
+                    });
 
                 var onData = scope.main.selectAll(".bar")
                     .data(scope.svgParams.currentMappings);
