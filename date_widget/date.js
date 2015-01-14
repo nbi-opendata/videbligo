@@ -38,14 +38,28 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             scope.accessRight = function(d){
                 return d.extras["temporal_coverage-to"];
             }
+            scope.getD3TimeRange = function(data){
+                var formatter = d3.time.year;
+                var dateFrom = parseDate(data.extras["temporal_coverage-from"]);
+
+                if (dateFrom != undefined){
+                    dateFrom = formatter.floor(dateFrom);
+                }
+
+                var dateTo = parseDate(data.extras["temporal_coverage-to"]);
+                if (dateTo != undefined){
+                    dateTo = formatter.ceil(dateTo);
+                }
+
+                return formatter.range(dateFrom, dateTo);
+            };
+
 
             scope.init = function(){
                 var data = MetadataService.getData();
 
                 scope.dimDate = data.dimension(function(d){
-                    var dateFrom = parseDate(d.extras["temporal_coverage-from"]);
-                    var dateTo = parseDate(d.extras["temporal_coverage-to"]);
-                    return {from: dateFrom, to: dateTo};
+                    return scope.getD3TimeRange(d);
                 });
 
                 scope.dimDateFrom = data.dimension(function(d){
@@ -56,94 +70,108 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     return parseDate(scope.accessRight(d));
                 });
 
-                scope.groupDate = scope.dimDate.group().reduce(
+                scope.groupDate = scope.dimDate.groupAll().reduce(
                     function (p,v){
-                        var from = v.extras["temporal_coverage-from"];
-                        var to = v.extras["temporal_coverage-to"];
-                        //console.log("p: " + JSON.stringify(p));
-                        if(from == undefined || to == undefined)
-                            return p;
-                        var toDate = parseDate(to);
-                        var fromDate = parseDate(from);
-                        if (from != undefined){
-                            for (var i = fromDate.getFullYear(); i <= toDate.getFullYear(); i++){
-                                if (i in p){
-                                    p[i]++;
-                                }
-                                else {
-                                    p[i] = 1;
-                                }
-                            }
-                        }
+                        scope.getD3TimeRange(v).forEach (function(val, idx) {
+                            p[val] = (p[val] || 0) + 1; //increment counts
+                        });
                         return p;
                     },
                     function (p,v) {
-                        var from = v.extras["temporal_coverage-from"];
-                        var to = v.extras["temporal_coverage-to"];
-                        var fromDate = {}
-                        var toDate = parseDate(to);
-                        if(from == undefined || to == undefined)
-                            return p;
-                        if (from != undefined){
-                            for (var i = parseDate(from).getFullYear(); i <= toDate.getFullYear(); i++){
-                                p[i]--;
-                                if (p[i] === 0){
-                                    delete p[i];
-                                }
-                            }
-                        }
+                        scope.getD3TimeRange(v).forEach (function(val, idx) {
+                            p[val] = (p[val] || 0) - 1; //increment counts
+                        });
                         return p;
                     },
                     function (){
-                        return [];
+                        return {};
                     }
                 );
 
-                scope.extractGroupData(scope.groupDate.all());
+
+
+                scope.groupDate.all = function() {
+                    var newObject = [];
+                    var self = this.value();
+                    for (var key in self) {
+                        if (self.hasOwnProperty(key) && key != "all") {
+                            newObject.push({
+                                               key: key,
+                                               value: self[key]
+                                           });
+                        }
+                    }
+
+                    newObject.sort(function(a,b){
+                        return new Date(a.key) - new Date(b.key);
+                    });
+
+                    return newObject;
+                };
+
+                scope.groupDate.size = function(){return this.all().length;};
+                scope.groupDate.top = function(n){console.log('top'); return this.all()};
 
                 scope.initSvg();
+                //var z = x.filter(function(d){return d.map(function(d){return d.getFullYear();}).indexOf(parseDate('2014-01-02').getFullYear()) > -1;})
             }
+
 
             scope.initSvg = function(){
                 scope.debounceTriggerUpdate = debounce(function (chart, filter) {
                     MetadataService.triggerUpdate(this);
                 }, 250);
 
-                var first = scope.groupWrapper.all()[0].key;
-                var length = scope.groupWrapper.size();
-                var last = scope.groupWrapper.all()[length-1].key;
+                var dates = Object.keys(scope.groupDate).map(function(d){
+                    return new Date(d);
+                }).sort(function(a,b){
+                    return new Date(a) - new Date(b);
+                });
 
-                scope.chart = dc.barChart('#time-chart');
-                var chart = scope.chart;
-                chart.width(600)
+
+
+                var first = dates[0];
+                var length = dates.length;
+                var last = dates[length-1];
+
+                //scope.chart = dc.barChart('#time-chart');
+                //var chart = scope.chart;
+                //chart.width(600)
+                //    .height(200)
+                //    .margins({top: 0, right: 50, bottom: 20, left: 40})
+                //    .dimension(scope.dimDate)
+                //    .group(scope.groupDate)
+                //
+                //    .xUnits(d3.time.years)
+                //    .gap(1)
+                //    //.round(dc.round.floor)
+                //    .transitionDuration(1000)
+                //    .x(d3.time.scale().domain([first, last]));
+                ////chart.xAxis().tickFormat(function (v) {return v;});
+
+
+                var chart = dc.barChart('#time-chart');
+                scope.chart = chart;
+                chart
+                    .width(1000)
                     .height(200)
-                    .margins({top: 0, right: 50, bottom: 20, left: 40})
+                    //.renderLabel(true)
                     .dimension(scope.dimDate)
-                    .group(scope.groupWrapper)
-                    .elasticX(true)
-                    .elasticY(true)
-                    .gap(1)
-                    .round(dc.round.floor)
-                    .transitionDuration(1000)
-                    .x(d3.scale.linear().domain([first, last]));
-                //so the x axis has no limiter in the years
-                chart.xAxis().tickFormat(function (v) {return v;});
+                    .group(scope.groupDate)
+                    .x(d3.time.scale().domain([first, last]))
+                    .xAxis().ticks(3);
+                chart.round(d3.time.year);
+
 
                 chart.on("filtered", function(chart, filter){
                     scope.debounceTriggerUpdate(chart, filter);
                 });
 
                 chart.filterHandler(function(dimension, filter){
-                    //dimension.filter(function(d) {
-                    //    var left = filter[0];
-                    //    var right = filter[1];
-                    //    var dleft = parseDate(scope.accessLeft(d)).getFullYear();
-                    //    var dright = parseDate(scope.accessRight(d)).getFullYear();
-                    //    if(dright < left)
-                    //        return false;
-                    //    if(right < dleft)
-                    //        return false;
-                    //    return true;
+                    console.log(filter);
+                    //dimension.filter(function(d){
+                    //    return d.map(function(d){return d.getFullYear();})
+                    //            .indexOf(filter.getFullYear()) > -1;
                     //});
                     return filter;
                 });
