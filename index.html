@@ -33,44 +33,15 @@
     <script type="text/javascript" src="timegranularity_widget/timegranularity.js"></script>
     <script type="text/javascript" src="geographicalgranularity_widget/geographicalgranularity.js"></script>
 </head>
-<body data-ng-app="Videbligo">
+<body data-ng-app="Videbligo" style="margin: 50px;">
 
-    <!--<div style="float:left;">-->
-        <search>
-        </search>
-    <!--</div>-->
-
-    <div style="margin-left:50px; float:left;">
-        <date>
-        </date>
-    </div>
-
-    <div style="margin-left:50px; float:left;">
-        <lastmodification>
-        </lastmodification>
-    </div>
-
-    <div style="float:left;">
-        <category data-number_of_columns="4"></category>
-    </div>
-
-    <div class="clearfix"></div>
-    <div class="row">
+   <div class="row">
         <div class="col-xs-3">
-            <timegranularity></timegranularity>
+            <timegranularity orientation="horizontal"></timegranularity>
         </div>
-        <div class="col-xs-3">
-            <geographicalgranularity></geographicalgranularity>
-        </div>
-
     </div>
-
-    <div style="clear:both" >
-        <map></map>
-    </div>
-
     
-    <div style="clear:both;">
+    <div>
         <result data-elements_per_page="20"></result>
     </div>
 </body>
