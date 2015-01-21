@@ -104,6 +104,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .rangeChart(scope.zoomChart)
                     .x(d3.time.scale().domain([first, last]))
                     .brushOn(false)
+                    .gap(1)
                     .centerBar(true)
                     .renderHorizontalGridLines(true)
                     .elasticY(true)
@@ -119,9 +120,18 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 });
 
                 scope.chart.renderlet(function(chart) {
-                    scope.chart.selectAll('rect').on("click", function(d) {
+                    chart.selectAll('rect').on("click", function(d) {
                         chart.filterAll();
                         chart.filter([d.x,d.x]);
+                        var id = '#'+ d.x.getTime();
+                        angular.element(id).toggleClass('selected');
+                    });
+
+                    chart.selectAll('rect').attr('id', function(d){
+                        if (d == undefined){
+                            return "";
+                        }
+                        return d.x.getTime();
                     });
                 });
 
