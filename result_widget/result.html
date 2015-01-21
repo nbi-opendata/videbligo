@@ -20,6 +20,7 @@
         line-height: 1;
 
         /* Better Font Rendering =========== */
+        /*to enhance the blurring icons */
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
@@ -179,22 +180,24 @@
 
     <!--sort by :-->
     <!--<div>-->
-        <!--<select ng-model="orderProp">-->
-            <!--<option value="name">Alphabetical</option>-->
-            <!--<option value="age">Newest</option>-->
+        <!--<select ng-model="Sortieren nach :">-->
+            <!--<option value="name">Alphabetisch</option>-->
+            <!--<option value="age">neueste</option>-->
         <!--</select>-->
     <!--</div>-->
     <div>
         <div style="display: table; margin: 0 auto;">
+        <!-- to use the pagination controls in Angular.js -->
             <dir-pagination-controls template-url="bower_components/angular-utils-pagination/dirPagination.tpl.html"></dir-pagination-controls>
         </div>
         <ul class="result-list">
             <li dir-paginate="entry in entries  | itemsPerPage: elementsPerPage">
-
+                
                 <div data-ng-click="toggleVisible(entry.id)" class="result-row">
                     <div class="result-row-container">
 
                         <!--Category Icons-->
+                        <!--we have maximum 2 categories icons in each result  -->
                         <div class="result-col-1">
                             <span data-ng-repeat="group in entry.groups"
                                   class="category-icon icon-{{group}}"
@@ -203,6 +206,7 @@
                         </div>
 
                         <!--Toggle Arrow-->
+                        <!-- the clickable arrow to show/hide the details of the result  -->
                         <div class="result-col-3">
                             <span class="toggle-arrow">
                                <span class="toggle-icon"
