@@ -6,12 +6,14 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
         scope: {},
         link: function(scope, element, attrs) {
 
+            //used to determine x axes domain for both charts
+            scope.formatter = d3.time.year;
+
             scope.availableFrom = "";
             scope.availableTo = "";
             scope.spanVisible = false;
             scope.groupDate = {};
             scope.dimDate = {};
-            scope.formatter = d3.time.year;
 
             scope.getD3TimeRange = function(data){
                 var dateFrom = parseDate(data.extras["temporal_coverage-from"]);
