@@ -27,7 +27,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 scope.chart = chart;
                 chart.width(600)
                     .height(200)
-                    .margins({top: 0, right: 50, bottom: 20, left: 40})
+                    .margins({top: 10, right: 50, bottom: 20, left: 40})
                     .dimension(scope.dimLastMod)
                     .group(scope.groupLastMod)
                     .elasticY(true)
@@ -36,7 +36,8 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .transitionDuration(1000)
                     .x(d3.time.scale().domain([first, last]))
                     .round(d3.time.month.round)
-                    .xUnits(d3.time.months);
+                    .xUnits(d3.time.months)
+                    .yAxis().tickFormat(d3.format('d'));
 
                 chart.on("filtered", function(chart, filter){
                     scope.debounceTriggerUpdate();
