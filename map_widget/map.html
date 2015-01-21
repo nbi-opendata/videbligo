@@ -2,8 +2,16 @@
     <h2>Karte</h2>
     <div class="row">
         <div class="panel panel-body">
-            <div svg-map
-                 ng-click = "regionChoice()">
+            <div ng-click="berlinClicked()" ng-mouseover="berlinMouseOver()" ng-mouseleave="berlinMouseLeave()">
+                <div svg-map
+                    ng-click = "regionChoice()"  id="berlinMap" >
+                 </div>
+                <div id="berlinBox">
+                    <form>
+                        Berlin
+                        <input type="checkbox" name="Test" ng-click="scope.berlinClicked();" >
+                    </form>
+                </div>
             </div>
             <div id = "mapInfoBox">
                 <div id="mapChart" ng-click="resetSelection()" >

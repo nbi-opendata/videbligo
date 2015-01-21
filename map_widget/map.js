@@ -2,7 +2,11 @@
 
 colorUnclicked = '#73CAC6';
 colorClicked = '#00D38A';
-colorHover = '#FF8482';
+colorHover = '#00E600';
+onSvg = false;
+allBerlin = null;
+bezirke = null;
+
 
 Videbligo.directive('map', ['MetadataService', function(MetadataService) {
 
@@ -77,6 +81,35 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                 MetadataService.triggerUpdate();
             };
 
+            // filtert bei einem Klick >Berlin<,  wenn wir nicht auf der SVG-Karte sind
+            scope.berlinClicked = function(){
+                if(!onSvg){
+                    scope.regionData['Berlin'].clicked = !scope.regionData['Berlin'].clicked;
+                }
+            }
+
+            // zeigt hover an, und verstärkt den Rand, wenn wir nich über der SVG-Karte hovern
+            scope.berlinMouseOver = function(){
+                if(!onSvg) {
+                    d3.select('#mapChart').text("Berlin" + "(" + scope.regionData['Berlin'].value + ")");
+                    $('#mapChart').css('visibility', 'visible');
+
+                    allBerlin.style.stroke = "#000";
+                    allBerlin.style.strokeWidth = 13;
+
+                    angular.forEach(bezirke, function(path){
+                      path.style.strokeWidth = 2;
+                      path.style.stroke = '#000';
+                    })
+                }
+            }
+
+            // blendet Hover wieder aus
+            scope.berlinMouseLeave = function(){
+                d3.select('#mapChart').text("Berlin" + "(" + scope.regionData['Berlin'].value + ")");
+                $('#mapChart').css('visibility', 'hidden');
+            }
+
             // Eigene Reduce-Funktionen zum individuellen Gruppieren
             scope.reduceAdd = function(p, v) {
                 var val = v.extras['geographical_coverage'];
@@ -105,9 +138,10 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
 Videbligo.directive('svgMap', ['$compile', function ($compile) {
     return {
         restrict: 'AE',
-        templateUrl: 'map_widget/berlin_map.svg',
+        templateUrl: 'map_widget/berlin_map_border.svg',
         link: function (scope, element, attrs) {
             var regions = element[0].querySelectorAll('.bezirk');
+            bezirke = regions;
             angular.forEach(regions, function (path, key) {
                 var regionElement = angular.element(path);
                 regionElement.attr('region', '');
@@ -116,6 +150,7 @@ Videbligo.directive('svgMap', ['$compile', function ($compile) {
                 regionElement.attr('regions-all','regionsAll')
                 $compile(regionElement)(scope);
             })
+            allBerlin = element[0].querySelector('.Berlina');
         }
     }
 }]);
@@ -145,9 +180,11 @@ Videbligo.directive('region', ['$compile', function ($compile) {
 
             // Beim Hover / MouseOver verändern wir die Farbe der Region und zeigen das div pop-up an
             scope.regionMouseOver = function () {
+                onSvg = true;
+                allBerlin.style.strokeWidth = 0;
                 scope.hoverRegion = scope.elementId;
                 element[0].parentNode.appendChild(element[0]);
-                element[0].style.strokeWidth = 2.5;
+                element[0].style.strokeWidth = 4.5 ;
                 element[0].style.stroke = '#000';
 
                 if(element[0].getAttribute("fill") !=colorClicked){
@@ -160,14 +197,20 @@ Videbligo.directive('region', ['$compile', function ($compile) {
             // Beim MouseLeave setzen wir die richtige Farbe durch einen Vergleich
             scope.regionMouseLeave = function(){
                 element[0].style.strokeWidth = 2;
-                element[0].style.stroke = '#fff';
+                element[0].style.stroke = '#000';
                 if(element[0].getAttribute('fill') !=colorClicked){
                     element[0].setAttribute('fill', colorUnclicked);
                 }
                 $('#mapChart').css('visibility', 'hidden');
+                onSvg = false;
+
             }
 
             // Hier werden Funktionen zugeordnet
+
+            element[0].style.strokeWidth = 2;
+            element[0].style.stroke = '#000';
+
             element.attr('ng-click', 'regionClick()');
             element.attr('ng-attr-fill', '{{regionData[elementId] | map_color}}');
             element.attr('ng-mouseover', 'regionMouseOver()');
