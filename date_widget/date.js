@@ -10,9 +10,6 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             scope.formatter = d3.time.year;
             scope.chartWidth = 700;
 
-            scope.availableFrom = "";
-            scope.availableTo = "";
-            scope.spanVisible = false;
             scope.dimDate = {};
             scope.groupDate = {};
             scope.cachedGrouping = [];
@@ -43,13 +40,13 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 scope.groupDate = scope.dimDate.groupAll().reduce(
                     function (p,v){
                         scope.getD3TimeRange(v).forEach (function(val, idx) {
-                            p[val] = (p[val] || 0) + 1; //increment counts
+                            p[val] = (p[val] || 0) + 1;
                         });
                         return p;
                     },
                     function (p,v) {
                         scope.getD3TimeRange(v).forEach (function(val, idx) {
-                            p[val] = (p[val] || 0) - 1; //increment counts
+                            p[val] = (p[val] || 0) - 1;
                         });
                         return p;
                     },
@@ -58,29 +55,28 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     }
                 ).value();
 
-                scope.cachedGrouping = scope.precacheGrouping();
+                scope.precacheGrouping();
 
                 //adding functions to simulate the group of crossfilter
                 scope.groupDate.all = function() {
                     return scope.cachedGrouping;
                 };
 
-                scope.initSvg();
+                scope.initCharts();
             };
 
             scope.precacheGrouping = function (){
                     var newObject = [];
                     var val = scope.groupDate;
-                    scope.maxYValue = 0;
                     for (var key in val) {
                         if (val.hasOwnProperty(key) && key != "all") {
-                            binaryInsert({key: new Date(key), value: val[key]}, newObject);
+                            scope.binaryInsert({key: new Date(key), value: val[key]}, newObject);
                         }
                     }
-                    return newObject;
+                    scope.cachedGrouping = newObject;
             };
 
-            scope.initSvg = function(){
+            scope.initCharts = function(){
                 scope.debounceTriggerUpdate = debounce(function (chart, filter) {
                     MetadataService.triggerUpdate(this);
                 }, 250);
@@ -94,7 +90,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 scope.zoomChart
                     .width(scope.chartWidth)
                     .height(40)
-                    .margins({top: 0, right: 10, bottom: 18, left: 30})
+                    .margins({top: 0, right: 20, bottom: 18, left: 30})
                     .dimension(scope.dimDate)
                     .group(scope.groupDate)
                     .centerBar(true)
@@ -102,30 +98,20 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .x(d3.time.scale().domain([scope.first, scope.last]))
                     .y(d3.scale.sqrt().exponent(0.3).domain([0,400]))
                     .round(scope.formatter.round)
-                    .xUnits(scope.formatter.range)
-                    .yAxis().tickValues([]);
+                    .xUnits(scope.formatter.range);
 
                 scope.zoomChart.filterHandler(function(dimension, filter){
-                    //console.log("zoom filtered "+filter);
                     scope.chart.focus(scope.zoomChart.filter());
                     scope.chart.filterAll();
-                    //if (filter.length > 0){
-                    //    scope.chart.focus(filter[0]);
-                    //}
-                    //else {
-                    //    scope.chart.focus([scope.first, scope.last]);
-                    //}
-
                     return filter;
                 });
 
                 scope.chart
                     .width(scope.chartWidth)
                     .height(180)
-                    .margins({top: 10, right: 10, bottom: 18, left: 30})
+                    .margins({top: 10, right: 20, bottom: 18, left: 30})
                     .dimension(scope.dimDate)
                     .group(scope.groupDate)
-                    //.rangeChart(scope.zoomChart)
                     .x(d3.time.scale().domain([scope.first, scope.last]))
                     .y(d3.scale.sqrt().exponent(0.7).domain([0,400]))
                     .brushOn(true)
@@ -140,7 +126,6 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .yAxis().tickFormat(d3.format("d"));
 
                 scope.chart.filterHandler(function(dimension, filter){
-                    //console.log("normal filtered "+filter);
                     return scope.filterFunction(dimension, filter);
                 });
 
@@ -162,25 +147,22 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                         if (d.length == 1){
                             return filterStart <= d[0] && d[0] <= filterEnd;
                         }
+
                         var dimStart = d[0];
                         var dimEnd = d[d.length - 1];
 
                         if (dimStart <= filterStart && dimEnd >= filterEnd){
                             return true;
                         }
-
                         if (dimStart >= filterStart && dimEnd <= filterEnd){
                             return true;
                         }
-
                         if (dimStart <= filterStart && dimEnd >= filterStart){
                             return true;
                         }
-
                         if (dimStart <= filterEnd && dimEnd >= filterEnd){
                             return true;
                         }
-
                         return false;
                     });
                 }
@@ -189,9 +171,9 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 }
 
                 return filter;
-            }
+            };
 
-            function binaryInsert(value, array, startVal, endVal){
+            scope.binaryInsert = function(value, array, startVal, endVal){
                 var length = array.length;
                 var start = typeof(startVal) != 'undefined' ? startVal : 0;
                 var end = typeof(endVal) != 'undefined' ? endVal : length - 1;
@@ -199,38 +181,26 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
                 if(length == 0){
                     array.push(value);
-                    return;
                 }
-
-                if(value.key.getTime() > array[end].key.getTime()){
+                else if(value.key.getTime() > array[end].key.getTime()){
                     array.splice(end + 1, 0, value);
-                    return;
                 }
-
-                if(value.key.getTime() < array[start].key.getTime()){
+                else if(value.key.getTime() < array[start].key.getTime()){
                     array.splice(start, 0, value);
-                    return;
                 }
-
-                if(start >= end){
-                    return;
+                else if(start >= end){
                 }
-
-                if(value.key.getTime() < array[m].key.getTime()){
-                    binaryInsert(value, array, start, m - 1);
-                    return;
+                else if(value.key.getTime() < array[m].key.getTime()){
+                    scope.binaryInsert(value, array, start, m - 1);
                 }
-
-                if(value.key.getTime() > array[m].key.getTime()){
-                    binaryInsert(value, array, m + 1, end);
-                    return;
+                else if(value.key.getTime() > array[m].key.getTime()){
+                    scope.binaryInsert(value, array, m + 1, end);
                 }
-            }
+            };
 
             scope.$on('filterChanged', function() {
-                scope.cachedGrouping = scope.precacheGrouping();
+                scope.precacheGrouping();
                 dc.redrawAll();
-                //console.log(scope.dimDate.top(Infinity).length);
             });
 
             MetadataService.registerWidget(scope.init);

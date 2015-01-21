@@ -6,18 +6,17 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
         scope: {},
         link: function(scope, element, attrs) {
 
+            //used to determine x axes domain for both charts
             scope.formatter = d3.time.month;
-
             scope.chartWidth = 600;
 
             scope.groupLastMod = {};
             scope.dimLastMod = {};
 
             scope.init = function(){
-                scope.data = MetadataService.getData();
-                scope.dimLastMod = scope.data.dimension(function(d){
-                    var date = scope.formatter(new Date(d.metadata_modified));
-                    return date;
+                var data = MetadataService.getData();
+                scope.dimLastMod = data.dimension(function(d){
+                    return scope.formatter(new Date(d.metadata_modified));
                 });
 
                 scope.groupLastMod = scope.dimLastMod.group();
@@ -40,11 +39,9 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .x(d3.time.scale().domain([first, last]))
                     .y(d3.scale.sqrt().exponent(0.3).domain([0,400]))
                     .round(scope.formatter.round)
-                    .xUnits(scope.formatter.range)
-                    .yAxis().tickValues([]);
+                    .xUnits(scope.formatter.range);
 
                 scope.zoomChart.filterHandler(function(dimension, filter){
-                    console.log("zoom filtered "+filter);
                     scope.chart.focus(scope.zoomChart.filter());
                     scope.chart.filterAll();
                     return filter;
@@ -57,7 +54,6 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .margins({top: 10, right: 20, bottom: 18, left: 30})
                     .dimension(scope.dimLastMod)
                     .group(scope.groupLastMod)
-                    //.rangeChart(scope.zoomChart)
                     //.elasticY(true)
                     .centerBar(true)
                     .gap(1)
@@ -75,7 +71,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 dc.renderAll();
 
                 scope.zoomChart.filter([new Date("01/01/2014"),last]);
-            }
+            };
 
 
             scope.$on('filterChanged', function() {
