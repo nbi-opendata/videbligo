@@ -236,12 +236,16 @@
 
                         <tr ng-show='entry.extras["temporal_coverage-from"] != null'>
                             <td>G&uuml;ltig von</td>
-                            <td>{{entry.extras["temporal_coverage-from"]}}</td>
+                            <td>
+                                {{entry.extras["temporal_coverage-from"].substr(8,2)}}.{{entry.extras["temporal_coverage-from"].substr(5,2)}}.{{entry.extras["temporal_coverage-from"].substr(0,4)}}
+                            </td>
                         </tr>
 
                         <tr ng-show='entry.extras["temporal_coverage-to"] != null'>
                             <td>G&uuml;ltig bis</td>
-                            <td>{{entry.extras["temporal_coverage-to"]}}</td>
+                            <td>
+                                {{entry.extras["temporal_coverage-to"].substr(8,2)}}.{{entry.extras["temporal_coverage-to"].substr(5,2)}}.{{entry.extras["temporal_coverage-to"].substr(0,4)}}
+                            </td>
                         </tr>
 
                         <tr>
