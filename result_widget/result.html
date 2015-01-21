@@ -20,6 +20,7 @@
         line-height: 1;
 
         /* Better Font Rendering =========== */
+        /*to enhance the blurring icons */
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
@@ -177,24 +178,26 @@
 <div>
     <h1>Ergebnisliste</h1>
 
-    sort by :
-    <div>
-        <select ng-model="orderProp">
-            <option value="name">Alphabetical</option>
-            <option value="age">Newest</option>
-        </select>
-    </div>
+    <!--sort by :-->
+    <!--<div>-->
+        <!--<select ng-model="Sortieren nach :">-->
+            <!--<option value="name">Alphabetisch</option>-->
+            <!--<option value="age">neueste</option>-->
+        <!--</select>-->
+    <!--</div>-->
     <div>
         <div style="display: table; margin: 0 auto;">
+        <!-- to use the pagination controls in Angular.js -->
             <dir-pagination-controls template-url="bower_components/angular-utils-pagination/dirPagination.tpl.html"></dir-pagination-controls>
         </div>
         <ul class="result-list">
             <li dir-paginate="entry in entries  | itemsPerPage: elementsPerPage">
-
-                <div data-ng-click="toggleVisible($index)" class="result-row">
+                
+                <div data-ng-click="toggleVisible(entry.id)" class="result-row">
                     <div class="result-row-container">
 
                         <!--Category Icons-->
+                        <!--we have maximum 2 categories icons in each result  -->
                         <div class="result-col-1">
                             <span data-ng-repeat="group in entry.groups"
                                   class="category-icon icon-{{group}}"
@@ -203,10 +206,11 @@
                         </div>
 
                         <!--Toggle Arrow-->
+                        <!-- the clickable arrow to show/hide the details of the result  -->
                         <div class="result-col-3">
                             <span class="toggle-arrow">
                                <span class="toggle-icon"
-                                     ng-class="{'icon-arrow-up': visibleDetailsDivs.contains($index), 'icon-arrow-down': true}">
+                                     ng-class="{'icon-arrow-up': visibleDetailsDivs.contains(entry.id), 'icon-arrow-down': true}">
                                </span>
                             </span>
                         </div>
@@ -222,7 +226,7 @@
                 </div>
 
                 <!--Details Div-->
-                <div class="details" ng-class="{'visible': visibleDetailsDivs.contains($index)}">
+                <div class="details" ng-class="{'visible': visibleDetailsDivs.contains(entry.id)}">
                     <table>
                         <tr ng-show='entry.title != null'>
                             <td>Titel</td>
@@ -236,12 +240,16 @@
 
                         <tr ng-show='entry.extras["temporal_coverage-from"] != null'>
                             <td>G&uuml;ltig von</td>
-                            <td>{{entry.extras["temporal_coverage-from"]}}</td>
+                            <td>
+                                {{entry.extras["temporal_coverage-from"].substr(8,2)}}.{{entry.extras["temporal_coverage-from"].substr(5,2)}}.{{entry.extras["temporal_coverage-from"].substr(0,4)}}
+                            </td>
                         </tr>
 
                         <tr ng-show='entry.extras["temporal_coverage-to"] != null'>
                             <td>G&uuml;ltig bis</td>
-                            <td>{{entry.extras["temporal_coverage-to"]}}</td>
+                            <td>
+                                {{entry.extras["temporal_coverage-to"].substr(8,2)}}.{{entry.extras["temporal_coverage-to"].substr(5,2)}}.{{entry.extras["temporal_coverage-to"].substr(0,4)}}
+                            </td>
                         </tr>
 
                         <tr>
@@ -257,7 +265,7 @@
                         </tr>
 
                         <tr>
-                            <td>Kategorie</td>
+                            <td>Kategorie{{entry.groups.length > 1 ? 'n':''}}</td>
                             <td>
                                 <span class="details-category" data-ng-repeat="group in entry.groups">{{category_mapping[group]}}</span>
                             </td>

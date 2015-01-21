@@ -11,6 +11,8 @@
     <script type="text/javascript" src="bower_components/crossfilter/crossfilter.js"></script>
     <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script type="text/javascript" src="bower_components/d3/d3.js"></script>
+    <script type="text/javascript" src="bower_components/dcjs/dc.js"></script>
+    <link rel="stylesheet" type="text/css" href="bower_components/dcjs/dc.css"/>
 
     <!-- Videbligo imports -->
     <link rel="stylesheet" type="text/css" href="map_widget/map.css"/>
@@ -33,10 +35,10 @@
 </head>
 <body data-ng-app="Videbligo">
 
-    <div style="float:left;">
+    <!--<div style="float:left;">-->
         <search>
         </search>
-    </div>
+    <!--</div>-->
 
     <div style="margin-left:50px; float:left;">
         <date>
@@ -49,14 +51,15 @@
     </div>
 
     <div style="float:left;">
-        <category></category>
+        <category data-number_of_columns="4"></category>
     </div>
+
     <div class="clearfix"></div>
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-xs-3">
             <timegranularity></timegranularity>
         </div>
-        <div class="col-lg-6">
+        <div class="col-xs-3">
             <geographicalgranularity></geographicalgranularity>
         </div>
 
