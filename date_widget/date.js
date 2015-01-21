@@ -8,7 +8,8 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
             //used to determine x axes domain for both charts
             scope.formatter = d3.time.year;
-            scope.chartWidth = 700;
+            scope.chartWidth = 500;
+            scope.chartHeight = 170;
 
             scope.dimDate = {};
             scope.groupDate = {};
@@ -89,7 +90,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 scope.zoomChart = dc.barChart('#time-zoom-chart');
                 scope.zoomChart
                     .width(scope.chartWidth)
-                    .height(40)
+                    .height(35)
                     .margins({top: 0, right: 20, bottom: 18, left: 30})
                     .dimension(scope.dimDate)
                     .group(scope.groupDate)
@@ -108,7 +109,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
                 scope.chart
                     .width(scope.chartWidth)
-                    .height(180)
+                    .height(scope.chartHeight)
                     .margins({top: 10, right: 20, bottom: 18, left: 30})
                     .dimension(scope.dimDate)
                     .group(scope.groupDate)

@@ -8,7 +8,8 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
 
             //used to determine x axes domain for both charts
             scope.formatter = d3.time.month;
-            scope.chartWidth = 600;
+            scope.chartWidth = 500;
+            scope.chartHeight = 170;
 
             scope.groupLastMod = {};
             scope.dimLastMod = {};
@@ -30,7 +31,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 scope.zoomChart = dc.barChart('#last-modification-zoom-chart');
                 scope.zoomChart
                     .width(scope.chartWidth)
-                    .height(40)
+                    .height(35)
                     .margins({top: 0, right: 20, bottom: 18, left: 30})
                     .dimension(scope.dimLastMod)
                     .group(scope.groupLastMod)
@@ -50,7 +51,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 scope.chart = dc.barChart('#last-modification-chart');
                 scope.chart
                     .width(scope.chartWidth)
-                    .height(200)
+                    .height(scope.chartHeight)
                     .margins({top: 10, right: 20, bottom: 18, left: 30})
                     .dimension(scope.dimLastMod)
                     .group(scope.groupLastMod)
