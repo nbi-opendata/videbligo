@@ -106,7 +106,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .yAxis().tickValues([]);
 
                 scope.zoomChart.filterHandler(function(dimension, filter){
-                    console.log("zoom filtered "+filter);
+                    //console.log("zoom filtered "+filter);
                     scope.chart.focus(scope.zoomChart.filter());
                     scope.chart.filterAll();
                     //if (filter.length > 0){
@@ -140,7 +140,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .yAxis().tickFormat(d3.format("d"));
 
                 scope.chart.filterHandler(function(dimension, filter){
-                    console.log("normal filtered "+filter);
+                    //console.log("normal filtered "+filter);
                     return scope.filterFunction(dimension, filter);
                 });
 
@@ -229,8 +229,8 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
             scope.$on('filterChanged', function() {
                 scope.cachedGrouping = scope.precacheGrouping();
-                scope.chart.redraw();
-                console.log(scope.dimDate.top(Infinity).length);
+                dc.redrawAll();
+                //console.log(scope.dimDate.top(Infinity).length);
             });
 
             MetadataService.registerWidget(scope.init);
