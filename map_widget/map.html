@@ -1,34 +1,23 @@
 <div>
-    <h2>Map</h2>
-    <ul>
-        <div class="row">
-            <div class="panel panel-body">
-                <div id = "mapInfoBox"></div>
-                <div svg-map
-                     ng-click = "regionChoice()">
-                  </div>
-            </div>
-            <li ng-repeat="region in districts" >
-                <a tooltip="region.key">{{region.key}}</a>
-            </li>
-            <li ng-repeat="region in districts" >
-                <a popup-show="map_widget/popup.html">{{region.key}}</a>
-            </li>
-                <h1>Popup1</h1>
-                <a popup-show="map_widget/popup.html">Show popup!</a>
-        </div>
-    </ul>
-</div>
-
-<!--<div class="col-md-6">
-    <div class="panel panel-s">
+    <h2>Karte</h2>
+    <div class="row">
         <div class="panel panel-body">
-            <div class="regionlist">
-                <div ng-repeat="region in districts">
-                    <div>{{region.key}}</div>
-                    <div>{{region.value | number}}</div>
+            <div ng-click="berlinClicked()" ng-mouseover="berlinMouseOver()" ng-mouseleave="berlinMouseLeave()">
+                <div svg-map
+                    ng-click = "regionChoice()"  id="berlinMap" >
+                 </div>
+                <div id="berlinBox">
+                    <form>
+                        Berlin
+                        <input type="checkbox" name="Test" ng-click="scope.berlinClicked();" >
+                    </form>
+                </div>
+            </div>
+            <div id = "mapInfoBox">
+                <div id="mapChart" ng-click="resetSelection()" >
                 </div>
             </div>
         </div>
     </div>
-</div>-->
+</div>
+

@@ -3,14 +3,19 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
     return {
         restrict: 'AE',
         templateUrl: 'category_widget/category.html',
-        scope: {},
-        link: function(scope, element, attrs) {
+        scope: {
+            numberOfColumns: '@'
+        },
+        link: function(scope, element, attrs) { //to make scope inside this directive different from the outside one 
             scope.categories = {};
+
+            scope.numberOfColumns = 5;
 
             scope.init = function(){
                 var data = MetadataService.getData();
                 scope.dimCategory = data.dimension(function(d){return d.groups;});
                 scope.groupCategory = scope.dimCategory.groupAll().reduce(scope.reduceAdd, scope.reduceRemove, scope.reduceInitial);
+                //grouping all records as a single value , then spicifies the reduce function for this grouping , then return this grouping
                 for(var key in scope.groupCategory.value()){
                     scope.categories[key] = {};
                     scope.categories[key].size = scope.groupCategory.value()[key];
@@ -18,6 +23,11 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
                 scope.category_mapping = category_mapping;
                 scope.selected_categories = new StringSet();
                 scope.hovered_category = 'none';
+
+                if(attrs.numberOfColumns) {
+                    scope.numberOfColumns = parseInt(attrs.numberOfColumns);
+                }
+
             };
 
             MetadataService.registerWidget(scope.init);
@@ -26,7 +36,7 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
                 for(var key in scope.groupCategory.value())
                     scope.categories[key].size = scope.groupCategory.value()[key];
             });
-
+            //in the next function , if the category is selected , then after a click deselect ,if it is not selected then a fter a click ,make it selected 
             scope.toggle = function(key){
                 if(scope.selected_categories.contains(key)){
                     scope.selected_categories.remove(key);
@@ -40,10 +50,11 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
                     });
                     return tmp.length > 0;
                 };
-
+                //if there is no selected categorie then select all of them .
                 if(scope.selected_categories.values().length == 0) {
                     scope.dimCategory.filterAll();
-                }else{
+                }else{ 
+                   //if there is selected category , then filter the category dimention by the selected value(s) and amke an update 
                     scope.dimCategory.filter(filterFunction);
                 }
                 MetadataService.triggerUpdate();
