@@ -104,60 +104,75 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .rangeChart(scope.zoomChart)
                     .x(d3.time.scale().domain([first, last]))
                     .brushOn(false)
+                    .centerBar(true)
                     .renderHorizontalGridLines(true)
-                    //.mouseZoomable(true)
                     .elasticY(true)
                     .round(scope.formatter.round)
                     .xUnits(scope.formatter.range)
+                    .title(function(d){
+                        return d.x.getFullYear() +": " + d.y;
+                    })
                     .yAxis().tickFormat(d3.format("d"));
 
                 scope.chart.filterHandler(function(dimension, filter){
-                    if (filter.length > 0){
-                        var filterStart = filter[0][0];
-                        var filterEnd = filter[0][1];
-
-                        dimension.filterFunction(function(d){
-                            if (d.length == 1){
-                                return filterStart <= d[0] && d[0] <= filterEnd;
-                            }
-                            var dimStart = d[0];
-                            var dimEnd = d[d.length - 1];
-
-                            if (dimStart <= filterStart && dimEnd >= filterEnd){
-                                return true;
-                            }
-
-                            if (dimStart >= filterStart && dimEnd <= filterEnd){
-                                return true;
-                            }
-
-                            if (dimStart <= filterStart && dimEnd >= filterStart){
-                                return true;
-                            }
-
-                            if (dimStart <= filterEnd && dimEnd >= filterEnd){
-                                return true;
-                            }
-
-                            return false;
-                        });
-
-                        console.log("Number of filtered elements: "+dimension.top(Infinity).length);
-                    }
-                    else {
-                        dimension.filterAll();
-                    }
-
-                    return filter;
+                    return scope.filterFunction(dimension, filter);
                 });
 
-                //chart.on("filtered", function(chart, filter){
-                //    scope.debounceTriggerUpdate();
-                //    console.log(filter);
-                //});
+                scope.chart.renderlet(function(chart) {
+                    scope.chart.selectAll('rect').on("click", function(d) {
+                        chart.filterAll();
+                        chart.filter([d.x,d.x]);
+                    });
+                });
+
+                scope.chart.on("filtered", function(chart, filter){
+                    scope.debounceTriggerUpdate();
+                });
 
                 dc.renderAll();
             };
+
+            scope.filterFunction = function(dimension, filter){
+                console.log(filter);
+                if (filter.length > 0){
+                    var filterStart = filter[0][0];
+                    var filterEnd = filter[0][1];
+                    console.log([filterStart, filterEnd]);
+
+                    dimension.filterFunction(function(d){
+                        if (d.length == 1){
+                            return filterStart <= d[0] && d[0] <= filterEnd;
+                        }
+                        var dimStart = d[0];
+                        var dimEnd = d[d.length - 1];
+
+                        if (dimStart <= filterStart && dimEnd >= filterEnd){
+                            return true;
+                        }
+
+                        if (dimStart >= filterStart && dimEnd <= filterEnd){
+                            return true;
+                        }
+
+                        if (dimStart <= filterStart && dimEnd >= filterStart){
+                            return true;
+                        }
+
+                        if (dimStart <= filterEnd && dimEnd >= filterEnd){
+                            return true;
+                        }
+
+                        return false;
+                    });
+
+                    console.log("Number of filtered elements: "+dimension.top(Infinity).length);
+                }
+                else {
+                    dimension.filterAll();
+                }
+
+                return filter;
+            }
 
             function binaryInsert(value, array, startVal, endVal){
                 var length = array.length;
