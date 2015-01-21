@@ -8,12 +8,14 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
             //used to determine x axes domain for both charts
             scope.formatter = d3.time.year;
+            scope.chartWidth = 700;
 
             scope.availableFrom = "";
             scope.availableTo = "";
             scope.spanVisible = false;
-            scope.groupDate = {};
             scope.dimDate = {};
+            scope.groupDate = {};
+            scope.cachedGrouping = [];
 
             scope.getD3TimeRange = function(data){
                 var dateFrom = parseDate(data.extras["temporal_coverage-from"]);
@@ -56,20 +58,27 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     }
                 ).value();
 
+                scope.cachedGrouping = scope.precacheGrouping();
+
                 //adding functions to simulate the group of crossfilter
                 scope.groupDate.all = function() {
-                    var newObject = [];
-                    for (var key in this) {
-                        if (this.hasOwnProperty(key) && key != "all") {
-                            binaryInsert({key: new Date(key), value: this[key]}, newObject);
-                        }
-                    }
-                    return newObject;
+                    return scope.cachedGrouping;
                 };
 
                 scope.initSvg();
             };
 
+            scope.precacheGrouping = function (){
+                    var newObject = [];
+                    var val = scope.groupDate;
+                    scope.maxYValue = 0;
+                    for (var key in val) {
+                        if (val.hasOwnProperty(key) && key != "all") {
+                            binaryInsert({key: new Date(key), value: val[key]}, newObject);
+                        }
+                    }
+                    return newObject;
+            };
 
             scope.initSvg = function(){
                 scope.debounceTriggerUpdate = debounce(function (chart, filter) {
@@ -83,31 +92,32 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 scope.chart = dc.barChart('#time-chart');
                 scope.zoomChart = dc.barChart('#time-zoom-chart');
                 scope.zoomChart
-                    .width(1000)
+                    .width(scope.chartWidth)
                     .height(40)
-                    .margins({top: 0, right: 10, bottom: 20, left: 30})
+                    .margins({top: 0, right: 10, bottom: 18, left: 30})
                     .dimension(scope.dimDate)
                     .group(scope.groupDate)
                     .centerBar(true)
                     .gap(1)
                     .x(d3.time.scale().domain([first, last]))
+                    .y(d3.scale.sqrt().exponent(0.3).domain([0,400]))
                     .round(scope.formatter.round)
                     .xUnits(scope.formatter.range)
                     .yAxis().tickValues([]);
 
                 scope.chart
-                    .width(1000)
-                    .height(200)
-                    .margins({top: 10, right: 10, bottom: 20, left: 30})
+                    .width(scope.chartWidth)
+                    .height(180)
+                    .margins({top: 10, right: 10, bottom: 18, left: 30})
                     .dimension(scope.dimDate)
                     .group(scope.groupDate)
                     .rangeChart(scope.zoomChart)
                     .x(d3.time.scale().domain([first, last]))
-                    .brushOn(false)
+                    .y(d3.scale.sqrt().exponent(0.7).domain([0,400]))
+                    .brushOn(true)
                     .gap(1)
                     .centerBar(true)
-                    .renderHorizontalGridLines(true)
-                    .elasticY(true)
+                    //.elasticY(true)
                     .round(scope.formatter.round)
                     .xUnits(scope.formatter.range)
                     .title(function(d){
@@ -119,35 +129,38 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     return scope.filterFunction(dimension, filter);
                 });
 
-                scope.chart.renderlet(function(chart) {
-                    chart.selectAll('rect').on("click", function(d) {
-                        chart.filterAll();
-                        chart.filter([d.x,d.x]);
-                        var id = '#'+ d.x.getTime();
-                        angular.element(id).toggleClass('selected');
-                    });
-
-                    chart.selectAll('rect').attr('id', function(d){
-                        if (d == undefined){
-                            return "";
-                        }
-                        return d.x.getTime();
-                    });
-                });
+                //scope.chart.renderlet(function(chart) {
+                //    chart.selectAll('rect').on("click", function(d) {
+                //        chart.filterAll();
+                //        chart.filter([d.x,d.x]);
+                //        var id = '#'+ d.x.getTime();
+                //        angular.element(id).toggleClass('selected');
+                //    });
+                //
+                //    chart.selectAll('rect').attr('id', function(d){
+                //        if (d == undefined){
+                //            return "";
+                //        }
+                //        return d.x.getTime();
+                //    });
+                //});
 
                 scope.chart.on("filtered", function(chart, filter){
                     scope.debounceTriggerUpdate();
                 });
 
                 dc.renderAll();
+
+                scope.zoomChart.filter([new Date("01/01/1990"),new Date()]);
+                //$compile(angular.element('#time-chart'))(scope);
             };
 
             scope.filterFunction = function(dimension, filter){
-                console.log(filter);
+                //console.log(filter);
                 if (filter.length > 0){
                     var filterStart = filter[0][0];
                     var filterEnd = filter[0][1];
-                    console.log([filterStart, filterEnd]);
+                    //console.log([filterStart, filterEnd]);
 
                     dimension.filterFunction(function(d){
                         if (d.length == 1){
@@ -175,7 +188,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                         return false;
                     });
 
-                    console.log("Number of filtered elements: "+dimension.top(Infinity).length);
+                    //console.log("Number of filtered elements: "+dimension.top(Infinity).length);
                 }
                 else {
                     dimension.filterAll();
@@ -221,6 +234,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             }
 
             scope.$on('filterChanged', function() {
+                scope.cachedGrouping = scope.precacheGrouping();
                 scope.chart.redraw();
             });
 
