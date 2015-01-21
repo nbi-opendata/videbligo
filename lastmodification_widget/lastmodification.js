@@ -15,6 +15,13 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
             scope.dimLastMod = {};
 
             scope.init = function(){
+                if(attrs.chartWidth) {
+                    scope.chartWidth = parseInt(attrs.chartWidth);
+                }
+                if(attrs.chartHeight) {
+                    scope.chartHeight = parseInt(attrs.chartHeight);
+                }
+
                 var data = MetadataService.getData();
                 scope.dimLastMod = data.dimension(function(d){
                     return scope.formatter(new Date(d.metadata_modified));

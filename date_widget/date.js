@@ -32,6 +32,13 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
 
             scope.init = function(){
+                if(attrs.chartWidth) {
+                    scope.chartWidth = parseInt(attrs.chartWidth);
+                }
+                if(attrs.chartHeight) {
+                    scope.chartHeight = parseInt(attrs.chartHeight);
+                }
+
                 var data = MetadataService.getData();
 
                 scope.dimDate = data.dimension(function(d){
