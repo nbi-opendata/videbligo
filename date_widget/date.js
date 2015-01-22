@@ -8,8 +8,11 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
             //used to determine x axes domain for both charts
             scope.formatter = d3.time.year;
+
+            //params injected from index.html
             scope.chartWidth = 500;
             scope.chartHeight = 170;
+            scope.showZoomChart = true;
 
             scope.dimDate = {};
             scope.groupDate = {};
@@ -38,6 +41,21 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 if(attrs.chartHeight) {
                     scope.chartHeight = parseInt(attrs.chartHeight);
                 }
+                if(attrs.showZoomChart) {
+                    scope.showZoomChart = (attrs.showZoomChart.toLowerCase() === "true");
+                }
+
+
+                scope.tickFormat = d3.time.format.multi([
+                    ["", function(d) { return d.getMilliseconds(); }],
+                    ["", function(d) { return d.getSeconds(); }],
+                    ["", function(d) { return d.getMinutes(); }],
+                    ["", function(d) { return d.getHours(); }],
+                    ["", function(d) { return d.getDay() && d.getDate() != 1; }],
+                    ["", function(d) { return d.getDate() != 1; }],
+                    ["", function(d) { return d.getMonth(); }],
+                    ["%Y", function() { return true; }]
+                ]);
 
                 var data = MetadataService.getData();
 
@@ -94,25 +112,28 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 scope.last = all[all.length-1].key;
 
                 scope.chart = dc.barChart('#time-chart');
-                scope.zoomChart = dc.barChart('#time-zoom-chart');
-                scope.zoomChart
-                    .width(scope.chartWidth)
-                    .height(35)
-                    .margins({top: 0, right: 20, bottom: 18, left: 30})
-                    .dimension(scope.dimDate)
-                    .group(scope.groupDate)
-                    .centerBar(true)
-                    .gap(1)
-                    .x(d3.time.scale().domain([scope.first, scope.last]))
-                    .y(d3.scale.sqrt().exponent(0.3).domain([0,400]))
-                    .round(scope.formatter.round)
-                    .xUnits(scope.formatter.range);
 
-                scope.zoomChart.filterHandler(function(dimension, filter){
-                    scope.chart.focus(scope.zoomChart.filter());
-                    scope.chart.filterAll();
-                    return filter;
-                });
+                if (scope.showZoomChart){
+                    scope.zoomChart = dc.barChart('#time-zoom-chart');
+                    scope.zoomChart
+                        .width(scope.chartWidth)
+                        .height(35)
+                        .margins({top: 0, right: 20, bottom: 18, left: 30})
+                        .dimension(scope.dimDate)
+                        .group(scope.groupDate)
+                        .centerBar(true)
+                        .gap(1)
+                        .x(d3.time.scale().domain([scope.first, scope.last]))
+                        .y(d3.scale.sqrt().exponent(0.3).domain([0,400]))
+                        .round(scope.formatter.round)
+                        .xUnits(scope.formatter.range);
+
+                    scope.zoomChart.filterHandler(function(dimension, filter){
+                        scope.chart.focus(scope.zoomChart.filter());
+                        scope.chart.filterAll();
+                        return filter;
+                    });
+                }
 
                 scope.chart
                     .width(scope.chartWidth)
@@ -132,6 +153,8 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                         return d.x.getFullYear() +": " + d.y;
                     })
                     .yAxis().tickFormat(d3.format("d"));
+                scope.chart
+                    .xAxis().tickFormat(scope.tickFormat);
 
                 scope.chart.filterHandler(function(dimension, filter){
                     return scope.filterFunction(dimension, filter);
@@ -143,7 +166,9 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
                 dc.renderAll();
 
-                scope.zoomChart.filter([new Date("01/01/1990"),new Date()]);
+                if(scope.showZoomChart){
+                    scope.zoomChart.filter([new Date("01/01/1990"),new Date()]);
+                }
             };
 
             scope.filterFunction = function(dimension, filter){

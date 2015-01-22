@@ -153,15 +153,3 @@ var germanLocale = d3.locale({
     "shortMonths": ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
 });
 
-function germanFormatter(date){
-    var f = "%b";
-    if (date.getMonth() == 0){
-        f = "%Y";
-    }
-    return germanLocale.timeFormat(f)(date);
-}
-
-
-
-
-
