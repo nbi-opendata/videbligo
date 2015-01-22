@@ -33,7 +33,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     scope.chartHeight = parseInt(attrs.chartHeight);
                 }
                 if(attrs.showZoomChart) {
-                    scope.showZoomChart = (attrs.showZoomChart === "true");
+                    scope.showZoomChart = (attrs.showZoomChart.toLowerCase() === "true");
                 }
 
                 var data = MetadataService.getData();
