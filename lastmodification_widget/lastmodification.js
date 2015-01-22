@@ -10,12 +10,8 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
             scope.formatter = d3.time.month;
 
             //which language should the months on the x-axis be in
-            //alternatively, use englishDateFormatter
-            scope.localizationFormatter = germanDateFormatter;
-
-            //%b indicates that the month names should be abbreviated.
-            //Use %B for full names.
-            scope.monthFormat = "%b";
+            //alternatively, for english, use 'd3.time.format'
+            scope.locale = germanLocale.timeFormat;
 
             //params injected from index.html
             scope.chartWidth = 500;
@@ -35,6 +31,17 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 if(attrs.showZoomChart) {
                     scope.showZoomChart = (attrs.showZoomChart.toLowerCase() === "true");
                 }
+
+                scope.tickFormat = scope.locale.multi([
+                    [".%L", function(d) { return d.getMilliseconds(); }],
+                    [":%S", function(d) { return d.getSeconds(); }],
+                    ["%I:%M", function(d) { return d.getMinutes(); }],
+                    ["%I %p", function(d) { return d.getHours(); }],
+                    ["%a %d", function(d) { return d.getDay() && d.getDate() != 1; }],
+                    ["%b %d", function(d) { return d.getDate() != 1; }],
+                    ["%B", function(d) { return d.getMonth(); }],
+                    ["%Y", function() { return true; }]
+                ]);
 
                 var data = MetadataService.getData();
                 scope.dimLastMod = data.dimension(function(d){
@@ -69,8 +76,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                         scope.chart.filterAll();
                         return filter;
                     });
-                    scope.zoomChart
-                        .xAxis().tickFormat(function(d){return scope.localizationFormatter(d, scope.monthFormat)});
+                    scope.zoomChart.xAxis().tickFormat(scope.tickFormat);
                 }
 
                 scope.chart = dc.barChart('#last-modification-chart');
@@ -82,7 +88,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .group(scope.groupLastMod)
                     //.elasticY(true)
                     .centerBar(true)
-                    .gap(1)
+                    .gap(3)
                     .transitionDuration(1000)
                     .x(d3.time.scale().domain([first, last]))
                     .y(d3.scale.sqrt().exponent(0.7).domain([0,250]))
@@ -91,7 +97,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .yAxis().tickFormat(d3.format('d'));
 
                 //fix for german language in x axis
-                scope.chart.xAxis().tickFormat(function(d){return scope.localizationFormatter(d, scope.monthFormat)});
+                scope.chart.xAxis().tickFormat(scope.tickFormat);
 
                 scope.chart.on("filtered", function(chart, filter){
                     scope.debounceTriggerUpdate();

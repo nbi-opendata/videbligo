@@ -153,27 +153,3 @@ var germanLocale = d3.locale({
     "shortMonths": ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
 });
 
-/**
- * Returns the year if the month is january, else it returns the month name according to specified format
- * @param date
- * @param f Format ("%b" for a short name, "%B" for a full name)
- * @returns {*}
- */
-function germanDateFormatter(date, f){
-    if (date.getMonth() == 0){
-        f = "%Y";
-    }
-    return germanLocale.timeFormat(f)(date);
-}
-
-function englishDateFormatter(date, f){
-    if (date.getMonth() == 0){
-        f = "%Y";
-    }
-    return d3.time.format(f)(date);
-}
-
-
-
-
-
