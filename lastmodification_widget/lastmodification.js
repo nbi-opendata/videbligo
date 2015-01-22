@@ -17,8 +17,10 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
             //Use %B for full names.
             scope.monthFormat = "%b";
 
+            //params injected from index.html
             scope.chartWidth = 500;
             scope.chartHeight = 170;
+            scope.showZoomChart = true;
 
             scope.groupLastMod = {};
             scope.dimLastMod = {};
@@ -29,6 +31,9 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 }
                 if(attrs.chartHeight) {
                     scope.chartHeight = parseInt(attrs.chartHeight);
+                }
+                if(attrs.showZoomChart) {
+                    scope.showZoomChart = (attrs.showZoomChart === "true");
                 }
 
                 var data = MetadataService.getData();
@@ -44,25 +49,29 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     MetadataService.triggerUpdate(this);
                 }, 250);
 
-                scope.zoomChart = dc.barChart('#last-modification-zoom-chart');
-                scope.zoomChart
-                    .width(scope.chartWidth)
-                    .height(35)
-                    .margins({top: 0, right: 20, bottom: 18, left: 30})
-                    .dimension(scope.dimLastMod)
-                    .group(scope.groupLastMod)
-                    .centerBar(true)
-                    .gap(1)
-                    .x(d3.time.scale().domain([first, last]))
-                    .y(d3.scale.sqrt().exponent(0.3).domain([0,400]))
-                    .round(scope.formatter.round)
-                    .xUnits(scope.formatter.range);
+                if (scope.showZoomChart){
+                    scope.zoomChart = dc.barChart('#last-modification-zoom-chart');
+                    scope.zoomChart
+                        .width(scope.chartWidth)
+                        .height(35)
+                        .margins({top: 0, right: 20, bottom: 18, left: 30})
+                        .dimension(scope.dimLastMod)
+                        .group(scope.groupLastMod)
+                        .centerBar(true)
+                        .gap(1)
+                        .x(d3.time.scale().domain([first, last]))
+                        .y(d3.scale.sqrt().exponent(0.3).domain([0,400]))
+                        .round(scope.formatter.round)
+                        .xUnits(scope.formatter.range);
 
-                scope.zoomChart.filterHandler(function(dimension, filter){
-                    scope.chart.focus(scope.zoomChart.filter());
-                    scope.chart.filterAll();
-                    return filter;
-                });
+                    scope.zoomChart.filterHandler(function(dimension, filter){
+                        scope.chart.focus(scope.zoomChart.filter());
+                        scope.chart.filterAll();
+                        return filter;
+                    });
+                    scope.zoomChart
+                        .xAxis().tickFormat(function(d){return scope.localizationFormatter(d, scope.monthFormat)});
+                }
 
                 scope.chart = dc.barChart('#last-modification-chart');
                 scope.chart
@@ -83,7 +92,6 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
 
                 //fix for german language in x axis
                 scope.chart.xAxis().tickFormat(function(d){return scope.localizationFormatter(d, scope.monthFormat)});
-                scope.zoomChart.xAxis().tickFormat(function(d){return scope.localizationFormatter(d, scope.monthFormat)});
 
                 scope.chart.on("filtered", function(chart, filter){
                     scope.debounceTriggerUpdate();
@@ -91,7 +99,9 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
 
                 dc.renderAll();
 
-                scope.zoomChart.filter([new Date("01/01/2014"),last]);
+                if (scope.showZoomChart){
+                    scope.zoomChart.filter([new Date("01/01/2014"),last]);
+                }
             };
 
 
