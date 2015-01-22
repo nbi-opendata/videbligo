@@ -138,7 +138,7 @@ function debounce(func, wait, immediate) {
     };
 }
 
-germanFormatter = d3.locale({
+var germanLocale = d3.locale({
     "decimal": ".",
     "thousands": ",",
     "grouping": [3],
@@ -152,6 +152,14 @@ germanFormatter = d3.locale({
     "months": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
     "shortMonths": ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
 });
+
+function germanFormatter(date){
+    var f = "%b";
+    if (date.getMonth() == 0){
+        f = "%Y";
+    }
+    return germanLocale.timeFormat(f)(date);
+}
 
 
 
