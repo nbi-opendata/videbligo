@@ -8,6 +8,15 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
 
             //used to determine x axes domain for both charts
             scope.formatter = d3.time.month;
+
+            //which language should the months on the x-axis be in
+            //alternatively, use englishDateFormatter
+            scope.localizationFormatter = germanDateFormatter;
+
+            //%b indicates that the month names should be abbreviated.
+            //Use %B for full names.
+            scope.monthFormat = "%b";
+
             scope.chartWidth = 500;
             scope.chartHeight = 170;
 
@@ -73,8 +82,8 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .yAxis().tickFormat(d3.format('d'));
 
                 //fix for german language in x axis
-                scope.chart.xAxis().tickFormat(function(d){return germanFormatter(d)});
-                scope.zoomChart.xAxis().tickFormat(function(d){return germanFormatter(d)});
+                scope.chart.xAxis().tickFormat(function(d){return scope.localizationFormatter(d, scope.monthFormat)});
+                scope.zoomChart.xAxis().tickFormat(function(d){return scope.localizationFormatter(d, scope.monthFormat)});
 
                 scope.chart.on("filtered", function(chart, filter){
                     scope.debounceTriggerUpdate();
