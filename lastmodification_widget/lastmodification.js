@@ -72,6 +72,10 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .xUnits(scope.formatter.range)
                     .yAxis().tickFormat(d3.format('d'));
 
+                //fix for german language in x axis
+                scope.chart.xAxis().tickFormat(germanFormatter.timeFormat("%B"));
+                scope.zoomChart.xAxis().tickFormat(germanFormatter.timeFormat("%b"));
+
                 scope.chart.on("filtered", function(chart, filter){
                     scope.debounceTriggerUpdate();
                 });
