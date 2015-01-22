@@ -1,8 +1,27 @@
 // Hier kann man zentral die Farben der Karte ändern
 
-colorUnclicked = '#73CAC6';
-colorClicked = '#00D38A';
-colorHover = '#00E600';
+if (!document.styleSheets){
+    console.log("Please enable styleSheets");
+} else {
+    var theRules = new Array();
+
+    for( var i = 0; i < document.styleSheets.length; i++){
+        if (document.styleSheets[i].cssRules)
+            theRules = document.styleSheets[i].cssRules
+        else if (document.styleSheets[i].rules)
+            theRules = document.styleSheets[i].rules
+
+        if( theRules[0].selectorText == '.mapIdentifier'){
+            // alert(i);
+            break;
+        }
+    }
+}
+
+colorHover = theRules[theRules.length - 1].style.color;
+colorClicked = theRules[theRules.length - 2].style.color;
+colorUnclicked = theRules[theRules.length - 3].style.color;
+
 onSvg = false;
 allBerlin = null;
 bezirke = null;
