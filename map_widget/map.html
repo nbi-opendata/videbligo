@@ -6,12 +6,11 @@
                 <div svg-map
                     ng-click = "regionChoice()"  id="berlinMap" >
                  </div>
-                <div id="berlinBox">
-                    <form>
-                        Berlin
-                        <input type="checkbox" name="Test" ng-click="scope.berlinClicked();" >
-                    </form>
-                </div>
+            </div>
+            <div id="berlinBox">
+                <form>
+                    <input type="button" name="Test" value="reset" ng-click="resetFilters();" >
+                </form>
             </div>
             <div id = "mapInfoBox">
                 <div id="mapChart" ng-click="resetSelection()" >

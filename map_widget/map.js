@@ -110,6 +110,22 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                 $('#mapChart').css('visibility', 'hidden');
             }
 
+
+            // reset-function
+            scope.resetFilters = function(){
+                scope.regionsAll.forEach(function(district){
+                    scope.regionData[district].clicked = false;
+                })
+
+                angular.forEach(bezirke, function(region){
+                    region.setAttribute('fill', colorUnclicked );
+                })
+
+                scope.dimRegion.filterAll();
+                MetadataService.triggerUpdate();
+            }
+
+
             // Eigene Reduce-Funktionen zum individuellen Gruppieren
             scope.reduceAdd = function(p, v) {
                 var val = v.extras['geographical_coverage'];
