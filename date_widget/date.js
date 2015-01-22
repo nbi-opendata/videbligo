@@ -6,316 +6,210 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
         scope: {},
         link: function(scope, element, attrs) {
 
-            scope.availableFrom = "";
-            scope.availableTo = "";
-            scope.spanVisible = false;
-            scope.dateGroup = {};
+            //used to determine x axes domain for both charts
+            scope.formatter = d3.time.year;
+            scope.chartWidth = 500;
+            scope.chartHeight = 170;
+
             scope.dimDate = {};
-            scope.selectedYears = new StringSet();
-            scope.svgParams = {};
-            scope.hover = {};
-            scope.selectionType = {
-                ADD: {},
-                REMOVE: {}
+            scope.groupDate = {};
+            scope.cachedGrouping = [];
+
+            scope.getD3TimeRange = function(data){
+                var dateFrom = parseDate(data.extras["temporal_coverage-from"]);
+
+                if (dateFrom != undefined){
+                    dateFrom = scope.formatter.floor(dateFrom);
+                }
+
+                var dateTo = parseDate(data.extras["temporal_coverage-to"]);
+                if (dateTo != undefined){
+                    dateTo = scope.formatter.ceil(dateTo);
+                }
+
+                return scope.formatter.range(dateFrom, dateTo);
             };
 
-            scope.init = function(){
-                scope.data = MetadataService.getData();
 
-                scope.dimDate = scope.data.dimension(function(d){
-                    var dateFrom = parseDate(d.extras["temporal_coverage-from"]);
-                    var dateTo = parseDate(d.extras["temporal_coverage-to"]);
-                    return {from: dateFrom, to: dateTo};
+            scope.init = function(){
+                if(attrs.chartWidth) {
+                    scope.chartWidth = parseInt(attrs.chartWidth);
+                }
+                if(attrs.chartHeight) {
+                    scope.chartHeight = parseInt(attrs.chartHeight);
+                }
+
+                var data = MetadataService.getData();
+
+                scope.dimDate = data.dimension(function(d){
+                    return scope.getD3TimeRange(d);
                 });
 
-                scope.dateGroup = scope.dimDate.group().reduce(
+                scope.groupDate = scope.dimDate.groupAll().reduce(
                     function (p,v){
-                        var from = v.extras["temporal_coverage-from"];
-                        var to = v.extras["temporal_coverage-to"];
-                        var fromDate = {}
-                        var toDate = to == undefined ? new Date() : parseDate(to);
-                        if (from != undefined){
-                            for (var i = parseDate(from).getFullYear(); i <= toDate.getFullYear(); i++){
-                                if (i in p.years){
-                                    p.years[i]++;
-                                }
-                                else {
-                                    p.years[i] = 1;
-                                }
-                            }
-                        }
+                        scope.getD3TimeRange(v).forEach (function(val, idx) {
+                            p[val] = (p[val] || 0) + 1;
+                        });
                         return p;
                     },
                     function (p,v) {
-                        var from = v.extras["temporal_coverage-from"];
-                        var to = v.extras["temporal_coverage-to"];
-                        var fromDate = {}
-                        var toDate = to == undefined ? new Date() : parseDate(to);
-                        if (from != undefined){
-                            for (var i = parseDate(from).getFullYear(); i <= toDate.getFullYear(); i++){
-                                p.years[i]--;
-                                if (p.years[i] === 0){
-                                    delete p.years[i];
-                                }
-                            }
-                        }
+                        scope.getD3TimeRange(v).forEach (function(val, idx) {
+                            p[val] = (p[val] || 0) - 1;
+                        });
                         return p;
                     },
                     function (){
-                        return {
-                            years: {}
-                        };
+                        return {};
                     }
-                );
+                ).value();
 
-                scope.initSvg();
-            }
+                scope.precacheGrouping();
 
-            scope.initSvg = function(){
-                scope.updateCurrentMappings();
+                //adding functions to simulate the group of crossfilter
+                scope.groupDate.all = function() {
+                    return scope.cachedGrouping;
+                };
 
-                /*
-                    - oben und rechts braucht man keine Abstaende
-                    (1px muss wegen des kleinen vertikalen Strichs am Ende der x-Achse da sein)
-                    - kleinere Unten- und Linkswerte schneiden die Achsenbeschriftungen ab
-                    - NUR mit der Breite und Hoehe darf fuer die Anpassung gespielt werden
-                 */
-                scope.svgParams.margin = {top: 0, right: 1, bottom: 30, left: 27},
-                    scope.svgParams.width = 750,
-                    scope.svgParams.height = 200;
+                scope.initCharts();
+            };
 
-                scope.svgParams.x = d3.scale.ordinal().rangeRoundBands([0, scope.svgParams.width], .1);
-                scope.svgParams.y = d3.scale.linear().range([scope.svgParams.height, 0]);
+            scope.precacheGrouping = function (){
+                    var newObject = [];
+                    var val = scope.groupDate;
+                    for (var key in val) {
+                        if (val.hasOwnProperty(key) && key != "all") {
+                            scope.binaryInsert({key: new Date(key), value: val[key]}, newObject);
+                        }
+                    }
+                    scope.cachedGrouping = newObject;
+            };
 
-                scope.svgParams.x.domain(scope.svgParams.initialYears);
-                var currentValues = [];
-                for(var key in scope.svgParams.currentMappings) {
-                    currentValues.push(scope.svgParams.currentMappings[key].value);
+            scope.initCharts = function(){
+                scope.debounceTriggerUpdate = debounce(function (chart, filter) {
+                    MetadataService.triggerUpdate(this);
+                }, 250);
+
+                var all = scope.groupDate.all();
+                scope.first = all[0].key;
+                scope.last = all[all.length-1].key;
+
+                scope.chart = dc.barChart('#time-chart');
+                scope.zoomChart = dc.barChart('#time-zoom-chart');
+                scope.zoomChart
+                    .width(scope.chartWidth)
+                    .height(35)
+                    .margins({top: 0, right: 20, bottom: 18, left: 30})
+                    .dimension(scope.dimDate)
+                    .group(scope.groupDate)
+                    .centerBar(true)
+                    .gap(1)
+                    .x(d3.time.scale().domain([scope.first, scope.last]))
+                    .y(d3.scale.sqrt().exponent(0.3).domain([0,400]))
+                    .round(scope.formatter.round)
+                    .xUnits(scope.formatter.range);
+
+                scope.zoomChart.filterHandler(function(dimension, filter){
+                    scope.chart.focus(scope.zoomChart.filter());
+                    scope.chart.filterAll();
+                    return filter;
+                });
+
+                scope.chart
+                    .width(scope.chartWidth)
+                    .height(scope.chartHeight)
+                    .margins({top: 10, right: 20, bottom: 18, left: 30})
+                    .dimension(scope.dimDate)
+                    .group(scope.groupDate)
+                    .x(d3.time.scale().domain([scope.first, scope.last]))
+                    .y(d3.scale.sqrt().exponent(0.7).domain([0,400]))
+                    .brushOn(true)
+                    .gap(1)
+                    .centerBar(true)
+                    //.elasticY(true)
+                    .round(scope.formatter.round)
+                    .xUnits(scope.formatter.range)
+                    .title(function(d){
+                        return d.x.getFullYear() +": " + d.y;
+                    })
+                    .yAxis().tickFormat(d3.format("d"));
+
+                scope.chart.filterHandler(function(dimension, filter){
+                    return scope.filterFunction(dimension, filter);
+                });
+
+                scope.chart.on("filtered", function(chart, filter){
+                    scope.debounceTriggerUpdate();
+                });
+
+                dc.renderAll();
+
+                scope.zoomChart.filter([new Date("01/01/1990"),new Date()]);
+            };
+
+            scope.filterFunction = function(dimension, filter){
+                if (filter.length > 0){
+                    var filterStart = filter[0][0];
+                    var filterEnd = filter[0][1];
+
+                    dimension.filterFunction(function(d){
+                        if (d.length == 1){
+                            return filterStart <= d[0] && d[0] <= filterEnd;
+                        }
+
+                        var dimStart = d[0];
+                        var dimEnd = d[d.length - 1];
+
+                        if (dimStart <= filterStart && dimEnd >= filterEnd){
+                            return true;
+                        }
+                        if (dimStart >= filterStart && dimEnd <= filterEnd){
+                            return true;
+                        }
+                        if (dimStart <= filterStart && dimEnd >= filterStart){
+                            return true;
+                        }
+                        if (dimStart <= filterEnd && dimEnd >= filterEnd){
+                            return true;
+                        }
+                        return false;
+                    });
                 }
-                scope.svgParams.y.domain([0, d3.max(currentValues)]);
+                else {
+                    dimension.filterAll();
+                }
 
-                scope.svgParams.xAxis = d3.svg.axis()
-                    .scale(scope.svgParams.x)
-                    .orient("bottom");
+                return filter;
+            };
 
-                scope.svgParams.yAxis = d3.svg.axis()
-                    .scale(scope.svgParams.y)
-                    .orient("left")
-                    .tickFormat(d3.format("d"));
+            scope.binaryInsert = function(value, array, startVal, endVal){
+                var length = array.length;
+                var start = typeof(startVal) != 'undefined' ? startVal : 0;
+                var end = typeof(endVal) != 'undefined' ? endVal : length - 1;
+                var m = start + Math.floor((end - start)/2);
 
-                d3.select("#time-chart").append("a")
-                    .attr("id", "time-chart-reset")
-                    .attr("ng-click", "resetSelection()")
-                    .attr("style", "cursor: pointer; display: block; visibility: hidden;")
-                    .text("reset");
-
-                scope.svg = d3.select("#time-chart").append("svg")
-                    .attr("width", scope.svgParams.width + scope.svgParams.margin.left + scope.svgParams.margin.right)
-                    .attr("height", scope.svgParams.height + scope.svgParams.margin.top + scope.svgParams.margin.bottom)
-                    .append("g")
-                    .attr("transform", "translate(" + scope.svgParams.margin.left + "," + scope.svgParams.margin.top + ")");
-
-                scope.svg.append("g")
-                    .attr("class", "x axis")
-                    .attr("transform", "translate(0," + scope.svgParams.height + ")")
-                    .call(scope.svgParams.xAxis)
-                    .selectAll("text")
-                    .style("text-anchor", "end")
-                    .attr("dx", "-.8em")
-                    .attr("dy", "-.45em")
-                    .attr("transform", function(d){return "rotate(-80)"});
-
-                scope.svg.append("g")
-                    .attr("class", "y axis")
-                    .call(scope.svgParams.yAxis)
-                    .append("text")
-                    .attr("transform", "rotate(-90)")
-                    .attr("y", 6)
-                    .attr("dy", ".71em")
-                    .style("text-anchor", "end")
-                    .text("Anzahl der Datensätze");
-
-                var onData = scope.svg.selectAll(".bar")
-                    .data(scope.svgParams.currentMappings);
-
-                onData
-                    .enter()
-                    .append("rect")
-                    .attr("x", function(d) { return scope.svgParams.x(d.year); })
-                    .attr("width", scope.svgParams.x.rangeBand())
-                    .attr("y", "0")
-                    .attr("height", function(d) { return scope.svgParams.height; })
-                    .attr("ng-mousedown", function(d){ return "handleMouseDown('"+ d.year+"')";})
-                    .attr("ng-class", function(d){ return "{'barbg' : true, 'active': selectedYears.contains("+ d.year+")}";})
-                    .attr("ng-mouseover", function(d){ return "handleHover($event, '"+ d.year+"', '"+d.value+"')";})
-                    .attr("ng-mouseleave", function(d){ return "resetHovers()";});
-
-                onData
-                    .enter()
-                    .append("rect")
-                    .attr("x", function(d) { return scope.svgParams.x(d.year); })
-                    .attr("id", function(d) { return "time-chart-bar-"+d.year; })
-                    .attr("width", scope.svgParams.x.rangeBand())
-                    .attr("y", function(d) { return scope.svgParams.y(d.value); })
-                    .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(d.value); })
-                    .attr("ng-mousedown", function(d){ return "handleMouseDown('"+ d.year+"')";})
-                    .attr("ng-class", function(d){ return "{'bar': true, 'active': selectedYears.contains("+ d.year+")}";})
-                    .attr("ng-mouseover", function(d){ return "handleHover($event, '"+ d.year+"', '"+d.value+"')";})
-                    .attr("ng-mouseleave", function(d){ return "resetHovers()";});
-
-                $compile(angular.element('#time-chart'))(scope);
-            }
+                if(length == 0){
+                    array.push(value);
+                }
+                else if(value.key.getTime() > array[end].key.getTime()){
+                    array.splice(end + 1, 0, value);
+                }
+                else if(value.key.getTime() < array[start].key.getTime()){
+                    array.splice(start, 0, value);
+                }
+                else if(start >= end){
+                }
+                else if(value.key.getTime() < array[m].key.getTime()){
+                    scope.binaryInsert(value, array, start, m - 1);
+                }
+                else if(value.key.getTime() > array[m].key.getTime()){
+                    scope.binaryInsert(value, array, m + 1, end);
+                }
+            };
 
             scope.$on('filterChanged', function() {
-                scope.updateCurrentMappings();
-
-                scope.svgParams.y.domain([0, d3.max(scope.svgParams.currentMappings, function (d) { return d.value; })]);
-                scope.svgParams.yAxis = d3.svg.axis()
-                    .scale(scope.svgParams.y)
-                    .tickFormat(d3.format("d"))
-                    .orient("left");
-
-                scope.svg.select("g .y.axis").call(scope.svgParams.yAxis);
-
-                var minMappings = {};
-                for (var key in scope.svgParams.currentMappings){
-                    minMappings[scope.svgParams.currentMappings[key].year] = scope.svgParams.currentMappings[key].value;
-                }
-
-                for (var key in scope.svgParams.initialYears){
-                    var year = scope.svgParams.initialYears[key];
-                    var chartBar = angular.element("#time-chart-bar-"+year);
-                    if (minMappings[year]){
-                        chartBar
-                            .attr("y", scope.svgParams.y(minMappings[year]))
-                            .attr("height", function(d) { return scope.svgParams.height - scope.svgParams.y(minMappings[year]); });
-                    }
-                    else {
-                        chartBar.attr("height", "0");
-                    }
-                }
+                scope.precacheGrouping();
+                dc.redrawAll();
             });
-
-            scope.filterFunction = function(d){
-                var years = scope.selectedYears.values();
-                for (var index in years) {
-                    var year = years[index];
-                    if (d.from != undefined && d.to != undefined){
-                        if (d.from.getFullYear() <= year && year <= d.to.getFullYear()){
-                            return true;
-                        }
-                    }
-                    else if (d.from != undefined){
-                        if (d.from.getFullYear() <= year){
-                            return true;
-                        }
-                    }
-                    else if (d.to != undefined){
-                        if (year <= d.to.getFullYear()){
-                            return true;
-                        }
-                    }
-                }
-                return false;
-            }
-
-            scope.updateCurrentMappings = function(){
-                var yearsAndNumbers = scope.dateGroup.top(1)[0].value.years;
-                var years = Object.keys(yearsAndNumbers);
-
-                scope.svgParams.currentMappings = [];
-                for (var index in years){
-                    scope.svgParams.currentMappings.push({year:years[index], value:yearsAndNumbers[years[index]]});
-                }
-
-                if (!scope.svgParams.initialYears){
-                    scope.svgParams.initialYears = years;
-                }
-
-                scope.spanVisible = MetadataService.length() > 0;
-                if(scope.spanVisible){//only do this if there are values to extract
-                    var all = scope.dimDate.top(Infinity);
-                    var earliest = new Date(2900,0,1),
-                        latest = new Date(1900, 0, 1);
-                    for (var key in all){
-                        var ds = all[key];
-                        if (ds.extras != undefined) {
-                            if (ds.extras["temporal_coverage-from"] != undefined){
-                                if (parseDate(ds.extras["temporal_coverage-from"]) < earliest){
-                                    earliest = parseDate(ds.extras["temporal_coverage-from"]);
-                                    scope.availableFrom = ds.extras["temporal_coverage-from"];
-                                }
-                            }
-                            if (ds.extras["temporal_coverage-to"] != undefined){
-                                if (latest < parseDate(ds.extras["temporal_coverage-to"])){
-                                    latest = parseDate(ds.extras["temporal_coverage-to"]);
-                                    scope.availableTo = ds.extras["temporal_coverage-to"];
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            scope.resetSelection = function (e) {
-                $("#time-chart-reset").css("visibility","hidden");
-                scope.selectedYears.clear();
-                scope.dimDate.filterAll();
-                MetadataService.triggerUpdate();
-            }
-
-            scope.handleMouseDown = function (year) {
-                scope.hover.selectionType = scope.selectedYears.contains(year) ?
-                    scope.selectionType.REMOVE :
-                    scope.selectionType.ADD;
-                scope.hover.mouseDownYear = year;
-                scope.toggle(year);
-                MetadataService.triggerUpdate();
-            }
-
-            scope.toggle = function(year) {
-                if(scope.hover.selectionType == scope.selectionType.REMOVE) {
-                    scope.selectedYears.remove(year);
-                }
-                else {
-                    scope.selectedYears.add(year);
-                }
-
-                if (scope.selectedYears.values().length == 0){
-                    $("#time-chart-reset").css("visibility","hidden");
-                    scope.dimDate.filterAll();
-                }
-                else {
-                    $("#time-chart-reset").css("visibility","visible");
-                    scope.dimDate.filter(scope.filterFunction);
-                }
-            }
-
-            scope.handleHover = function ($event, year, value) {
-                scope.hover.year = year;
-                scope.hover.value = value;
-                if ($event.which == 1) {
-                    var start = scope.svgParams.initialYears.indexOf(scope.hover.mouseDownYear);
-                    var end = scope.svgParams.initialYears.indexOf(year);
-
-                    if (start > end){
-                        var temp = end;
-                        end = start;
-                        start = temp;
-                    }
-
-                    for (var i = start; i <= end; i++) {
-                        scope.toggle(scope.svgParams.initialYears[i]);
-                    }
-                    scope.hover.mouseDownYear = year;
-                    MetadataService.triggerUpdate();
-                }
-            }
-
-            scope.resetHovers = function () {
-                scope.hover.year = "";
-                scope.hover.value = "";
-            }
 
             MetadataService.registerWidget(scope.init);
         }
