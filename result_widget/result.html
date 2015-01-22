@@ -169,22 +169,15 @@
         padding-right: 1em;
     }
 
-    result .details table tr:last-child td:last-child {
-        text-align: right;
-    }
+    /*result .details table tr:last-child td:last-child {*/
+        /*text-align: right;*/
+    /*}*/
 
 
 </style>
 <div>
     <h1>Ergebnisliste</h1>
 
-    <!--sort by :-->
-    <!--<div>-->
-        <!--<select ng-model="Sortieren nach :">-->
-            <!--<option value="name">Alphabetisch</option>-->
-            <!--<option value="age">neueste</option>-->
-        <!--</select>-->
-    <!--</div>-->
     <div>
         <div style="display: table; margin: 0 auto;">
         <!-- to use the pagination controls in Angular.js -->
@@ -193,7 +186,7 @@
         <ul class="result-list">
             <li dir-paginate="entry in entries  | itemsPerPage: elementsPerPage">
                 
-                <div data-ng-click="toggleVisible(entry.id)" class="result-row">
+                <div class="result-row">
                     <div class="result-row-container">
 
                         <!--Category Icons-->
@@ -210,6 +203,7 @@
                         <div class="result-col-3">
                             <span class="toggle-arrow">
                                <span class="toggle-icon"
+                                     data-ng-click="toggleVisible(entry.id)"
                                      ng-class="{'icon-arrow-up': visibleDetailsDivs.contains(entry.id), 'icon-arrow-down': true}">
                                </span>
                             </span>
@@ -218,7 +212,12 @@
                         <!--Title-->
                         <div class="result-col-2">
                             <span class="title">
-                                <a href="{{entry.download_url}}" target="_blank">{{entry.title}}</a>
+                                <a href="#"
+                                   data-ng-click="toggleVisible(entry.id)"
+                                   data-ng-if="!visibleDetailsDivs.contains(entry.id)">{{entry.title}}</a>
+                                <a href="{{entry.download_url}}"
+                                   ng-if="visibleDetailsDivs.contains(entry.id)"
+                                   target="_blank">{{entry.title}}</a>
                             </span>
                         </div>
 
@@ -272,7 +271,7 @@
                         </tr>
 
                         <tr ng-show='entry.url != null'>
-                            <td></td>
+                            <td>&nbsp;</td>
                             <td><a href="{{entry.url}}">Zum Datensatz</a></td>
                         </tr>
                     </table>
