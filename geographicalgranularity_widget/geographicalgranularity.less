@@ -115,15 +115,26 @@ div {
 
 .for-i(@i: 1) when (@i < 11) {
   .granularities-max-size-@{i} {
-    &.vertical .granularity-line {
-      left: @i/4*@bubble-base-size - 2px; // maybe border 2px should be a variable
+    &.vertical {
+      .granularity-line {
+        left: @i/4*@bubble-base-size - 2px; // maybe border 2px should be a variable
+      }
+      .granularity-container {
+        width: @i/2*@bubble-base-size;
+      }
+
     }
 
     &.horizontal {
       .granularity-line {
         top: @i/4*@bubble-base-size - 2px; // maybe border 2px should be a variable
       }
-      div {
+
+      .granularity-container {
+        margin-right: 10px;
+      }
+      li {
+        .for-j(1);
         .for-j(@j: 1) when (@j < 11) {
 
           .granularity-size-@{j} {
@@ -137,9 +148,7 @@ div {
         }
       }
     }
-    .granularity-container {
-      width: @i/2*@bubble-base-size;
-    }
+
     .granularity-title {
       right: -@i/2*@bubble-base-size - 20px; // the extra offset should be a variable
     }
