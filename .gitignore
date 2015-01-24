@@ -2,3 +2,8 @@
 .idea/
 assets/dist/.DS_Store
 map_widget/berlin_map_2.sketch
+result_widget/result.css
+lastmodification_widget/lastmodification.css
+icons.css
+date_widget/date.css
+category_widget/category.css
