@@ -127,6 +127,8 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
             scope.berlinMouseLeave = function(){
                 d3.select('#mapChart').text("Berlin" + "(" + scope.regionData['Berlin'].value + ")");
                 $('#mapChart').css('visibility', 'hidden');
+
+                allBerlin.style.strokeWidth = 2;
             }
 
 
