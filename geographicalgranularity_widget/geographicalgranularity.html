@@ -6,7 +6,7 @@
                 <div class="granularity-bubble granularity-size-{{item.size}}" data-ng-click="selectGranularity(item)" data-ng-class="{true :'active', false: 'inactive'}[item.active]">
                     <span class="granularity-elements">{{item.elements}}</span>
                 </div>
-                <div class="granularity-title granularity-title-intent-{{item.size}}">
+                <div  data-ng-click="selectGranularity(item)" class="granularity-title granularity-title-intent-{{item.size}}">
                     {{item.name}}
                 </div>
         </li>
