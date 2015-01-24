@@ -1,16 +1,16 @@
 <div>
-    <h2>Karte</h2>
     <a href="#" ng-click="reset()">reset</a>
     <div>
-        <div class="panel panel-body">
-
-            <div ng-click="berlinClicked()" ng-mouseover="berlinMouseOver()" ng-mouseleave="berlinMouseLeave()">
-                <ng-include src="'map_widget/berlin_map_border.svg'" id="berlinMap" ng-click="regionChoice()" />
-            </div>
-            <div id="mapChart">&nbsp;</div><!--  -->
+        <div ng-click="berlinClicked()" ng-mouseover="berlinMouseOver()" ng-mouseleave="berlinMouseLeave()">
+            <ng-include src="'map_widget/berlin_map_border.svg'" id="berlinMap" ng-click="regionChoice()"/>
         </div>
 
+        <div ng-switch on="hovered_district">
+            <span ng-switch-default>{{hovered_district}} ({{regionData[hovered_district]['value']}})</span>
+            <span ng-switch-when="none">&nbsp;</span>
         </div>
+
     </div>
+</div>
 </div>
 

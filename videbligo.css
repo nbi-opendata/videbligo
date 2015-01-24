@@ -23,7 +23,7 @@
 }
 .horizontal .granularity-line {
   height: 2px;
-  width: 420px;
+  width: 310px;
 }
 .vertical.granularities {
   width: 340px;
@@ -50,6 +50,12 @@
 .granularity-container {
   list-style-type: none;
 }
+.granularity-container:hover .granularity-bubble.inactive {
+  border-color: #7f99b2;
+}
+.granularity-container:hover .granularity-title {
+  color: #7f99b2;
+}
 .granularity {
   margin: 0px auto;
 }
@@ -68,9 +74,6 @@
   background-color: #ffffff;
   color: #000000;
 }
-.granularity-bubble.inactive:hover {
-  border-color: #7f99b2;
-}
 .granularity-title {
   position: absolute;
   width: 90px;
@@ -88,14 +91,87 @@
 div .granularities-max-size-1.vertical .granularity-line {
   left: 10.5px;
 }
+div .granularities-max-size-1.vertical .granularity-container {
+  width: 25px;
+}
+div .granularities-max-size-1.vertical .granularity-title {
+  right: -45px;
+}
 div .granularities-max-size-1.horizontal .granularity-line {
   top: 10.5px;
 }
-div .granularities-max-size-1 .granularity-container {
-  width: 25px;
+div .granularities-max-size-1.horizontal .granularity-container {
+  margin-right: 10px;
 }
-div .granularities-max-size-1 .granularity-title {
-  right: -45px;
+div .granularities-max-size-1.horizontal .granularity-title {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+div .granularities-max-size-1.horizontal.granularities {
+  height: 130px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-1 {
+  margin-top: 0px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-0 {
+  margin-top: 0px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-2 {
+  margin-top: -12.5px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-0 {
+  margin-top: 0px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-3 {
+  margin-top: -25px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-0 {
+  margin-top: 0px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-4 {
+  margin-top: -37.5px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-0 {
+  margin-top: 0px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-5 {
+  margin-top: -50px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-0 {
+  margin-top: 0px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-6 {
+  margin-top: -62.5px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-0 {
+  margin-top: 0px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-7 {
+  margin-top: -75px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-0 {
+  margin-top: 0px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-8 {
+  margin-top: -87.5px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-0 {
+  margin-top: 0px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-9 {
+  margin-top: -100px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-0 {
+  margin-top: 0px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-10 {
+  margin-top: -112.5px;
+}
+div .granularities-max-size-1.horizontal li .granularity-size-0 {
+  margin-top: 0px;
 }
 div .granularity-size-1 {
   position: relative;
@@ -112,17 +188,94 @@ div .granularity-size-1 .granularity-elements {
 div .granularity-title-intent-1 {
   top: 2.5px;
 }
+div .horizontal .granularity-title-intent-1 {
+  width: 25px;
+  top: 90px;
+}
 div .granularities-max-size-2.vertical .granularity-line {
   left: 23px;
+}
+div .granularities-max-size-2.vertical .granularity-container {
+  width: 50px;
+}
+div .granularities-max-size-2.vertical .granularity-title {
+  right: -70px;
 }
 div .granularities-max-size-2.horizontal .granularity-line {
   top: 23px;
 }
-div .granularities-max-size-2 .granularity-container {
-  width: 50px;
+div .granularities-max-size-2.horizontal .granularity-container {
+  margin-right: 10px;
 }
-div .granularities-max-size-2 .granularity-title {
-  right: -70px;
+div .granularities-max-size-2.horizontal .granularity-title {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+div .granularities-max-size-2.horizontal.granularities {
+  height: 155px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-1 {
+  margin-top: 12.5px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-0 {
+  margin-top: 12.5px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-2 {
+  margin-top: 0px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-0 {
+  margin-top: 12.5px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-3 {
+  margin-top: -12.5px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-0 {
+  margin-top: 12.5px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-4 {
+  margin-top: -25px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-0 {
+  margin-top: 12.5px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-5 {
+  margin-top: -37.5px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-0 {
+  margin-top: 12.5px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-6 {
+  margin-top: -50px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-0 {
+  margin-top: 12.5px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-7 {
+  margin-top: -62.5px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-0 {
+  margin-top: 12.5px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-8 {
+  margin-top: -75px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-0 {
+  margin-top: 12.5px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-9 {
+  margin-top: -87.5px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-0 {
+  margin-top: 12.5px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-10 {
+  margin-top: -100px;
+}
+div .granularities-max-size-2.horizontal li .granularity-size-0 {
+  margin-top: 12.5px;
 }
 div .granularity-size-2 {
   position: relative;
@@ -139,17 +292,94 @@ div .granularity-size-2 .granularity-elements {
 div .granularity-title-intent-2 {
   top: 15px;
 }
+div .horizontal .granularity-title-intent-2 {
+  width: 50px;
+  top: 102.5px;
+}
 div .granularities-max-size-3.vertical .granularity-line {
   left: 35.5px;
+}
+div .granularities-max-size-3.vertical .granularity-container {
+  width: 75px;
+}
+div .granularities-max-size-3.vertical .granularity-title {
+  right: -95px;
 }
 div .granularities-max-size-3.horizontal .granularity-line {
   top: 35.5px;
 }
-div .granularities-max-size-3 .granularity-container {
-  width: 75px;
+div .granularities-max-size-3.horizontal .granularity-container {
+  margin-right: 10px;
 }
-div .granularities-max-size-3 .granularity-title {
-  right: -95px;
+div .granularities-max-size-3.horizontal .granularity-title {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+div .granularities-max-size-3.horizontal.granularities {
+  height: 180px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-1 {
+  margin-top: 25px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-0 {
+  margin-top: 25px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-2 {
+  margin-top: 12.5px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-0 {
+  margin-top: 25px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-3 {
+  margin-top: 0px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-0 {
+  margin-top: 25px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-4 {
+  margin-top: -12.5px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-0 {
+  margin-top: 25px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-5 {
+  margin-top: -25px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-0 {
+  margin-top: 25px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-6 {
+  margin-top: -37.5px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-0 {
+  margin-top: 25px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-7 {
+  margin-top: -50px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-0 {
+  margin-top: 25px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-8 {
+  margin-top: -62.5px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-0 {
+  margin-top: 25px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-9 {
+  margin-top: -75px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-0 {
+  margin-top: 25px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-10 {
+  margin-top: -87.5px;
+}
+div .granularities-max-size-3.horizontal li .granularity-size-0 {
+  margin-top: 25px;
 }
 div .granularity-size-3 {
   position: relative;
@@ -166,17 +396,94 @@ div .granularity-size-3 .granularity-elements {
 div .granularity-title-intent-3 {
   top: 27.5px;
 }
+div .horizontal .granularity-title-intent-3 {
+  width: 75px;
+  top: 115px;
+}
 div .granularities-max-size-4.vertical .granularity-line {
   left: 48px;
+}
+div .granularities-max-size-4.vertical .granularity-container {
+  width: 100px;
+}
+div .granularities-max-size-4.vertical .granularity-title {
+  right: -120px;
 }
 div .granularities-max-size-4.horizontal .granularity-line {
   top: 48px;
 }
-div .granularities-max-size-4 .granularity-container {
-  width: 100px;
+div .granularities-max-size-4.horizontal .granularity-container {
+  margin-right: 10px;
 }
-div .granularities-max-size-4 .granularity-title {
-  right: -120px;
+div .granularities-max-size-4.horizontal .granularity-title {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+div .granularities-max-size-4.horizontal.granularities {
+  height: 205px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-1 {
+  margin-top: 37.5px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-0 {
+  margin-top: 37.5px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-2 {
+  margin-top: 25px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-0 {
+  margin-top: 37.5px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-3 {
+  margin-top: 12.5px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-0 {
+  margin-top: 37.5px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-4 {
+  margin-top: 0px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-0 {
+  margin-top: 37.5px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-5 {
+  margin-top: -12.5px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-0 {
+  margin-top: 37.5px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-6 {
+  margin-top: -25px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-0 {
+  margin-top: 37.5px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-7 {
+  margin-top: -37.5px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-0 {
+  margin-top: 37.5px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-8 {
+  margin-top: -50px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-0 {
+  margin-top: 37.5px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-9 {
+  margin-top: -62.5px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-0 {
+  margin-top: 37.5px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-10 {
+  margin-top: -75px;
+}
+div .granularities-max-size-4.horizontal li .granularity-size-0 {
+  margin-top: 37.5px;
 }
 div .granularity-size-4 {
   position: relative;
@@ -193,17 +500,94 @@ div .granularity-size-4 .granularity-elements {
 div .granularity-title-intent-4 {
   top: 40px;
 }
+div .horizontal .granularity-title-intent-4 {
+  width: 100px;
+  top: 127.5px;
+}
 div .granularities-max-size-5.vertical .granularity-line {
   left: 60.5px;
+}
+div .granularities-max-size-5.vertical .granularity-container {
+  width: 125px;
+}
+div .granularities-max-size-5.vertical .granularity-title {
+  right: -145px;
 }
 div .granularities-max-size-5.horizontal .granularity-line {
   top: 60.5px;
 }
-div .granularities-max-size-5 .granularity-container {
-  width: 125px;
+div .granularities-max-size-5.horizontal .granularity-container {
+  margin-right: 10px;
 }
-div .granularities-max-size-5 .granularity-title {
-  right: -145px;
+div .granularities-max-size-5.horizontal .granularity-title {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+div .granularities-max-size-5.horizontal.granularities {
+  height: 230px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-1 {
+  margin-top: 50px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-0 {
+  margin-top: 50px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-2 {
+  margin-top: 37.5px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-0 {
+  margin-top: 50px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-3 {
+  margin-top: 25px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-0 {
+  margin-top: 50px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-4 {
+  margin-top: 12.5px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-0 {
+  margin-top: 50px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-5 {
+  margin-top: 0px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-0 {
+  margin-top: 50px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-6 {
+  margin-top: -12.5px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-0 {
+  margin-top: 50px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-7 {
+  margin-top: -25px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-0 {
+  margin-top: 50px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-8 {
+  margin-top: -37.5px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-0 {
+  margin-top: 50px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-9 {
+  margin-top: -50px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-0 {
+  margin-top: 50px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-10 {
+  margin-top: -62.5px;
+}
+div .granularities-max-size-5.horizontal li .granularity-size-0 {
+  margin-top: 50px;
 }
 div .granularity-size-5 {
   position: relative;
@@ -220,17 +604,94 @@ div .granularity-size-5 .granularity-elements {
 div .granularity-title-intent-5 {
   top: 52.5px;
 }
+div .horizontal .granularity-title-intent-5 {
+  width: 125px;
+  top: 140px;
+}
 div .granularities-max-size-6.vertical .granularity-line {
   left: 73px;
+}
+div .granularities-max-size-6.vertical .granularity-container {
+  width: 150px;
+}
+div .granularities-max-size-6.vertical .granularity-title {
+  right: -170px;
 }
 div .granularities-max-size-6.horizontal .granularity-line {
   top: 73px;
 }
-div .granularities-max-size-6 .granularity-container {
-  width: 150px;
+div .granularities-max-size-6.horizontal .granularity-container {
+  margin-right: 10px;
 }
-div .granularities-max-size-6 .granularity-title {
-  right: -170px;
+div .granularities-max-size-6.horizontal .granularity-title {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+div .granularities-max-size-6.horizontal.granularities {
+  height: 255px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-1 {
+  margin-top: 62.5px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-0 {
+  margin-top: 62.5px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-2 {
+  margin-top: 50px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-0 {
+  margin-top: 62.5px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-3 {
+  margin-top: 37.5px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-0 {
+  margin-top: 62.5px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-4 {
+  margin-top: 25px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-0 {
+  margin-top: 62.5px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-5 {
+  margin-top: 12.5px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-0 {
+  margin-top: 62.5px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-6 {
+  margin-top: 0px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-0 {
+  margin-top: 62.5px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-7 {
+  margin-top: -12.5px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-0 {
+  margin-top: 62.5px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-8 {
+  margin-top: -25px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-0 {
+  margin-top: 62.5px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-9 {
+  margin-top: -37.5px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-0 {
+  margin-top: 62.5px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-10 {
+  margin-top: -50px;
+}
+div .granularities-max-size-6.horizontal li .granularity-size-0 {
+  margin-top: 62.5px;
 }
 div .granularity-size-6 {
   position: relative;
@@ -247,17 +708,94 @@ div .granularity-size-6 .granularity-elements {
 div .granularity-title-intent-6 {
   top: 65px;
 }
+div .horizontal .granularity-title-intent-6 {
+  width: 150px;
+  top: 152.5px;
+}
 div .granularities-max-size-7.vertical .granularity-line {
   left: 85.5px;
+}
+div .granularities-max-size-7.vertical .granularity-container {
+  width: 175px;
+}
+div .granularities-max-size-7.vertical .granularity-title {
+  right: -195px;
 }
 div .granularities-max-size-7.horizontal .granularity-line {
   top: 85.5px;
 }
-div .granularities-max-size-7 .granularity-container {
-  width: 175px;
+div .granularities-max-size-7.horizontal .granularity-container {
+  margin-right: 10px;
 }
-div .granularities-max-size-7 .granularity-title {
-  right: -195px;
+div .granularities-max-size-7.horizontal .granularity-title {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+div .granularities-max-size-7.horizontal.granularities {
+  height: 280px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-1 {
+  margin-top: 75px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-0 {
+  margin-top: 75px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-2 {
+  margin-top: 62.5px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-0 {
+  margin-top: 75px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-3 {
+  margin-top: 50px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-0 {
+  margin-top: 75px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-4 {
+  margin-top: 37.5px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-0 {
+  margin-top: 75px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-5 {
+  margin-top: 25px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-0 {
+  margin-top: 75px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-6 {
+  margin-top: 12.5px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-0 {
+  margin-top: 75px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-7 {
+  margin-top: 0px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-0 {
+  margin-top: 75px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-8 {
+  margin-top: -12.5px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-0 {
+  margin-top: 75px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-9 {
+  margin-top: -25px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-0 {
+  margin-top: 75px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-10 {
+  margin-top: -37.5px;
+}
+div .granularities-max-size-7.horizontal li .granularity-size-0 {
+  margin-top: 75px;
 }
 div .granularity-size-7 {
   position: relative;
@@ -274,17 +812,94 @@ div .granularity-size-7 .granularity-elements {
 div .granularity-title-intent-7 {
   top: 77.5px;
 }
+div .horizontal .granularity-title-intent-7 {
+  width: 175px;
+  top: 165px;
+}
 div .granularities-max-size-8.vertical .granularity-line {
   left: 98px;
+}
+div .granularities-max-size-8.vertical .granularity-container {
+  width: 200px;
+}
+div .granularities-max-size-8.vertical .granularity-title {
+  right: -220px;
 }
 div .granularities-max-size-8.horizontal .granularity-line {
   top: 98px;
 }
-div .granularities-max-size-8 .granularity-container {
-  width: 200px;
+div .granularities-max-size-8.horizontal .granularity-container {
+  margin-right: 10px;
 }
-div .granularities-max-size-8 .granularity-title {
-  right: -220px;
+div .granularities-max-size-8.horizontal .granularity-title {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+div .granularities-max-size-8.horizontal.granularities {
+  height: 305px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-1 {
+  margin-top: 87.5px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-0 {
+  margin-top: 87.5px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-2 {
+  margin-top: 75px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-0 {
+  margin-top: 87.5px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-3 {
+  margin-top: 62.5px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-0 {
+  margin-top: 87.5px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-4 {
+  margin-top: 50px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-0 {
+  margin-top: 87.5px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-5 {
+  margin-top: 37.5px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-0 {
+  margin-top: 87.5px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-6 {
+  margin-top: 25px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-0 {
+  margin-top: 87.5px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-7 {
+  margin-top: 12.5px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-0 {
+  margin-top: 87.5px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-8 {
+  margin-top: 0px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-0 {
+  margin-top: 87.5px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-9 {
+  margin-top: -12.5px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-0 {
+  margin-top: 87.5px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-10 {
+  margin-top: -25px;
+}
+div .granularities-max-size-8.horizontal li .granularity-size-0 {
+  margin-top: 87.5px;
 }
 div .granularity-size-8 {
   position: relative;
@@ -301,17 +916,94 @@ div .granularity-size-8 .granularity-elements {
 div .granularity-title-intent-8 {
   top: 90px;
 }
+div .horizontal .granularity-title-intent-8 {
+  width: 200px;
+  top: 177.5px;
+}
 div .granularities-max-size-9.vertical .granularity-line {
   left: 110.5px;
+}
+div .granularities-max-size-9.vertical .granularity-container {
+  width: 225px;
+}
+div .granularities-max-size-9.vertical .granularity-title {
+  right: -245px;
 }
 div .granularities-max-size-9.horizontal .granularity-line {
   top: 110.5px;
 }
-div .granularities-max-size-9 .granularity-container {
-  width: 225px;
+div .granularities-max-size-9.horizontal .granularity-container {
+  margin-right: 10px;
 }
-div .granularities-max-size-9 .granularity-title {
-  right: -245px;
+div .granularities-max-size-9.horizontal .granularity-title {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+div .granularities-max-size-9.horizontal.granularities {
+  height: 330px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-1 {
+  margin-top: 100px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-0 {
+  margin-top: 100px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-2 {
+  margin-top: 87.5px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-0 {
+  margin-top: 100px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-3 {
+  margin-top: 75px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-0 {
+  margin-top: 100px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-4 {
+  margin-top: 62.5px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-0 {
+  margin-top: 100px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-5 {
+  margin-top: 50px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-0 {
+  margin-top: 100px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-6 {
+  margin-top: 37.5px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-0 {
+  margin-top: 100px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-7 {
+  margin-top: 25px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-0 {
+  margin-top: 100px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-8 {
+  margin-top: 12.5px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-0 {
+  margin-top: 100px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-9 {
+  margin-top: 0px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-0 {
+  margin-top: 100px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-10 {
+  margin-top: -12.5px;
+}
+div .granularities-max-size-9.horizontal li .granularity-size-0 {
+  margin-top: 100px;
 }
 div .granularity-size-9 {
   position: relative;
@@ -328,17 +1020,94 @@ div .granularity-size-9 .granularity-elements {
 div .granularity-title-intent-9 {
   top: 102.5px;
 }
+div .horizontal .granularity-title-intent-9 {
+  width: 225px;
+  top: 190px;
+}
 div .granularities-max-size-10.vertical .granularity-line {
   left: 123px;
+}
+div .granularities-max-size-10.vertical .granularity-container {
+  width: 250px;
+}
+div .granularities-max-size-10.vertical .granularity-title {
+  right: -270px;
 }
 div .granularities-max-size-10.horizontal .granularity-line {
   top: 123px;
 }
-div .granularities-max-size-10 .granularity-container {
-  width: 250px;
+div .granularities-max-size-10.horizontal .granularity-container {
+  margin-right: 10px;
 }
-div .granularities-max-size-10 .granularity-title {
-  right: -270px;
+div .granularities-max-size-10.horizontal .granularity-title {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+div .granularities-max-size-10.horizontal.granularities {
+  height: 355px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-1 {
+  margin-top: 112.5px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-0 {
+  margin-top: 112.5px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-2 {
+  margin-top: 100px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-0 {
+  margin-top: 112.5px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-3 {
+  margin-top: 87.5px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-0 {
+  margin-top: 112.5px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-4 {
+  margin-top: 75px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-0 {
+  margin-top: 112.5px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-5 {
+  margin-top: 62.5px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-0 {
+  margin-top: 112.5px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-6 {
+  margin-top: 50px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-0 {
+  margin-top: 112.5px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-7 {
+  margin-top: 37.5px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-0 {
+  margin-top: 112.5px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-8 {
+  margin-top: 25px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-0 {
+  margin-top: 112.5px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-9 {
+  margin-top: 12.5px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-0 {
+  margin-top: 112.5px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-10 {
+  margin-top: 0px;
+}
+div .granularities-max-size-10.horizontal li .granularity-size-0 {
+  margin-top: 112.5px;
 }
 div .granularity-size-10 {
   position: relative;
@@ -355,8 +1124,16 @@ div .granularity-size-10 .granularity-elements {
 div .granularity-title-intent-10 {
   top: 115px;
 }
+div .horizontal .granularity-title-intent-10 {
+  width: 250px;
+  top: 202.5px;
+}
 .granularity-title-intent-0 {
   top: 2.5px;
+}
+.horizontal .granularity-title-intent-0 {
+  width: 25px;
+  top: 90px;
 }
 .granularity-size-0 {
   position: relative;
@@ -772,18 +1549,8 @@ body .columns-24.category_text {
   visibility: visible;
   margin-bottom: 0px;
 }
-#mapChart {
-  visibility: hidden;
-  border: 0px solid #000000;
-  font-size: 14px;
-  font-family: Verdana;
-  padding: 5px;
-  font-weight: bold;
-  border-radius: 11%;
-  clear: both;
-}
 #berlinMap {
-  width: 45%;
+  width: 100%;
   float: left;
   display: block;
 }
@@ -794,63 +1561,37 @@ body .columns-24.category_text {
   margin-right: 200px;
   margin-left: 100px;
 }
-svg .bezirk {
-  stroke-width: 2;
-  stroke: #fff;
+.bezirk {
+  stroke-width: 1;
+  stroke: white;
+  fill: #000000;
   -webkit-transition: stroke 0.01s, stroke-width 0.01s;
   /* Choice Animation */
 
   -o-transition: stroke 0.01s, stroke-width 0.01s;
   transition: stroke 0.01s, stroke-width 0.01s;
 }
-svg .bezirk:hover,
-.bezirk.active {
+.bezirk:hover {
   cursor: pointer;
-  stroke-width: 4;
-  stroke: #99cc00;
+  fill: #99cc00;
 }
-.regionlist {
-  -webkit-column-count: 5;
-  /* Chrome, Safari, Opera */
-
-  -moz-column-count: 5;
-  /* Firefox */
-
-  column-count: 5;
+.bezirk.selected {
+  fill: #7f99b2;
 }
-.regionlist > div {
-  display: inline-block;
-  width: 100%;
-  border-bottom: 1px solid #000000;
+.bezirk.selected:hover {
+  fill: #608000;
 }
-.regionlist > div.active {
-  font-weight: bold;
-  background-color: #7f99b2;
+.berlin_border_standard {
+  stroke-width: 2;
+  stroke: #ffffff;
+  stroke-linejoin: round;
 }
-.regionlist > div > div {
-  display: inline-block;
-  width: 100%;
+.berlin_border_hover {
+  stroke-width: 13px;
+  stroke: #ffffff;
+  stroke-linejoin: round;
 }
-.scale {
-  position: relative;
-}
-.scale div {
-  width: 9.07%;
-  display: inline-block;
-  text-align: center;
-  color: #fff;
-  font-weight: bold;
-  padding: 5px 0;
-}
-.unclickedClass {
-  color: #7f99b2;
-}
-.clickedClass {
-  color: #99cc00;
-}
-.hoverClass {
-  color: #608000;
-}
+/* style="stroke-width: 8px;stroke: black;stroke-linejoin: round;fill:transparent" */
 .center-me {
   margin: 0 auto;
 }

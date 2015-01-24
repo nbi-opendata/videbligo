@@ -1,81 +1,47 @@
-#mapChart {
-    border: 0px solid #000;
-    min-height: 1.5em;
-    font-size:14px;
-    font-family: Verdana;
-    padding: 5px;
-    font-weight: bold;
-    border-radius: 11%;
-    clear:both;
-}
+@import "../variables.less";
+@import "../mixins.less";
 
 #berlinMap {
-    width: 45%;
-    float: left;
-    display: block;
-
+  width: 100%;
+  float: left;
+  display: block;
 }
 
 #berlinBox {
-
-    display: block;
-    float: left;
-    margin-top: 100px;
-    margin-right: 200px;
-    margin-left: 100px;
+  display: block;
+  float: left;
+  margin-top: 100px;
+  margin-right: 200px;
+  margin-left: 100px;
 }
 
-svg .bezirk {
-    stroke-width: 2;
-    stroke: #fff;
+.bezirk {
+  stroke-width: 1;
+  stroke: white;
+  fill: @primary-color;
+  -webkit-transition: stroke 0.01s, stroke-width 0.01s; /* Choice Animation */
+  -o-transition: stroke 0.01s, stroke-width 0.01s;
+  transition: stroke 0.01s, stroke-width 0.01s;
 
-    -webkit-transition: stroke 0.01s, stroke-width 0.01s; /* Choice Animation */
-    -o-transition: stroke 0.01s, stroke-width 0.01s;
-    transition: stroke 0.01s, stroke-width 0.01s;
-}
-
-/*
-@base-color: #000;
-@background-color: #fff;
-@primary-color: #000;
-@secondary-color: #7f99b2;
-@primary-color-hover: #99CC00;
-@secondary-color-hover: #608000;
-*/
-
-.standard {
-    fill: blue; /* primary color */
-}
-
-.hover {
+  &:hover {
     cursor: pointer;
-    stroke-width: 4;
-    stroke: #000;
-    fill: #99CC00 /* primary hover */
-}
+    fill: @primary-color-hover;
+  }
+  &.selected { fill: @secondary-color; }
+  &.selected:hover { fill: @secondary-color-hover; }
 
-.selected {
-    fill: #7f99b2 /* secondary */
-}
-
-.selected_hover {
-    cursor: pointer;
-    stroke-width: 4;
-    stroke: #000;
-    fill: #608000 /* secondary hover */
 }
 
 .berlin_border_standard {
-    stroke-width: 2;
-    stroke: black;
-    stroke-linejoin: round;
+  stroke-width: 2;
+  stroke: @background-color;
+  stroke-linejoin: round;
 }
 
 .berlin_border_hover {
-    stroke-width: 13px;
-    stroke: black;
-    stroke-linejoin: round;
+  stroke-width: 13px;
+  stroke: @background-color;
+  stroke-linejoin: round;
 }
 
 /* style="stroke-width: 8px;stroke: black;stroke-linejoin: round;fill:transparent" */
-
