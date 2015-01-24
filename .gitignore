@@ -40,3 +40,9 @@ bower_components/bootstrap/less/responsive-embed.css
 bower_components/bootstrap/less/theme.css
 bower_components/bootstrap/less/variables.css
 geographicalgranularity_widget/geographicalgranularity.css
+result_widget/result.css
+map_widget/map.css
+lastmodification_widget/lastmodification.css
+icons.css
+date_widget/date.css
+category_widget/category.css
