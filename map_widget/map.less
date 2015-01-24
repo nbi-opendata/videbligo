@@ -1,19 +1,8 @@
 @import "../variables.less";
 @import "../mixins.less";
 
-#berlinMap {
-  width: 100%;
-  float: left;
-  display: block;
-}
-
-#berlinBox {
-  display: block;
-  float: left;
-  margin-top: 100px;
-  margin-right: 200px;
-  margin-left: 100px;
-}
+/* hack to show a pointer if Brandenburg is hovered */
+svg:hover { cursor: pointer; }
 
 .bezirk {
   stroke-width: 1;
@@ -23,25 +12,17 @@
   -o-transition: stroke 0.01s, stroke-width 0.01s;
   transition: stroke 0.01s, stroke-width 0.01s;
 
-  &:hover {
-    cursor: pointer;
-    fill: @primary-color-hover;
-  }
+  &:hover { fill: @primary-color-hover; }
   &.selected { fill: @secondary-color; }
   &.selected:hover { fill: @secondary-color-hover; }
 
 }
 
-.berlin_border_standard {
-  stroke-width: 2;
+.berlin_border {
+  stroke-width: 8px;
   stroke: @background-color;
   stroke-linejoin: round;
+  &.selected { stroke: @secondary-color; }
+  &.hovered { stroke: @primary-color-hover; }
+  &.selected_hovered { stroke: @secondary-color-hover; }
 }
-
-.berlin_border_hover {
-  stroke-width: 13px;
-  stroke: @background-color;
-  stroke-linejoin: round;
-}
-
-/* style="stroke-width: 8px;stroke: black;stroke-linejoin: round;fill:transparent" */

@@ -1,7 +1,9 @@
 <div>
     <span style="display:inline-block; height: 10px;"><a href="#" ng-click="reset()" ng-show="selected_districts.values().length > 0">reset</a></span>
     <div>
-        <ng-include src="'map_widget/berlin_map_border.svg'" id="berlinMap" ng-click="regionChoice()"/>
+        <div>
+            <ng-include src="'map_widget/berlin_map_border.svg'" id="berlinMap" ng-click="regionChoice()"/>
+        </div>
 
         <div ng-switch on="hovered_district">
             <span ng-switch-default>{{hovered_district}} ({{regionData[hovered_district]['value']}})</span>
@@ -9,6 +11,5 @@
         </div>
 
     </div>
-</div>
 </div>
 
