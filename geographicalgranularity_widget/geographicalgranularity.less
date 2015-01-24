@@ -65,6 +65,14 @@
 
 .granularity-container {
   list-style-type: none;
+  &:hover {
+    .granularity-bubble.inactive {
+      border-color: @secondary-color;
+    }
+    .granularity-title {
+      color: @secondary-color;
+    }
+  }
 }
 
 .granularity {
@@ -87,11 +95,11 @@
     border-color: @primary-color;
     background-color: @background-color;
     color: @primary-color;
-    &:hover {
-      border-color: @secondary-color;
-    }
+
   }
 }
+
+
 
 .granularity-title {
   position: absolute;
@@ -123,6 +131,9 @@ div {
         width: @i/2*@bubble-base-size;
       }
 
+      .granularity-title {
+        right: -@i/2*@bubble-base-size - 20px; // the extra offset should be a variable
+      }
     }
 
     &.horizontal {
@@ -133,6 +144,18 @@ div {
       .granularity-container {
         margin-right: 10px;
       }
+
+      .granularity-title {
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        transform: rotate(90deg);
+      }
+      &.granularities {
+        height: @i/2*@bubble-base-size + 105px;
+      }
+
       li {
         .for-j(1);
         .for-j(@j: 1) when (@j < 11) {
@@ -148,11 +171,6 @@ div {
         }
       }
     }
-
-    .granularity-title {
-      right: -@i/2*@bubble-base-size - 20px; // the extra offset should be a variable
-    }
-
   }
   .granularity-size-@{i} {
     position: relative;
@@ -168,12 +186,25 @@ div {
   .granularity-title-intent-@{i} {
     top: @i/2*@bubble-base-size/2 - @granularity-number-height/2;
   }
+  .horizontal {
+    .granularity-title-intent-@{i} {
+      width: @i/2*@bubble-base-size;
+      top: @i * 12.5px + 77.5px;
+    }
+  }
   .for-i(@i + 1);
 }
 
 // this is need for if there is no size
 .granularity-title-intent-0 {
   top: 1/2*@bubble-base-size/2 - @granularity-number-height/2;
+}
+
+.horizontal {
+  .granularity-title-intent-0 {
+    width: 1/2*@bubble-base-size;
+    top: 90px;
+  }
 }
 
 .granularity-size-0 {
