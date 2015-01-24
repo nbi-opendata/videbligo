@@ -85,7 +85,13 @@ ul.category_matrix .category_icon.active:hover {
   color: @secondary-color-hover !important;
 }
 
-.category_text{
-  min-height: 6em;
+.for-category-text(@i: 1) when (@i < 25) {
+  .columns-@{i}.category_text {
+    .category_text-mixin(@i);
+  }
+  .for-category-text(@i + 1);
 }
 
+body {
+  .for-category-text(1);
+}
