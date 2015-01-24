@@ -105,7 +105,7 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                     scope.regionData['Berlin'].clicked = !scope.regionData['Berlin'].clicked;
 
                     if(scope.regionData['Berlin'].clicked){
-                        allBerlin.style.stroke = "#F00";
+                        allBerlin.style.stroke = colorClicked;
                     }
                     else{
                         allBerlin.style.stroke = "#000";
@@ -121,7 +121,7 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                     $('#mapChart').css('visibility', 'visible');
 
                     if(scope.regionData['Berlin'].clicked){
-                        allBerlin.style.stroke = "#F00";
+                        allBerlin.style.stroke = colorClicked;
                     }
                     else{
                         allBerlin.style.stroke = "#000";
@@ -139,7 +139,7 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
             scope.berlinMouseLeave = function(){
                 d3.select('#mapChart').text("Berlin" + "(" + scope.regionData['Berlin'].value + ")");
                 $('#mapChart').css('visibility', 'hidden');
-                allBerlin.style.strokeWidth = 2;
+                allBerlin.style.strokeWidth = 13;
 
             }
 
@@ -156,7 +156,7 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
 
                 scope.dimRegion.filterAll();
                 MetadataService.triggerUpdate();
-                //allBerlin.style.stroke = "#000";
+                allBerlin.style.stroke = "#000";
             }
 
 
