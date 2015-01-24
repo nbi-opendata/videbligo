@@ -16,6 +16,8 @@ Videbligo.directive('map', ['MetadataService', '$compile', function(MetadataServ
                 'Treptow-Köpenick', 'Neukölln', 'Tempelhof-Schöneberg', 'Steglitz-Zehlendorf', 'Friedrichshain-Kreuzberg',
                 'Charlottenburg-Wilmersdorf', 'Berlin'
             ];
+            scope.showBerlinBorder = false;
+            scope.showMapChart = false;
 
             // alphabetisch sortieren
             scope.regionsAll.sort();
@@ -49,7 +51,8 @@ Videbligo.directive('map', ['MetadataService', '$compile', function(MetadataServ
                     regionElement.attr('regions-all','regionsAll')
                     $compile(regionElement)(scope);
                 })
-                allBerlin = element[0].querySelector('.Berlina');
+                allBerlin = element[0].querySelector('.BerlinBorder');
+                allBerlin.attributes['ng-class'] = '{berlin_border_hover: showBerlinBorder}'
             };
 
             MetadataService.registerWidget(scope.init);
@@ -99,24 +102,17 @@ Videbligo.directive('map', ['MetadataService', '$compile', function(MetadataServ
             // zeigt hover an, und verstärkt den Rand, wenn wir nich über der SVG-Karte hovern
             scope.berlinMouseOver = function(){
                 if(!onSvg) {
-
+                    scope.showBerlinBorder = true;
                     d3.select('#mapChart').text("Berlin" + "(" + scope.regionData['Berlin'].value + ")");
-                    $('#mapChart').css('visibility', 'visible');
-
-                    allBerlin.style.stroke = "#000";
-                    allBerlin.style.strokeWidth = 13;
-
-                    angular.forEach(bezirke, function(path){
-                      path.style.strokeWidth = 2;
-                      path.style.stroke = '#000';
-                    })
+                    scope.showMapChart = true;
                 }
             }
 
             // blendet Hover wieder aus
             scope.berlinMouseLeave = function(){
+                scope.showBerlinBorder = false;
                 d3.select('#mapChart').text("Berlin" + "(" + scope.regionData['Berlin'].value + ")");
-                $('#mapChart').css('visibility', 'hidden');
+                scope.showMapChart = false;
             }
 
 

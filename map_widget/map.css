@@ -1,6 +1,6 @@
 #mapChart {
-    visibility: hidden;
     border: 0px solid #000;
+    min-height: 1.5em;
     font-size:14px;
     font-family: Verdana;
     padding: 5px;
@@ -14,14 +14,6 @@
     float: left;
     display: block;
 
-}
-
-#textPosition {
-    font-family: Verdana;
-    position: relative;
-    right: 16%;
-    padding-top: 10px;
-    visibility: hidden;
 }
 
 #berlinBox {
@@ -73,4 +65,17 @@ svg .bezirk {
     fill: #608000 /* secondary hover */
 }
 
+.berlin_border_standard {
+    stroke-width: 2;
+    stroke: black;
+    stroke-linejoin: round;
+}
+
+.berlin_border_hover {
+    stroke-width: 13px;
+    stroke: black;
+    stroke-linejoin: round;
+}
+
+/* style="stroke-width: 8px;stroke: black;stroke-linejoin: round;fill:transparent" */
 
