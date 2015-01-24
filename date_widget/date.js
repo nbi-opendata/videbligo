@@ -118,7 +118,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     scope.zoomChart
                         .width(scope.chartWidth)
                         .height(35)
-                        .margins({top: 0, right: 20, bottom: 18, left: 30})
+                        .margins({top: 0, right: 10, bottom: 18, left: 30})
                         .dimension(scope.dimDate)
                         .group(scope.groupDate)
                         .centerBar(true)
@@ -129,6 +129,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                         .xUnits(scope.formatter.range);
 
                     scope.zoomChart.filterHandler(function(dimension, filter){
+                        angular.element("#time-chart-reset").css("visibility","visible");
                         scope.chart.focus(scope.zoomChart.filter());
                         scope.chart.filterAll();
                         return filter;
@@ -138,7 +139,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 scope.chart
                     .width(scope.chartWidth)
                     .height(scope.chartHeight)
-                    .margins({top: 10, right: 20, bottom: 18, left: 30})
+                    .margins({top: 5, right: 10, bottom: 18, left: 30})
                     .dimension(scope.dimDate)
                     .group(scope.groupDate)
                     .x(d3.time.scale().domain([scope.first, scope.last]))
@@ -157,6 +158,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .xAxis().tickFormat(scope.tickFormat);
 
                 scope.chart.filterHandler(function(dimension, filter){
+                    angular.element("#time-chart-reset").css("visibility","visible");
                     return scope.filterFunction(dimension, filter);
                 });
 
@@ -235,6 +237,14 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 scope.precacheGrouping();
                 dc.redrawAll();
             });
+
+            scope.reset = function(){
+                scope.zoomChart.filterAll();
+                scope.chart.focus([scope.first,scope.last]);
+                scope.chart.filterAll();
+                dc.redrawAll();
+                angular.element("#time-chart-reset").css("visibility","hidden");
+            };
 
             MetadataService.registerWidget(scope.init);
         }
