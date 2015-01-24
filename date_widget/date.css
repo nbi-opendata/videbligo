@@ -1,3 +1,7 @@
+There is no no-color option ("less --help" for help)
+@import "../variables.less";
+@import "../mixins.less";
+
 #time-zoom-chart.dc-chart .axis.y {
   opacity: 0.0;
 }

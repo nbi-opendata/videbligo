@@ -540,6 +540,19 @@ ul.category_matrix .category_icon.active:hover {
 #last-modification-zoom-chart.dc-chart .axis.y {
   opacity: 0.0;
 }
+#last-modification-chart .x.axis text {
+  text-anchor: end !important;
+  transform: rotate(-45deg);
+}
+.chart-reset-button {
+  font-size: 75%;
+  position: relative;
+  left: 4px;
+  cursor: pointer;
+  display: block;
+  visibility: visible;
+  margin-bottom: 0px;
+}
 #mapChart {
   visibility: hidden;
   border: 0px solid #000000;
