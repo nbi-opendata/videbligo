@@ -52,7 +52,7 @@ Videbligo.directive('map', ['MetadataService', '$compile', function(MetadataServ
                     $compile(regionElement)(scope);
                 })
                 allBerlin = element[0].querySelector('.BerlinBorder');
-                allBerlin.attributes['ng-class'] = '{berlin_border_hover: showBerlinBorder}'
+                //allBerlin.attributes['ng-class'] = '{berlin_border_hover: showBerlinBorder}'
             };
 
             MetadataService.registerWidget(scope.init);
