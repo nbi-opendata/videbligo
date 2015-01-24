@@ -1169,9 +1169,7 @@ div .horizontal .granularity-title-intent-10 {
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
-
   /* to enhance the blurring icons */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -1549,42 +1547,72 @@ body .columns-24.category_text {
   visibility: visible;
   margin-bottom: 0px;
 }
-/* hack to show a pointer if Brandenburg is hovered */
-svg:hover {
-  cursor: pointer;
+#mapChart {
+  border: 0px solid #000;
+  min-height: 1.5em;
+  font-size: 14px;
+  font-family: Verdana;
+  padding: 5px;
+  font-weight: bold;
+  border-radius: 11%;
+  clear: both;
 }
-.bezirk {
-  stroke-width: 1;
-  stroke: white;
-  fill: #000000;
+#berlinMap {
+  width: 45%;
+  float: left;
+  display: block;
+}
+#berlinBox {
+  display: block;
+  float: left;
+  margin-top: 100px;
+  margin-right: 200px;
+  margin-left: 100px;
+}
+svg .bezirk {
+  stroke-width: 2;
+  stroke: #fff;
   -webkit-transition: stroke 0.01s, stroke-width 0.01s;
   /* Choice Animation */
-
   -o-transition: stroke 0.01s, stroke-width 0.01s;
   transition: stroke 0.01s, stroke-width 0.01s;
 }
-.bezirk:hover {
-  fill: #99cc00;
+/*
+@base-color: #000;
+@background-color: #fff;
+@primary-color: #000;
+@secondary-color: #7f99b2;
+@primary-color-hover: #99CC00;
+@secondary-color-hover: #608000;
+*/
+.standard {
+  fill: blue;
+  /* primary color */
 }
-.bezirk.selected {
-  fill: #7f99b2;
+.hover {
+  cursor: pointer;
+  stroke-width: 4;
+  stroke: #000;
+  fill: #99cc00 /* primary hover */;
 }
-.bezirk.selected:hover {
-  fill: #608000;
+.selected {
+  fill: #7f99b2 /* secondary */;
 }
-.berlin_border {
-  stroke-width: 8px;
-  stroke: #ffffff;
+.selected_hover {
+  cursor: pointer;
+  stroke-width: 4;
+  stroke: #000;
+  fill: #608000 /* secondary hover */;
+}
+.berlin_border_standard {
+  stroke-width: 2;
+  stroke: black;
   stroke-linejoin: round;
 }
-.berlin_border.selected {
-  stroke: #7f99b2;
-}
-.berlin_border.hovered {
-  stroke: #99cc00;
-}
-.berlin_border.selected_hovered {
-  stroke: #608000;
+.berlin_border_hover {
+  stroke-width: 13px;
+  stroke: black;
+  stroke-linejoin: round;
 }
 .center-me {
   margin: 0 auto;
@@ -1667,6 +1695,3 @@ result .details table tr td:first-child {
   vertical-align: top;
   padding-right: 1em;
 }
-/*result .details table tr:last-child td:last-child {*/
-/*text-align: right;*/
-/*}*/
