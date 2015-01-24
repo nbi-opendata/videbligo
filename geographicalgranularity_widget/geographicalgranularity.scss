@@ -150,7 +150,7 @@ $fontfamily-monospace: 'monospace' !default;
 
     &.horizontal {
       .granularity-line {
-        t: $i/4*$bubble-base-size - 2px; // maybe border 2px should be a variable
+        top: $i/4*$bubble-base-size - 2px; // maybe border 2px should be a variable
       }
       @for $j from 1 through 10 {
         .granularity-size-#{$j} {
