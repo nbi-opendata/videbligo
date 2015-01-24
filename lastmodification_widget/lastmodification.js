@@ -23,7 +23,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
             scope.maxYValue = 0;
             //even if there are less datasets than this value
             //this value will be used as maximum Y value
-            scope.minMaxYValue = 5;
+            scope.minYAxisHeight = 5;
 
             scope.init = function(){
                 if(attrs.chartWidth) {
@@ -34,6 +34,9 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 }
                 if(attrs.showZoomChart) {
                     scope.showZoomChart = (attrs.showZoomChart.toLowerCase() === "true");
+                }
+                if(attrs.minYValue) {
+                    scope.minYAxisHeight = parseInt(attrs.minYValue);
                 }
 
                 scope.tickFormat = scope.locale.multi([
@@ -152,8 +155,8 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                         scope.maxYValue = entry.value;
                     }
                 });
-                if (scope.maxYValue < scope.minMaxYValue){
-                    scope.maxYValue = scope.minMaxYValue;
+                if (scope.maxYValue < scope.minYAxisHeight){
+                    scope.maxYValue = scope.minYAxisHeight;
                 }
             }
 

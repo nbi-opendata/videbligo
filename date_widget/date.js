@@ -20,7 +20,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             scope.maxYValue = 0;
             //even if there are less datasets than this value
             //this value will be used as maximum Y value
-            scope.minMaxYValue = 5;
+            scope.minYAxisHeight = 5;
 
             scope.getD3TimeRange = function(data){
                 var dateFrom = parseDate(data.extras["temporal_coverage-from"]);
@@ -47,6 +47,9 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 }
                 if(attrs.showZoomChart) {
                     scope.showZoomChart = (attrs.showZoomChart.toLowerCase() === "true");
+                }
+                if(attrs.minYValue) {
+                    scope.minYAxisHeight = parseInt(attrs.minYValue);
                 }
 
 
@@ -107,8 +110,8 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                             scope.binaryInsert({key: new Date(key), value: val[key]}, newObject);
                         }
                     }
-                    if (scope.maxYValue < scope.minMaxYValue){
-                        scope.maxYValue = scope.minMaxYValue;
+                    if (scope.maxYValue < scope.minYAxisHeight){
+                        scope.maxYValue = scope.minYAxisHeight;
                     }
                     scope.cachedGrouping = newObject;
             };
