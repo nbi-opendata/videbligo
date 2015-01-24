@@ -104,6 +104,13 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
             scope.berlinClicked = function(){
                 if(!onSvg){
                     scope.regionData['Berlin'].clicked = !scope.regionData['Berlin'].clicked;
+                    if(scope.regionData['Berlin'].clicked){
+                        allBerlin.style.stroke = '#E00';
+                    } else {
+                        allBerlin.style.stroke = '#000';
+                    }
+
+                    scope.regionChoice('berlin');
                 }
             }
 
@@ -113,7 +120,12 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                     d3.select('#mapChart').text("Berlin" + "(" + scope.regionData['Berlin'].value + ")");
                     $('#mapChart').css('visibility', 'visible');
 
-                    allBerlin.style.stroke = "#000";
+                    if(scope.regionData['Berlin'].clicked){
+                        allBerlin.style.stroke = '#E00';
+                    } else {
+                        allBerlin.style.stroke = '#000';
+                    }
+
                     allBerlin.style.strokeWidth = 13;
 
                     angular.forEach(bezirke, function(path){
