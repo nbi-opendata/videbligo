@@ -2,47 +2,6 @@
 @import "../mixins.less";
 @import "../icons.less";
 
-.columns-1 {
-  width: 42px;
-  ul.category_matrix {
-    .column-mixin(1);
-  }
-}
-
-.columns-2 {
-  width: 84px;
-  ul.category_matrix {
-    .column-mixin(2);
-  }
-}
-
-.columns-3 {
-  width: 126px;
-  ul.category_matrix {
-    .column-mixin(3);
-  }
-}
-
-.columns-4 {
-  width: 168px;
-  ul.category_matrix {
-    .column-mixin(4);
-  }
-}
-
-.columns-5 {
-  width: 210px;
-  ul.category_matrix {
-    .column-mixin(5);
-  }
-}
-
-.columns-6 {
-  width: 252px;
-  ul.category_matrix {
-    .column-mixin(6);
-  }
-}
 ul.category_matrix li {
   padding-bottom: 1em;
 }
@@ -64,3 +23,19 @@ ul.category_matrix .category_icon.active:hover {
   color: @secondary-color-hover !important;
 }
 
+.for-category-text(@i: 1) when (@i < 25) {
+  .columns-@{i} {
+    ul.category_matrix {
+      width: @i * 55px;
+      .column-mixin(@i);
+    }
+  }
+  .columns-@{i}.category_text {
+    .category_text-mixin(@i);
+  }
+  .for-category-text(@i + 1);
+}
+
+body {
+  .for-category-text(1);
+}
