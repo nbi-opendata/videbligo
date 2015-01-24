@@ -45,6 +45,18 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     scope.showZoomChart = (attrs.showZoomChart.toLowerCase() === "true");
                 }
 
+
+                scope.tickFormat = d3.time.format.multi([
+                    ["", function(d) { return d.getMilliseconds(); }],
+                    ["", function(d) { return d.getSeconds(); }],
+                    ["", function(d) { return d.getMinutes(); }],
+                    ["", function(d) { return d.getHours(); }],
+                    ["", function(d) { return d.getDay() && d.getDate() != 1; }],
+                    ["", function(d) { return d.getDate() != 1; }],
+                    ["", function(d) { return d.getMonth(); }],
+                    ["%Y", function() { return true; }]
+                ]);
+
                 var data = MetadataService.getData();
 
                 scope.dimDate = data.dimension(function(d){
@@ -141,6 +153,8 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                         return d.x.getFullYear() +": " + d.y;
                     })
                     .yAxis().tickFormat(d3.format("d"));
+                scope.chart
+                    .xAxis().tickFormat(scope.tickFormat);
 
                 scope.chart.filterHandler(function(dimension, filter){
                     return scope.filterFunction(dimension, filter);
