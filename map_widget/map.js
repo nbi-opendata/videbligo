@@ -227,6 +227,10 @@ Videbligo.directive('region', ['$compile', function ($compile) {
                 }
                 d3.select('#mapChart').text(scope.elementId + "(" + scope.regionData[scope.elementId].value + ")");
                 $('#mapChart').css('visibility', 'visible');
+
+                if(scope.elementId == 'Berlin'){
+                    $('#textPosition').css('visibility', 'visible');
+                }
             };
 
             // Beim MouseLeave setzen wir die richtige Farbe durch einen Vergleich
@@ -237,6 +241,10 @@ Videbligo.directive('region', ['$compile', function ($compile) {
                     element[0].setAttribute('fill', colorUnclicked);
                 }
                 $('#mapChart').css('visibility', 'hidden');
+
+                if(scope.elementId == 'Berlin'){
+                    $('#textPosition').css('visibility', 'hidden');
+                }
                 onSvg = false;
 
             }

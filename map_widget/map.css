@@ -17,6 +17,15 @@
     width: 45%;
     float: left;
     display: block;
+
+}
+
+#textPosition {
+    font-family: Verdana;
+    position: relative;
+    right: 16%;
+    padding-top: 10px;
+    visibility: hidden;
 }
 
 #berlinBox {
