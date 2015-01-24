@@ -2,6 +2,7 @@
 .idea/
 assets/dist/.DS_Store
 map_widget/berlin_map_2.sketch
+<<<<<<< HEAD
 bower_components/bootstrap/less/bootstrap.css
 bower_components/bootstrap/less/media.css
 bower_components/bootstrap/less/mixins.css
@@ -45,5 +46,10 @@ map_widget/map.css
 lastmodification_widget/lastmodification.css
 icons.css
 geographicalgranularity_widget/geographicalgranularity.css.map
+=======
+result_widget/result.css
+lastmodification_widget/lastmodification.css
+icons.css
+>>>>>>> feature/map
 date_widget/date.css
 category_widget/category.css
