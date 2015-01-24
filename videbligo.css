@@ -489,6 +489,7 @@ body .columns-1 ul.category_matrix {
   padding: 0;
 }
 body .columns-1.category_text {
+  width: 55px;
   min-height: 6em;
 }
 body .columns-2 ul.category_matrix {
@@ -499,6 +500,7 @@ body .columns-2 ul.category_matrix {
   padding: 0;
 }
 body .columns-2.category_text {
+  width: 110px;
   min-height: 6em;
 }
 body .columns-3 ul.category_matrix {
@@ -509,6 +511,7 @@ body .columns-3 ul.category_matrix {
   padding: 0;
 }
 body .columns-3.category_text {
+  width: 165px;
   min-height: 3em;
 }
 body .columns-4 ul.category_matrix {
@@ -519,6 +522,7 @@ body .columns-4 ul.category_matrix {
   padding: 0;
 }
 body .columns-4.category_text {
+  width: 220px;
   min-height: 3em;
 }
 body .columns-5 ul.category_matrix {
@@ -529,6 +533,7 @@ body .columns-5 ul.category_matrix {
   padding: 0;
 }
 body .columns-5.category_text {
+  width: 275px;
   min-height: 3em;
 }
 body .columns-6 ul.category_matrix {
@@ -539,6 +544,7 @@ body .columns-6 ul.category_matrix {
   padding: 0;
 }
 body .columns-6.category_text {
+  width: 330px;
   min-height: 1.5em;
 }
 body .columns-7 ul.category_matrix {
@@ -549,6 +555,7 @@ body .columns-7 ul.category_matrix {
   padding: 0;
 }
 body .columns-7.category_text {
+  width: 385px;
   min-height: 1.5em;
 }
 body .columns-8 ul.category_matrix {
@@ -559,6 +566,7 @@ body .columns-8 ul.category_matrix {
   padding: 0;
 }
 body .columns-8.category_text {
+  width: 440px;
   min-height: 1.5em;
 }
 body .columns-9 ul.category_matrix {
@@ -569,6 +577,7 @@ body .columns-9 ul.category_matrix {
   padding: 0;
 }
 body .columns-9.category_text {
+  width: 495px;
   min-height: 1.5em;
 }
 body .columns-10 ul.category_matrix {
@@ -579,6 +588,7 @@ body .columns-10 ul.category_matrix {
   padding: 0;
 }
 body .columns-10.category_text {
+  width: 550px;
   min-height: 1.5em;
 }
 body .columns-11 ul.category_matrix {
@@ -589,6 +599,7 @@ body .columns-11 ul.category_matrix {
   padding: 0;
 }
 body .columns-11.category_text {
+  width: 605px;
   min-height: 1.5em;
 }
 body .columns-12 ul.category_matrix {
@@ -599,6 +610,7 @@ body .columns-12 ul.category_matrix {
   padding: 0;
 }
 body .columns-12.category_text {
+  width: 660px;
   min-height: 1.5em;
 }
 body .columns-13 ul.category_matrix {
@@ -609,6 +621,7 @@ body .columns-13 ul.category_matrix {
   padding: 0;
 }
 body .columns-13.category_text {
+  width: 715px;
   min-height: 1.5em;
 }
 body .columns-14 ul.category_matrix {
@@ -619,6 +632,7 @@ body .columns-14 ul.category_matrix {
   padding: 0;
 }
 body .columns-14.category_text {
+  width: 770px;
   min-height: 1.5em;
 }
 body .columns-15 ul.category_matrix {
@@ -629,6 +643,7 @@ body .columns-15 ul.category_matrix {
   padding: 0;
 }
 body .columns-15.category_text {
+  width: 825px;
   min-height: 1.5em;
 }
 body .columns-16 ul.category_matrix {
@@ -639,6 +654,7 @@ body .columns-16 ul.category_matrix {
   padding: 0;
 }
 body .columns-16.category_text {
+  width: 880px;
   min-height: 1.5em;
 }
 body .columns-17 ul.category_matrix {
@@ -649,6 +665,7 @@ body .columns-17 ul.category_matrix {
   padding: 0;
 }
 body .columns-17.category_text {
+  width: 935px;
   min-height: 1.5em;
 }
 body .columns-18 ul.category_matrix {
@@ -659,6 +676,7 @@ body .columns-18 ul.category_matrix {
   padding: 0;
 }
 body .columns-18.category_text {
+  width: 990px;
   min-height: 1.5em;
 }
 body .columns-19 ul.category_matrix {
@@ -669,6 +687,7 @@ body .columns-19 ul.category_matrix {
   padding: 0;
 }
 body .columns-19.category_text {
+  width: 1045px;
   min-height: 1.5em;
 }
 body .columns-20 ul.category_matrix {
@@ -679,6 +698,7 @@ body .columns-20 ul.category_matrix {
   padding: 0;
 }
 body .columns-20.category_text {
+  width: 1100px;
   min-height: 1.5em;
 }
 body .columns-21 ul.category_matrix {
@@ -689,6 +709,7 @@ body .columns-21 ul.category_matrix {
   padding: 0;
 }
 body .columns-21.category_text {
+  width: 1155px;
   min-height: 1.5em;
 }
 body .columns-22 ul.category_matrix {
@@ -699,6 +720,7 @@ body .columns-22 ul.category_matrix {
   padding: 0;
 }
 body .columns-22.category_text {
+  width: 1210px;
   min-height: 1.5em;
 }
 body .columns-23 ul.category_matrix {
@@ -709,6 +731,7 @@ body .columns-23 ul.category_matrix {
   padding: 0;
 }
 body .columns-23.category_text {
+  width: 1265px;
   min-height: 1.5em;
 }
 body .columns-24 ul.category_matrix {
@@ -719,6 +742,7 @@ body .columns-24 ul.category_matrix {
   padding: 0;
 }
 body .columns-24.category_text {
+  width: 1320px;
   min-height: 1.5em;
 }
 #time-zoom-chart.dc-chart .axis.y {
