@@ -38,6 +38,10 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
                     scope.categories[key].size = scope.groupCategory.value()[key];
             });
 
+            scope.$on('filterForCategory', function(event, args) {
+                scope.toggle(args.category);
+            });
+
             scope.reset = function(){
                 scope.dimCategory.filterAll();
                 scope.selected_categories.clear();

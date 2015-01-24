@@ -14,6 +14,7 @@
                         <!--we have maximum 2 categories icons in each result  -->
                         <div class="result-col-1">
                             <span data-ng-repeat="group in entry.groups"
+                                  data-ng-click="filterForCategory(group)"
                                   class="category-icon icon-{{group}}"
                                   title="{{category_mapping[group]}}">
                             </span>
