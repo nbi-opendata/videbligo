@@ -7,7 +7,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
         link: function(scope, element, attrs) {
 
             //used to determine x axes domain for both charts
-            scope.formatter = d3.time.month;
+            scope.formatter = d3.time.week;
 
             //which language should the months on the x-axis be in
             //alternatively, for english, use 'd3.time.format'
@@ -38,8 +38,8 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     ["%I:%M", function(d) { return d.getMinutes(); }],
                     ["%I %p", function(d) { return d.getHours(); }],
                     ["%a %d", function(d) { return d.getDay() && d.getDate() != 1; }],
-                    ["%b %d", function(d) { return d.getDate() != 1; }],
-                    ["%B", function(d) { return d.getMonth(); }],
+                    ["%d. %b", function(d) { return d.getDate() != 1; }],
+                    ["%b", function(d) { return d.getMonth(); }],
                     ["%Y", function() { return true; }]
                 ]);
 
@@ -66,7 +66,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                         .group(scope.groupLastMod)
                         .centerBar(true)
                         .gap(1)
-                        .x(d3.time.scale().domain([first, last]))
+                        .x(d3.time.scale().domain([first, new Date()]))
                         .y(d3.scale.sqrt().exponent(0.3).domain([0,400]))
                         .round(scope.formatter.round)
                         .xUnits(scope.formatter.range);
@@ -76,14 +76,23 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                         scope.chart.filterAll();
                         return filter;
                     });
-                    scope.zoomChart.xAxis().tickFormat(scope.tickFormat);
+                    scope.zoomChart.xAxis().tickFormat(scope.locale.multi([
+                        ["", function(d) { return d.getMilliseconds(); }],
+                        ["", function(d) { return d.getSeconds(); }],
+                        ["", function(d) { return d.getMinutes(); }],
+                        ["", function(d) { return d.getHours(); }],
+                        ["", function(d) { return d.getDay() && d.getDate() != 1; }],
+                        ["", function(d) { return d.getDate() != 1; }],
+                        ["", function(d) { return d.getMonth(); }],
+                        ["%Y", function() { return true; }]
+                    ]));
                 }
 
                 scope.chart = dc.barChart('#last-modification-chart');
                 scope.chart
                     .width(scope.chartWidth)
                     .height(scope.chartHeight)
-                    .margins({top: 10, right: 20, bottom: 18, left: 30})
+                    .margins({top: 10, right: 20, bottom: 35, left: 30})
                     .dimension(scope.dimLastMod)
                     .group(scope.groupLastMod)
                     //.elasticY(true)
@@ -106,7 +115,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 dc.renderAll();
 
                 if (scope.showZoomChart){
-                    scope.zoomChart.filter([new Date("01/01/2014"),last]);
+                    scope.zoomChart.filter([new Date("01/01/2014"),new Date()]);
                 }
             };
 
