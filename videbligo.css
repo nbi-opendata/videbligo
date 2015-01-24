@@ -74,6 +74,7 @@
 .granularity-title {
   position: absolute;
   width: 90px;
+  cursor: pointer;
 }
 .granularity-elements {
   display: block;
