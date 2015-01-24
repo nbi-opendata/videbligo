@@ -1,27 +1,3 @@
-// Hier kann man zentral die Farben der Karte ändern
-
-if (!document.styleSheets){
-    console.log("Please enable styleSheets");
-} else {
-    var theRules = new Array();
-
-    for( var i = 0; i < document.styleSheets.length; i++){
-        if (document.styleSheets[i].cssRules)
-            theRules = document.styleSheets[i].cssRules
-        else if (document.styleSheets[i].rules)
-            theRules = document.styleSheets[i].rules
-
-        if( theRules[0].selectorText == '.mapIdentifier'){
-            // alert(i);
-            break;
-        }
-    }
-}
-
-colorHover = theRules[theRules.length - 1].style.color;
-colorClicked = theRules[theRules.length - 2].style.color;
-colorUnclicked = theRules[theRules.length - 3].style.color;
-
 onSvg = false;
 allBerlin = null;
 bezirke = null;
@@ -201,52 +177,26 @@ Videbligo.directive('region', ['$compile', function ($compile) {
         },
         link: function (scope, element, attrs) {
             scope.elementId = element.attr("id");
+            scope.hover = false;
+            scope.clicked = false;
 
             // Falls eine Region angeklickt wird, setzen wir einen boolean um den Zustand zu speichern und ändern die Farbe
             scope.regionClick = function () {
-                scope.regionData[scope.elementId].clicked = !scope.regionData[scope.elementId].clicked;
-                if(element[0].getAttribute("fill") !=colorClicked){
-                    element[0].setAttribute("fill", colorClicked);
-                }
-                else{
-                    element[0].setAttribute("fill", colorHover);
-                }
+                scope.clicked = !scope.clicked;
+                scope.regionData[scope.elementId].clicked = scope.clicked;
             };
 
             // Beim Hover / MouseOver verändern wir die Farbe der Region und zeigen das div pop-up an
             scope.regionMouseOver = function () {
                 onSvg = true;
-                allBerlin.style.strokeWidth = 0;
-                scope.hoverRegion = scope.elementId;
-                element[0].parentNode.appendChild(element[0]);
-                element[0].style.strokeWidth = 4.5 ;
-                element[0].style.stroke = '#000';
+                scope.hover = true;
 
-                if(element[0].getAttribute("fill") !=colorClicked){
-                    element[0].setAttribute("fill", colorHover);
-                }
-                d3.select('#mapChart').text(scope.elementId + "(" + scope.regionData[scope.elementId].value + ")");
-                $('#mapChart').css('visibility', 'visible');
-
-                if(scope.elementId == 'Berlin'){
-                    $('#textPosition').css('visibility', 'visible');
-                }
             };
 
             // Beim MouseLeave setzen wir die richtige Farbe durch einen Vergleich
             scope.regionMouseLeave = function(){
-                element[0].style.strokeWidth = 2;
-                element[0].style.stroke = '#000';
-                if(element[0].getAttribute('fill') !=colorClicked){
-                    element[0].setAttribute('fill', colorUnclicked);
-                }
-                $('#mapChart').css('visibility', 'hidden');
-
-                if(scope.elementId == 'Berlin'){
-                    $('#textPosition').css('visibility', 'hidden');
-                }
+                scope.hover = false;
                 onSvg = false;
-
             }
 
             // Hier werden Funktionen zugeordnet
@@ -255,20 +205,12 @@ Videbligo.directive('region', ['$compile', function ($compile) {
             element[0].style.stroke = '#000';
 
             element.attr('ng-click', 'regionClick()');
-            element.attr('ng-attr-fill', '{{regionData[elementId] | map_color}}');
-            element.attr('ng-mouseover', 'regionMouseOver()');
+            element.attr('ng-mouseenter', 'regionMouseOver()');
             element.attr('ng-mouseleave', 'regionMouseLeave()');
-            element.attr('ng-class', '{active:hoverRegion == elementId}');
+            element.attr('ng-class', '{hover: hover, selected: clicked, selected_hover: clicked && hover, standard: !hover && !clicked}');
             element.removeAttr('region');
             $compile(element)(scope);
         }
-    }
-}]);
-
-// Initialisierungsfarbe der Regionen.
-Videbligo.filter('map_color', [function () {
-    return function (input) {
-        return colorUnclicked;
     }
 }]);
 
