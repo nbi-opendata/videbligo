@@ -3,7 +3,7 @@ allBerlin = null;
 bezirke = null;
 
 
-Videbligo.directive('map', ['MetadataService', function(MetadataService) {
+Videbligo.directive('map', ['MetadataService', '$compile', function(MetadataService, $compile) {
 
     return {
         restrict: 'AE',
@@ -37,6 +37,19 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                     scope.dataTemp[region] = ({key:region, value: value, clicked:false});
                 })
                 scope.regionData = scope.dataTemp;
+
+
+                //initializing map
+                var regions = element[0].querySelectorAll('.bezirk');
+                bezirke = regions;
+                angular.forEach(regions, function (path, key) {
+                    var regionElement = angular.element(path);
+                    regionElement.attr('region', '');
+                    regionElement.attr('region-data', 'regionData');
+                    regionElement.attr('regions-all','regionsAll')
+                    $compile(regionElement)(scope);
+                })
+                allBerlin = element[0].querySelector('.Berlina');
             };
 
             MetadataService.registerWidget(scope.init);
@@ -86,6 +99,7 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
             // zeigt hover an, und verstärkt den Rand, wenn wir nich über der SVG-Karte hovern
             scope.berlinMouseOver = function(){
                 if(!onSvg) {
+
                     d3.select('#mapChart').text("Berlin" + "(" + scope.regionData['Berlin'].value + ")");
                     $('#mapChart').css('visibility', 'visible');
 
@@ -136,26 +150,6 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
             }
         }
     };
-}]);
-
-// for each divided districts parameter passed
-Videbligo.directive('svgMap', ['$compile', function ($compile) {
-    return {
-        restrict: 'AE',
-        templateUrl: 'map_widget/berlin_map_border.svg',
-        link: function (scope, element, attrs) {
-            var regions = element[0].querySelectorAll('.bezirk');
-            bezirke = regions;
-            angular.forEach(regions, function (path, key) {
-                var regionElement = angular.element(path);
-                regionElement.attr('region', '');
-                regionElement.attr('region-data', 'regionData');
-                regionElement.attr('regions-all','regionsAll')
-                $compile(regionElement)(scope);
-            })
-            allBerlin = element[0].querySelector('.Berlina');
-        }
-    }
 }]);
 
 // User Interface : Mause-Click, Mause-Over

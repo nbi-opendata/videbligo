@@ -3,19 +3,14 @@
     <a href="#" ng-click="reset()">reset</a>
     <div class="row">
         <div class="panel panel-body">
-            <div ng-click="berlinClicked()" ng-mouseover="berlinMouseOver()" ng-mouseleave="berlinMouseLeave()">
-                <div svg-map
-                    ng-click = "regionChoice()"  id="berlinMap" >
 
-                 </div>
-                 <div id="textPosition">
-                     click to select Berlin
-                 </div>
+
+
+            <div ng-click="berlinClicked()" ng-mouseover="berlinMouseOver()" ng-mouseleave="berlinMouseLeave()">
+                <ng-include src="'map_widget/berlin_map_border.svg'" id="berlinMap" ng-click="regionChoice()" />
             </div>
-            <div id = "mapInfoBox">
-                <div id="mapChart" ng-click="resetSelection()" >
-                </div>
-            </div>
+        </div>
+        <div id="mapChart">
         </div>
     </div>
 </div>
