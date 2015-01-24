@@ -573,7 +573,7 @@ svg .bezirk:hover,
 .bezirk.active {
   cursor: pointer;
   stroke-width: 4;
-  stroke: #000000;
+  stroke: #99cc00;
 }
 .regionlist {
   -webkit-column-count: 5;
