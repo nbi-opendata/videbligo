@@ -38,43 +38,48 @@
 </head>
 <body data-ng-app="Videbligo">
 
-    <!--<div style="float:left;">-->
-        <search>
-        </search>
-    <!--</div>-->
+<div style="float:left;">
+    <h2>Kategorien</h2>
+    <category data-number_of_columns="4"></category>
+</div>
 
-    <div style="margin-left:50px; float:left;">
-        <date data-chart_width="500" data-chart_height="170" data-show_zoom_chart="true">
-        </date>
-    </div>
+<div style="margin-left:50px; float:left;">
+    <h2>Zeitperiode</h2>
+    <date data-chart_width="500" data-chart_height="170" data-show_zoom_chart="true"></date>
+</div>
 
-    <div style="margin-left:50px; float:left;">
-        <lastmodification data-chart_width="500" data-chart_height="170" data-show_zoom_chart="true">
-        </lastmodification>
-    </div>
+<div style="margin-left:50px; float:left;">
+    <h2>Letzte Änderung</h2>
+    <lastmodification data-chart_width="500" data-chart_height="170" data-show_zoom_chart="true"></lastmodification>
+</div>
 
-    <div style="float:left;">
-        <category data-number_of_columns="4"></category>
-    </div>
 
-    <div class="clearfix"></div>
-    <div class="row">
-        <div class="col-xs-3">
-            <timegranularity></timegranularity>
-        </div>
-        <div class="col-xs-3">
-            <geographicalgranularity></geographicalgranularity>
-        </div>
+<div class="clearfix"></div>
 
-    </div>
+<div class="row">
+    <div class="col-xs-6">
 
-    <div style="clear:both" >
+        <h2>Karte</h2>
         <map></map>
     </div>
-
-    
-    <div style="clear:both;">
-        <result data-elements_per_page="20"></result>
+    <div class="col-xs-3">
+        <timegranularity></timegranularity>
     </div>
+    <div class="col-xs-3">
+        <geographicalgranularity></geographicalgranularity>
+    </div>
+
+</div>
+
+
+<div>
+    <h2>Name des Datensatzes</h2>
+    <search></search>
+</div>
+
+<div style="clear:both;">
+    <h1>Ergebnisliste</h1>
+    <result data-elements_per_page="20"></result>
+</div>
 </body>
 </html>

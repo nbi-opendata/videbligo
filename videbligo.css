@@ -392,7 +392,9 @@ div .granularity-title-intent-10 {
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
+
   /* to enhance the blurring icons */
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -464,6 +466,12 @@ div .granularity-title-intent-10 {
 }
 .icon-verbraucherschutz:before {
   content: "\e60f";
+}
+.icon-arrow-down:before {
+  content: "\e617";
+}
+.icon-arrow-up:before {
+  content: "\e618";
 }
 ul.category_matrix li {
   padding-bottom: 1em;
@@ -791,6 +799,7 @@ svg .bezirk {
   stroke: #fff;
   -webkit-transition: stroke 0.01s, stroke-width 0.01s;
   /* Choice Animation */
+
   -o-transition: stroke 0.01s, stroke-width 0.01s;
   transition: stroke 0.01s, stroke-width 0.01s;
 }
@@ -803,8 +812,10 @@ svg .bezirk:hover,
 .regionlist {
   -webkit-column-count: 5;
   /* Chrome, Safari, Opera */
+
   -moz-column-count: 5;
   /* Firefox */
+
   column-count: 5;
 }
 .regionlist > div {
@@ -918,3 +929,6 @@ result .details table tr td:first-child {
   vertical-align: top;
   padding-right: 1em;
 }
+/*result .details table tr:last-child td:last-child {*/
+/*text-align: right;*/
+/*}*/
