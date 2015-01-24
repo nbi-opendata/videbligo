@@ -106,6 +106,7 @@
 <div class="columns-{{numberOfColumns}}">
     <h2>Kategorien</h2>
 
+    <span style="display:inline-block; height: 10px;"><a href="#" ng-click="reset()" ng-show="selected_categories.values().length > 0">reset</a></span>
     <ul class="category_matrix">
     <!-- to show the category name , when the mouse comes over the category icon,and hide it otherwise-->
         <li ng-repeat="(key,value) in category_mapping"
