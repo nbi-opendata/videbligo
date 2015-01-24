@@ -18,7 +18,7 @@
     </ul>
 </div>
 <!--to show the name and size of the selected category under the Grid -->
-<div class="columns-{{numberOfColumns}}" ng-switch on="hovered_category" style="white-space: nowrap;">
+<div class="category_text columns-{{numberOfColumns}}" ng-switch on="hovered_category">
     <span ng-switch-default>{{category_mapping[hovered_category]}} ({{categories[hovered_category].size}})</span>
     <span ng-switch-when="none">&nbsp;</span>
 </div>
