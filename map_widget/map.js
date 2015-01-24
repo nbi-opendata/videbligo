@@ -107,15 +107,8 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
 
 
             // reset-function
-            scope.resetFilters = function(){
-                scope.regionsAll.forEach(function(district){
-                    scope.regionData[district].clicked = false;
-                })
-
-                angular.forEach(bezirke, function(region){
-                    region.setAttribute('fill', colorUnclicked );
-                })
-
+            scope.reset = function(){
+                scope.$broadcast('reset');
                 scope.dimRegion.filterAll();
                 MetadataService.triggerUpdate();
             }
@@ -157,7 +150,6 @@ Videbligo.directive('svgMap', ['$compile', function ($compile) {
                 var regionElement = angular.element(path);
                 regionElement.attr('region', '');
                 regionElement.attr('region-data', 'regionData');
-                regionElement.attr('hover-region', 'hoverRegion');
                 regionElement.attr('regions-all','regionsAll')
                 $compile(regionElement)(scope);
             })
@@ -172,13 +164,18 @@ Videbligo.directive('region', ['$compile', function ($compile) {
         restrict: 'AE',
         scope: {
             regionData: "=",
-            hoverRegion: "=",
             regionsAll: "="
         },
         link: function (scope, element, attrs) {
             scope.elementId = element.attr("id");
             scope.hover = false;
             scope.clicked = false;
+
+            scope.$on('reset', function() {
+                scope.hover = false;
+                scope.clicked = false;
+                scope.regionData[scope.elementId].clicked = scope.clicked;
+            });
 
             // Falls eine Region angeklickt wird, setzen wir einen boolean um den Zustand zu speichern und ändern die Farbe
             scope.regionClick = function () {
