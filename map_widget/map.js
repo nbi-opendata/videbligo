@@ -26,7 +26,6 @@ onSvg = false;
 allBerlin = null;
 bezirke = null;
 
-
 Videbligo.directive('map', ['MetadataService', function(MetadataService) {
 
     return {
@@ -104,6 +103,14 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
             scope.berlinClicked = function(){
                 if(!onSvg){
                     scope.regionData['Berlin'].clicked = !scope.regionData['Berlin'].clicked;
+
+                    if(scope.regionData['Berlin'].clicked){
+                        allBerlin.style.stroke = "#F00";
+                    }
+                    else{
+                        allBerlin.style.stroke = "#000";
+                    }
+                    scope.regionChoice("Berlin");
                 }
             }
 
@@ -113,7 +120,12 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
                     d3.select('#mapChart').text("Berlin" + "(" + scope.regionData['Berlin'].value + ")");
                     $('#mapChart').css('visibility', 'visible');
 
-                    allBerlin.style.stroke = "#000";
+                    if(scope.regionData['Berlin'].clicked){
+                        allBerlin.style.stroke = "#F00";
+                    }
+                    else{
+                        allBerlin.style.stroke = "#000";
+                    }
                     allBerlin.style.strokeWidth = 13;
 
                     angular.forEach(bezirke, function(path){
@@ -127,6 +139,8 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
             scope.berlinMouseLeave = function(){
                 d3.select('#mapChart').text("Berlin" + "(" + scope.regionData['Berlin'].value + ")");
                 $('#mapChart').css('visibility', 'hidden');
+                allBerlin.style.strokeWidth = 2;
+
             }
 
 
@@ -142,6 +156,7 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
 
                 scope.dimRegion.filterAll();
                 MetadataService.triggerUpdate();
+                //allBerlin.style.stroke = "#000";
             }
 
 
@@ -173,7 +188,7 @@ Videbligo.directive('map', ['MetadataService', function(MetadataService) {
 Videbligo.directive('svgMap', ['$compile', function ($compile) {
     return {
         restrict: 'AE',
-        templateUrl: 'map_widget/berlin_map_border.svg',
+        templateUrl: 'map_widget/berlin_map_ohne_kk.svg',
         link: function (scope, element, attrs) {
             var regions = element[0].querySelectorAll('.bezirk');
             bezirke = regions;
