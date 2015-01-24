@@ -17,6 +17,10 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             scope.dimDate = {};
             scope.groupDate = {};
             scope.cachedGrouping = [];
+            scope.maxYValue = 0;
+            //even if there are less datasets than this value
+            //this value will be used as maximum Y value
+            scope.minMaxYValue = 5;
 
             scope.getD3TimeRange = function(data){
                 var dateFrom = parseDate(data.extras["temporal_coverage-from"]);
@@ -92,12 +96,19 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             };
 
             scope.precacheGrouping = function (){
+                    scope.maxYValue = 0;
                     var newObject = [];
                     var val = scope.groupDate;
                     for (var key in val) {
                         if (val.hasOwnProperty(key) && key != "all") {
+                            if (val[key] > scope.maxYValue){
+                                scope.maxYValue = val[key];
+                            }
                             scope.binaryInsert({key: new Date(key), value: val[key]}, newObject);
                         }
+                    }
+                    if (scope.maxYValue < scope.minMaxYValue){
+                        scope.maxYValue = scope.minMaxYValue;
                     }
                     scope.cachedGrouping = newObject;
             };
@@ -124,7 +135,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                         .centerBar(true)
                         .gap(1)
                         .x(d3.time.scale().domain([scope.first, scope.last]))
-                        .y(d3.scale.sqrt().exponent(0.3).domain([0,400]))
+                        .y(d3.scale.sqrt().exponent(0.3).domain([0,scope.maxYValue]))
                         .round(scope.formatter.round)
                         .xUnits(scope.formatter.range);
 
@@ -143,16 +154,13 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     .dimension(scope.dimDate)
                     .group(scope.groupDate)
                     .x(d3.time.scale().domain([scope.first, scope.last]))
-                    .y(d3.scale.sqrt().exponent(0.7).domain([0,400]))
+                    .y(d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue]))
                     .brushOn(true)
                     .gap(1)
                     .centerBar(true)
                     //.elasticY(true)
                     .round(scope.formatter.round)
                     .xUnits(scope.formatter.range)
-                    .title(function(d){
-                        return d.x.getFullYear() +": " + d.y;
-                    })
                     .yAxis().tickFormat(d3.format("d"));
                 scope.chart
                     .xAxis().tickFormat(scope.tickFormat);
@@ -235,6 +243,11 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
             scope.$on('filterChanged', function() {
                 scope.precacheGrouping();
+                var newScale = d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue])
+                    .range(scope.chart.yAxis().scale().range());
+                scope.chart.y(d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue]));
+                scope.chart.yAxis().scale(newScale);
+                scope.chart.renderYAxis(scope.chart.g());
                 dc.redrawAll();
             });
 

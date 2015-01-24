@@ -20,6 +20,10 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
 
             scope.groupLastMod = {};
             scope.dimLastMod = {};
+            scope.maxYValue = 0;
+            //even if there are less datasets than this value
+            //this value will be used as maximum Y value
+            scope.minMaxYValue = 5;
 
             scope.init = function(){
                 if(attrs.chartWidth) {
@@ -51,6 +55,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 scope.groupLastMod = scope.dimLastMod.group();
                 scope.last = new Date(scope.dimLastMod.top(1)[0].metadata_modified);
                 scope.first = new Date(scope.dimLastMod.bottom(1)[0].metadata_modified);
+                scope.calculateMaxY();
 
                 scope.debounceTriggerUpdate = debounce(function () {
                     MetadataService.triggerUpdate(this);
@@ -67,7 +72,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                         .centerBar(true)
                         .gap(1)
                         .x(d3.time.scale().domain([scope.first, scope.last]))
-                        .y(d3.scale.sqrt().exponent(0.3).domain([0,400]))
+                        .y(d3.scale.sqrt().exponent(0.3).domain([0,scope.maxYValue]))
                         .round(scope.formatter.round)
                         .xUnits(scope.formatter.range);
 
@@ -101,7 +106,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .gap(3)
                     .transitionDuration(1000)
                     .x(d3.time.scale().domain([scope.first, scope.last]))
-                    .y(d3.scale.sqrt().exponent(0.7).domain([0,250]))
+                    .y(d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue]))
                     .round(scope.formatter.round)
                     .xUnits(scope.formatter.range)
                     .yAxis().tickFormat(d3.format('d'));
@@ -123,6 +128,12 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
 
 
             scope.$on('filterChanged', function() {
+                scope.calculateMaxY();
+                var newScale = d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue])
+                    .range(scope.chart.yAxis().scale().range());
+                scope.chart.y(d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue]));
+                scope.chart.yAxis().scale(newScale);
+                scope.chart.renderYAxis(scope.chart.g());
                 dc.redrawAll();
             });
 
@@ -133,6 +144,18 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 dc.redrawAll();
                 angular.element("#last-modification-chart-reset").css("visibility","hidden");
             };
+            
+            scope.calculateMaxY = function () {
+                scope.maxYValue = 0;
+                scope.groupLastMod.all().forEach(function(entry) {
+                    if (entry.value > scope.maxYValue){
+                        scope.maxYValue = entry.value;
+                    }
+                });
+                if (scope.maxYValue < scope.minMaxYValue){
+                    scope.maxYValue = scope.minMaxYValue;
+                }
+            }
 
 
             MetadataService.registerWidget(scope.init);
