@@ -49,8 +49,8 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 });
 
                 scope.groupLastMod = scope.dimLastMod.group();
-                var last = new Date(scope.dimLastMod.top(1)[0].metadata_modified);
-                var first = new Date(scope.dimLastMod.bottom(1)[0].metadata_modified);
+                scope.last = new Date(scope.dimLastMod.top(1)[0].metadata_modified);
+                scope.first = new Date(scope.dimLastMod.bottom(1)[0].metadata_modified);
 
                 scope.debounceTriggerUpdate = debounce(function () {
                     MetadataService.triggerUpdate(this);
@@ -61,17 +61,18 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     scope.zoomChart
                         .width(scope.chartWidth)
                         .height(35)
-                        .margins({top: 0, right: 20, bottom: 18, left: 30})
+                        .margins({top: 0, right: 10, bottom: 18, left: 30})
                         .dimension(scope.dimLastMod)
                         .group(scope.groupLastMod)
                         .centerBar(true)
                         .gap(1)
-                        .x(d3.time.scale().domain([first, new Date()]))
+                        .x(d3.time.scale().domain([scope.first, scope.last]))
                         .y(d3.scale.sqrt().exponent(0.3).domain([0,400]))
                         .round(scope.formatter.round)
                         .xUnits(scope.formatter.range);
 
                     scope.zoomChart.filterHandler(function(dimension, filter){
+                        angular.element("#last-modification-chart-reset").css("visibility","visible");
                         scope.chart.focus(scope.zoomChart.filter());
                         scope.chart.filterAll();
                         return filter;
@@ -92,14 +93,14 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 scope.chart
                     .width(scope.chartWidth)
                     .height(scope.chartHeight)
-                    .margins({top: 10, right: 20, bottom: 35, left: 30})
+                    .margins({top: 5, right: 10, bottom: 35, left: 30})
                     .dimension(scope.dimLastMod)
                     .group(scope.groupLastMod)
                     //.elasticY(true)
                     .centerBar(true)
                     .gap(3)
                     .transitionDuration(1000)
-                    .x(d3.time.scale().domain([first, last]))
+                    .x(d3.time.scale().domain([scope.first, scope.last]))
                     .y(d3.scale.sqrt().exponent(0.7).domain([0,250]))
                     .round(scope.formatter.round)
                     .xUnits(scope.formatter.range)
@@ -109,13 +110,14 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 scope.chart.xAxis().tickFormat(scope.tickFormat);
 
                 scope.chart.on("filtered", function(chart, filter){
+                    angular.element("#last-modification-chart-reset").css("visibility","visible");
                     scope.debounceTriggerUpdate();
                 });
 
                 dc.renderAll();
 
                 if (scope.showZoomChart){
-                    scope.zoomChart.filter([new Date("01/01/2014"),new Date()]);
+                    scope.zoomChart.filter([new Date("01/01/2014"),scope.last]);
                 }
             };
 
@@ -123,6 +125,14 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
             scope.$on('filterChanged', function() {
                 dc.redrawAll();
             });
+
+            scope.reset = function(){
+                scope.zoomChart.filterAll();
+                scope.chart.focus([scope.first,scope.last]);
+                scope.chart.filterAll();
+                dc.redrawAll();
+                angular.element("#last-modification-chart-reset").css("visibility","hidden");
+            };
 
 
             MetadataService.registerWidget(scope.init);
