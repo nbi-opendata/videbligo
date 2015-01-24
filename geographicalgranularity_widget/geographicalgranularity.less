@@ -1,0 +1,185 @@
+@import "../variables.less";
+@import "../mixins.less";
+
+.granularities {
+  position: relative;
+  overflow: hidden;
+  ul {
+    padding: 0px;
+    margin: 0px;
+  }
+}
+
+.horizontal {
+  ul {
+    &:before, &:after {
+      content: " ";
+      display: table;
+    }
+    &:after {
+      clear: both;
+    }
+  }
+  .granularity-container {
+    float: left;
+  }
+}
+
+.granularity-line {
+  position: absolute;
+  border: 2px solid @primary-color;
+}
+
+.horizontal {
+  .granularity-line {
+    height: 2px;
+    width: @granularity-horizontal-width;
+  }
+}
+
+.vertical {
+  &.granularities {
+    width: @granularity-width;
+  }
+  .granularity-line {
+    height: @granularity-vertical-height;
+    width: 2px;
+  }
+
+  .granularity-container {
+    position: relative;
+    margin-bottom: @base-margin;
+
+    &:last-child {
+      margin-bottom: 0px;
+    }
+    &:before, &:after {
+      content: " ";
+      display: table;
+    }
+    &:after {
+      clear: both;
+    }
+  }
+}
+
+.granularity-container {
+  list-style-type: none;
+}
+
+.granularity {
+  margin: 0px auto;
+}
+
+.granularity-bubble {
+  margin: 0px auto;
+  border: 2px solid;
+
+  cursor: pointer;
+
+  &.active {
+    border-color: @primary-color;
+    background-color: @secondary-color;
+    color: @background-color;
+
+  }
+  &.inactive {
+    border-color: @primary-color;
+    background-color: @background-color;
+    color: @primary-color;
+    &:hover {
+      border-color: @secondary-color;
+    }
+  }
+}
+
+.granularity-title {
+  position: absolute;
+  width: @granularity-title-maxwidth;
+}
+
+.granularity-elements {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: @granularity-number-height;
+  font-family: @fontfamily-monospace;
+  text-align: center;
+  vertical-align: middle;
+}
+
+div {
+  .for-i(1);
+}
+
+.for-i(@i: 1) when (@i < 11) {
+  .granularities-max-size-@{i} {
+    &.vertical .granularity-line {
+      left: @i/4*@bubble-base-size - 2px; // maybe border 2px should be a variable
+    }
+
+    &.horizontal {
+      .granularity-line {
+        top: @i/4*@bubble-base-size - 2px; // maybe border 2px should be a variable
+      }
+      div {
+        .for-j(@j: 1) when (@j < 11) {
+
+          .granularity-size-@{j} {
+            margin-top: (@i - @j)/4*@bubble-base-size;
+          }
+          .granularity-size-0 {
+            margin-top: (@i - 1)/4*@bubble-base-size;
+          }
+
+          .for-j(@j + 1);
+        }
+      }
+    }
+    .granularity-container {
+      width: @i/2*@bubble-base-size;
+    }
+    .granularity-title {
+      right: -@i/2*@bubble-base-size - 20px; // the extra offset should be a variable
+    }
+
+  }
+  .granularity-size-@{i} {
+    position: relative;
+    width: @i/2*@bubble-base-size;
+    height: @i/2*@bubble-base-size;
+    .border-top-radius(@i/2*@bubble-base-size);
+    .border-bottom-radius(@i/2*@bubble-base-size);
+
+    .granularity-elements {
+      top: floor(@i/2*@bubble-base-size/2 - @granularity-number-height/2);
+    }
+  }
+  .granularity-title-intent-@{i} {
+    top: @i/2*@bubble-base-size/2 - @granularity-number-height/2;
+  }
+  .for-i(@i + 1);
+}
+
+// this is need for if there is no size
+.granularity-title-intent-0 {
+  top: 1/2*@bubble-base-size/2 - @granularity-number-height/2;
+}
+
+.granularity-size-0 {
+  position: relative;
+  width: @bubble-base-size/2;
+  height: @bubble-base-size/2;
+  .border-top-radius(@bubble-base-size/2);
+  .border-bottom-radius(@bubble-base-size/2);
+}
+
+.no-column-count {
+  -moz-column-count: auto;
+  -moz-column-gap: 0px;
+  -webkit-column-count: auto;
+  -webkit-column-gap: 0px;
+  column-count: auto;
+  column-gap: 0px;
+}
+

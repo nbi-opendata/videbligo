@@ -1,0 +1,176 @@
+@import "../variables.less";
+@import "../mixins.less";
+/* Icon Font */
+@font-face {
+  font-family: 'icon_font';
+  src: url('assets/font/icon_font.eot?bg2l24');
+  src: url('assets/font/icon_font.eot?#iefixbg2l24') format('embedded-opentype'),
+  url('assets/font/icon_font.woff?bg2l24') format('woff'),
+  url('assets/font/icon_font.ttf?bg2l24') format('truetype'),
+  url('assets/font/icon_font.svg?bg2l24#icon_font') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'icon_font';
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  /*to enhance the blurring icons */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-arbeit:before {content: "\e600";}
+.icon-bildung:before {content: "\e601";}
+.icon-demographie:before {content: "\e602";}
+.icon-erholung:before {content: "\e603";}
+.icon-geo:before {content: "\e604";}
+.icon-gesundheit:before {content: "\e605";}
+.icon-jugend:before {content: "\e606";}
+.icon-kultur:before {content: "\e607";}
+.icon-protokolle:before {content: "\e608";}
+.icon-sicherheit:before {content: "\e609";}
+.icon-sozial:before {content: "\e60b";}
+.icon-tourismus:before {content: "\e60c";}
+.icon-verentsorgung:before {content: "\e610";}
+.icon-verkehr:before {content: "\e611";}
+.icon-verwaltung:before {content: "\e612";}
+.icon-wahl:before {content: "\e613";}
+.icon-wirtschaft:before {content: "\e614";}
+.icon-wohnen:before {content: "\e615";}
+.icon-sonstiges:before {content: "\e60a";}
+
+.icon-oeffentlich:before {content: "\e60a";}
+
+.icon-transport_und_verkehr:before {content: "\e60d";}
+.icon-umwelt_und_klima:before {content: "\e60e";}
+.icon-verbraucherschutz:before {content: "\e60f";}
+
+
+.icon-cross:before {content: "\e616";}
+.icon-arrow-left:before {content: "\e61f";}
+.icon-arrow-down:before {content: "\e617";}
+.icon-arrow-up:before {content: "\e618";}
+.icon-arrow-right:before {content: "\e620";}
+.icon-arrow-left2:before {content: "\e621";}
+.icon-arrow-down2:before {content: "\e619";}
+.icon-arrow-up2:before {content: "\e61a";}
+.icon-arrow-right2:before {content: "\e622";}
+.icon-arrow-left3:before {content: "\e623";}
+.icon-arrow-down3:before {content: "\e61b";}
+.icon-arrow-up3:before {content: "\e61c";}
+.icon-arrow-right3:before {content: "\e624";}
+.icon-arrow-left4:before {content: "\e625";}
+.icon-arrow-down4:before {content: "\e61d";}
+.icon-arrow-up4:before {content: "\e61e";}
+.icon-uniE626:before {content: "\e626";}
+
+.center-me {
+  margin: 0 auto;
+}
+
+result ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+result .result-list li {
+  vertical-align: middle;
+  padding: 0.25em;
+  border-color: @base-color;
+  border-style: solid;
+}
+
+result .result-list li {
+  border-width: 1px 1px 0 1px;
+}
+
+
+result .result-list li:last-child {
+  border-bottom-width: 1px;
+}
+
+result .category-icon {
+  font-size: 2em;
+}
+
+result .toggle-icon {
+  font-size: 2em;
+}
+
+result .result-row {
+  width: 100%;
+}
+
+result .result-row:before {
+  display: table;
+  content: " ";
+}
+
+result .result-row:after {
+  display: table;
+  content: " ";
+  clear: both;
+}
+
+result .result-col-1 {
+  width: 7em;
+  float: left;
+}
+
+result .result-col-3 {
+  width: 2em;
+  float: right;
+}
+
+result .result-col-2 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+result li .toggle-arrow:hover {
+  cursor: pointer;
+}
+
+result .details {
+  display: none;
+}
+
+result .details.visible {
+  display: block;
+}
+
+result .details table {
+  width:100%;
+}
+result .details table tr {
+  padding-bottom: 0.5em;
+}
+
+result .details table tr .details-category:last-child::after {
+  content: '';
+}
+
+result .details table tr .details-category::after {
+  content: ', ';
+}
+
+result .details table tr td:first-child {
+  width: 15em;
+  font-weight: bold;
+  text-align: right;
+  vertical-align: top;
+  padding-right: 1em;
+}
+
+/*result .details table tr:last-child td:last-child {*/
+/*text-align: right;*/
+/*}*/
+
