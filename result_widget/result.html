@@ -1,17 +1,13 @@
 <div>
     <div>
-        <!--<div style="display: table; margin: 0 auto;">-->
-        <!--&lt;!&ndash; to use the pagination controls in Angular.js &ndash;&gt;-->
-            <!--<dir-pagination-controls template-url="bower_components/angular-utils-pagination/dirPagination.tpl.html"></dir-pagination-controls>-->
-        <!--</div>-->
         <ul class="result-list">
             <li dir-paginate="entry in entries  | itemsPerPage: elementsPerPage">
-                
+
                 <div class="result-row">
                     <div class="result-row-container">
 
                         <!--Category Icons-->
-                        <!--we have maximum 2 categories icons in each result  -->
+                        <!--we have maximum 2 categories icons in each result, if more are added you'll need to modify the width of .result-col-1 -->
                         <div class="result-col-1">
                             <span data-ng-repeat="group in entry.groups"
                                   data-ng-click="filterForCategory(group)"
@@ -32,14 +28,15 @@
                         </div>
 
                         <!--Title-->
+                        <!-- if the details div is not visible you can click on the title to open it -->
+                        <!-- when the details div is visible you can click on the title to go to the details page -->
+                        <!-- TODO: this field has to be added from the drupal system -->
                         <div class="result-col-2">
                             <span class="title">
                                 <a href="#"
                                    data-ng-click="toggleVisible(entry.id)"
                                    data-ng-if="!visibleDetailsDivs.contains(entry.id)">{{entry.title}}</a>
-                                <a href="{{entry.download_url}}"
-                                   ng-if="visibleDetailsDivs.contains(entry.id)"
-                                   target="_blank">{{entry.title}}</a>
+                                <a href="{{entry.details_url}}" ng-if="visibleDetailsDivs.contains(entry.id)">{{entry.title}}</a>
                             </span>
                         </div>
 
@@ -49,15 +46,9 @@
                 <!--Details Div-->
                 <div class="details" ng-class="{'visible': visibleDetailsDivs.contains(entry.id)}">
                     <table>
-                        <tr ng-show='entry.title != null'>
-                            <td>Titel</td>
-                            <td>{{entry.title}}</td>
-                        </tr>
 
-                        <tr ng-show='entry.notes != null'>
-                            <td>Beschreibung</td>
-                            <td><p>{{entry.notes}}</p></td>
-                        </tr>
+                        <tr ng-show='entry.title != null'><td>Titel</td><td>{{entry.title}}</td></tr>
+                        <tr ng-show='entry.notes != null'><td>Beschreibung</td><td>{{entry.notes}}</td></tr>
 
                         <tr ng-show='entry.extras["temporal_coverage-from"] != null'>
                             <td>G&uuml;ltig von</td>
@@ -73,6 +64,7 @@
                             </td>
                         </tr>
 
+                        <!-- The Licence field shows an icon for each licence which links to the full text on hover the title ist shown -->
                         <tr>
                             <td>Lizenz</td>
                             <td>
@@ -85,16 +77,16 @@
                             </td>
                         </tr>
 
+                        <!-- List of Categories -->
                         <tr>
                             <td>Kategorie{{entry.groups.length > 1 ? 'n':''}}</td>
-                            <td>
-                                <span class="details-category" data-ng-repeat="group in entry.groups">{{category_mapping[group]}}</span>
-                            </td>
+                            <td><span class="details-category" data-ng-repeat="group in entry.groups">{{category_mapping[group]}}</span></td>
                         </tr>
 
+                        <!-- Link to the details page (TODO: has to be added to the data) -->
                         <tr ng-show='entry.url != null'>
                             <td>&nbsp;</td>
-                            <td><a href="{{entry.url}}">Zum Datensatz</a></td>
+                            <td><a href="{{entry.details_url}}">Zum Datensatz</a></td>
                         </tr>
                     </table>
 
@@ -103,6 +95,7 @@
             </li>
         </ul>
 
+        <!-- Pagination component -->
         <div style="display: table; margin: 0 auto;">
             <dir-pagination-controls template-url="bower_components/angular-utils-pagination/dirPagination.tpl.html"></dir-pagination-controls>
         </div>
