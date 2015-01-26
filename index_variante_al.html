@@ -45,17 +45,8 @@
 
     <div class="row">
 
-        <div class="col-xs-3 widget-container">
-            <h4>Kategorien</h4>
-            <category data-number_of_columns="4"></category>
-        </div>
 
-        <div class="col-xs-3 widget-container">
-            <h4>Karte</h4>
-            <map></map>
-        </div>
-
-        <div class="col-xs-6 widget-container">
+        <div class="col-xs-offset-3 col-xs-6 widget-container">
             <h4>Letzte Änderung</h4>
             <lastmodification data-chart_width="500" data-chart_height="170"
                               data-show_zoom_chart="true"></lastmodification>
@@ -63,14 +54,29 @@
 
     </div>
 
-    <!--<div class="row">-->
-    <!--<div class="col-xs-6 widget-container">-->
-    <!--<h4>Zeitperiode</h4>-->
-    <!--<date data-chart_width="500" data-chart_height="170" data-show_zoom_chart="true"></date>-->
-    <!--</div>-->
-    <!--</div>-->
-
     <div class="row">
+
+        <div class="col-xs-3 widget-container">
+            <div class="row widget-container">
+                <h4>Kategorien</h4>
+                <category data-number_of_columns="4"></category>
+            </div>
+
+            <div class="row widget-container">
+                <h4>Karte</h4>
+                <map></map>
+            </div>
+        </div>
+
+        <div class="col-xs-6 widget-container">
+            <h4>Ergebnisliste</h4>
+
+            <div style="margin-bottom: 1em;">
+                <search></search>
+            </div>
+            <result data-elements_per_page="20"></result>
+        </div>
+
         <div class="col-xs-3">
             <div class="row widget-container">
                 <h4>Zeitliche Granularit&auml;t</h4>
@@ -82,14 +88,6 @@
                 <geographicalgranularity></geographicalgranularity>
             </div>
 
-        </div>
-        <div class="col-xs-9 widget-container">
-                <h4>Ergebnisliste</h4>
-
-                <div style="margin-bottom: 1em;">
-                    <search></search>
-                </div>
-                <result data-elements_per_page="20"></result>
         </div>
 
     </div>
