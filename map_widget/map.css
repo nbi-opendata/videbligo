@@ -17,6 +17,7 @@
     width: 45%;
     float: left;
     display: block;
+    border: 1px solid blueviolet;
 
 }
 
@@ -28,14 +29,6 @@
     visibility: hidden;
 }
 
-#berlinBox {
-
-    display: block;
-    float: left;
-    margin-top: 100px;
-    margin-right: 200px;
-    margin-left: 100px;
-}
 
 svg .bezirk {
     stroke-width: 2;
