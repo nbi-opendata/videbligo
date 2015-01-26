@@ -1,4 +1,4 @@
-Videbligo.directive('result', ['MetadataService', function (MetadataService) {
+Videbligo.directive('result', ['MetadataService','$rootScope', function (MetadataService, $rootScope) {
 
     return {
         restrict: 'AE',
@@ -37,6 +37,10 @@ Videbligo.directive('result', ['MetadataService', function (MetadataService) {
                 scope.entries = scope.dimOne.top(Infinity);
                 scope.length = MetadataService.length();
             });
+
+            scope.filterForCategory = function(category){
+                $rootScope.$broadcast('filterForCategory', {'category': category});
+            };
 
             //default value for orderProp
             scope.orderProp = 'age';

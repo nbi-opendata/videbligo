@@ -52,8 +52,18 @@ function parseDate(input) {
     return new Date(parts[0], parts[1]-1, parts[2]); // Note: months are 0-based
 }
 
+
+/*  This class is used in widgets to collect selected values for the filtering */
 function StringSet() {
     var setObj = {}, val = {};
+
+    this.toggle = function (str){
+        if(this.contains(str)){
+            this.remove(str);
+        } else{
+            this.add(str);
+        }
+    };
 
     this.add = function(str) {
         setObj[str] = val;
@@ -82,6 +92,7 @@ function StringSet() {
     }
 }
 
+/* this maps from the ids found in the dataset to human friendly Names */
 var category_mapping = {
     'arbeit':        'Arbeitsmarkt',
     'bildung':       'Bildung',
@@ -114,6 +125,7 @@ var category_mapping = {
     */
 };
 
+/* this mapping contains all used licences, corresponding icons and a link to the full text */
 var licence_mapping = {
     'cc-by':        ['Creative Commons Namensnennung',                         'assets/icons/licence/cc-by.png',        'https://creativecommons.org/licenses/by/3.0/de/'],
     'cc-by-sa':     ['Creative Commons Weitergabe unter gleichen Bedingungen', 'assets/icons/licence/cc-by-sa.png',     'https://creativecommons.org/licenses/by-sa/3.0/de/'],
@@ -122,6 +134,23 @@ var licence_mapping = {
     'cc-nc':        ['Creative Commons Namensnennung-Nicht-kommerziell',       'assets/icons/licence/cc-nc.png',        'https://creativecommons.org/licenses/by-nc/3.0/de/'],
     'gfdl':         ['GNU-Lizenz für freie Dokumentation',                     'assets/icons/licence/gfdl.png',         'https://www.gnu.org/copyleft/fdl.html']
 }
+
+/* this has to correspond with the ids in the svg */
+var regionsAll = [
+    'Berlin',
+    'Berlin-Mitte',
+    'Charlottenburg-Wilmersdorf',
+    'Friedrichshain-Kreuzberg',
+    'Lichtenberg',
+    'Marzahn-Hellersdorf',
+    'Neukölln',
+    'Pankow',
+    'Reinickendorf',
+    'Spandau',
+    'Steglitz-Zehlendorf',
+    'Tempelhof-Schöneberg',
+    'Treptow-Köpenick' ];
+
 
 function debounce(func, wait, immediate) {
     var timeout;
@@ -142,9 +171,9 @@ var germanLocale = d3.locale({
     "decimal": ".",
     "thousands": ",",
     "grouping": [3],
-    "currency": ["$", ""],
+    "currency": ["€", ""],
     "dateTime": "%a %b %e %X %Y",
-    "date": "%m/%d/%Y",
+    "date": "%d/%m/%Y",
     "time": "%H:%M:%S",
     "periods": ["AM", "PM"],
     "days": ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],

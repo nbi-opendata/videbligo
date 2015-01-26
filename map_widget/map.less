@@ -1,0 +1,25 @@
+@import "../variables.less";
+@import "../mixins.less";
+
+/* hack to show a pointer if Brandenburg is hovered */
+svg:hover { cursor: pointer; }
+
+.bezirk {
+  stroke-width: 1;
+  stroke: white;
+  fill: @primary-color;
+
+  &:hover { fill: @primary-color-hover; }
+  &.selected { fill: @secondary-color; }
+  &.selected:hover { fill: @secondary-color-hover; }
+
+}
+
+.berlin_border {
+  stroke-width: 8px;
+  stroke: @background-color;
+  stroke-linejoin: round;
+  &.selected { stroke: @secondary-color; }
+  &.hovered { stroke: @primary-color-hover; }
+  &.selected_hovered { stroke: @secondary-color-hover; }
+}

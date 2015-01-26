@@ -6,6 +6,8 @@
 
     <!-- Libraries and global css -->
     <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
+
+
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
     <script type="text/javascript" src="bower_components/angular/angular.js"></script>
     <script type="text/javascript" src="bower_components/crossfilter/crossfilter.js"></script>
@@ -15,9 +17,13 @@
     <link rel="stylesheet" type="text/css" href="bower_components/dcjs/dc.css"/>
 
     <!-- Videbligo imports -->
+    <link rel="stylesheet" type="text/css" href="videbligo.css"/>
+    <!--
     <link rel="stylesheet" type="text/css" href="map_widget/map.css"/>
     <link rel="stylesheet" type="text/css" href="timegranularity_widget/timegranularity.css"/>
     <link rel="stylesheet" type="text/css" href="geographicalgranularity_widget/geographicalgranularity.css"/>
+    -->
+
     <script type="text/javascript" src="timegranularity_widget/mapping.js"></script>
     <script type="text/javascript" src="geographicalgranularity_widget/mapping.js"></script>
     <script src="bower_components/angular-utils-pagination/dirPagination.js"></script>
@@ -34,43 +40,60 @@
 </head>
 <body data-ng-app="Videbligo">
 
-    <!--<div style="float:left;">-->
-        <search>
-        </search>
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-xs-3 widget-container">
+            <h4>Kategorien</h4>
+            <category data-number_of_columns="4"></category>
+        </div>
+
+        <div class="col-xs-3 widget-container">
+            <h4>Karte</h4>
+            <map></map>
+        </div>
+
+        <div class="col-xs-6 widget-container">
+            <h4>Letzte Änderung</h4>
+            <lastmodification data-chart_width="500" data-chart_height="170"
+                              data-show_zoom_chart="true"></lastmodification>
+        </div>
+
+    </div>
+
+    <!--<div class="row">-->
+    <!--<div class="col-xs-6 widget-container">-->
+    <!--<h4>Zeitperiode</h4>-->
+    <!--<date data-chart_width="500" data-chart_height="170" data-show_zoom_chart="true"></date>-->
+    <!--</div>-->
     <!--</div>-->
 
-    <div style="margin-left:50px; float:left;">
-        <date data-chart_width="500" data-chart_height="170" data-show_zoom_chart="true">
-        </date>
-    </div>
-
-    <div style="margin-left:50px; float:left;">
-        <lastmodification data-chart_width="500" data-chart_height="170" data-show_zoom_chart="true">
-        </lastmodification>
-    </div>
-
-    <div style="float:left;">
-        <category data-number_of_columns="4"></category>
-    </div>
-
-    <div class="clearfix"></div>
     <div class="row">
         <div class="col-xs-3">
-            <timegranularity></timegranularity>
+            <div class="row widget-container">
+                <h4>Zeitliche Granularit&auml;t</h4>
+                <timegranularity></timegranularity>
+            </div>
+
+            <div class="row widget-container">
+                <h4>Geographische Granularit&auml;t</h4>
+                <geographicalgranularity></geographicalgranularity>
+            </div>
+
         </div>
-        <div class="col-xs-3">
-            <geographicalgranularity></geographicalgranularity>
+        <div class="col-xs-9 widget-container">
+                <h4>Ergebnisliste</h4>
+
+                <div style="margin-bottom: 1em;">
+                    <search></search>
+                </div>
+                <result data-elements_per_page="20"></result>
         </div>
 
     </div>
+</div>
 
-    <div style="clear:both" >
-        <map></map>
-    </div>
-
-    
-    <div style="clear:both;">
-        <result data-elements_per_page="20"></result>
-    </div>
 </body>
 </html>

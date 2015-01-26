@@ -1,0 +1,111 @@
+@import "../variables.less";
+@import "../mixins.less";
+@import "../icons.less";
+
+.center-me {
+  margin: 0 auto;
+}
+
+result ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+result .result-list li {
+  vertical-align: middle;
+  padding: 0.25em;
+  border-color: @base-color;
+  border-style: solid;
+}
+
+result .result-list li {
+  border-width: 1px 1px 0 1px;
+}
+
+
+result .result-list li:last-child {
+  border-bottom-width: 1px;
+}
+
+result .category-icon {
+  font-size: 2em;
+}
+
+result .category-icon:hover {
+  cursor: pointer;
+}
+
+result .toggle-icon {
+  font-size: 2em;
+}
+
+result .result-row {
+  width: 100%;
+}
+
+result .result-row:before {
+  display: table;
+  content: " ";
+}
+
+result .result-row:after {
+  display: table;
+  content: " ";
+  clear: both;
+}
+
+result .result-col-1 {
+  width: 7em;
+  float: left;
+}
+
+result .result-col-3 {
+  width: 2em;
+  float: right;
+}
+
+result .result-col-2 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+result li .toggle-arrow:hover {
+  cursor: pointer;
+}
+
+result .details {
+  display: none;
+}
+
+result .details.visible {
+  display: block;
+}
+
+result .details table {
+  width:100%;
+}
+result .details table tr {
+  padding-bottom: 0.5em;
+}
+
+result .details table tr .details-category:last-child::after {
+  content: '';
+}
+
+result .details table tr .details-category::after {
+  content: ', ';
+}
+
+result .details table tr td:first-child {
+  width: 15em;
+  font-weight: bold;
+  text-align: right;
+  vertical-align: top;
+  padding-right: 1em;
+}
+
+/*result .details table tr:last-child td:last-child {*/
+/*text-align: right;*/
+/*}*/
+

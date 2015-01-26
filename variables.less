@@ -1,0 +1,31 @@
+// variable
+@base-color: #000000;
+@background-color: #ffffff;
+@primary-color: #7f7f7f;
+@secondary-color: #7f99b2;
+@primary-color-hover: #99CC00;
+@secondary-color-hover: #608000;
+
+
+/* cagetory */
+@category-icon: @primary-color;
+@category-icon-hover: @primary-color-hover;
+@category-icon-selected: @secondary-color;
+@category-icon-selected-hover: mix(@category-icon-selected,@category-icon-hover, 50%);
+
+
+// granularity
+@base-margin: 10px;
+
+@bubble-base-size: 50px;
+@granularity-number-width: 24px;
+@granularity-number-height: 20px;
+
+@granularity-title-maxwidth: 90px;
+
+@granularity-vertical-height: 310px;
+@granularity-horizontal-width: @granularity-vertical-height;
+
+@granularity-width: @granularity-title-maxwidth + 5*@bubble-base-size;
+
+@fontfamily-monospace: 'monospace';

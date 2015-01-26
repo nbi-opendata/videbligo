@@ -38,6 +38,10 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
                     scope.categories[key].size = scope.groupCategory.value()[key];
             });
 
+            scope.$on('filterForCategory', function(event, args) {
+                scope.toggle(args.category);
+            });
+
             scope.reset = function(){
                 scope.dimCategory.filterAll();
                 scope.selected_categories.clear();
@@ -47,11 +51,7 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
 
             //in the next function , if the category is selected , then after a click deselect ,if it is not selected then a fter a click ,make it selected 
             scope.toggle = function(key){
-                if(scope.selected_categories.contains(key)){
-                    scope.selected_categories.remove(key);
-                }else{
-                    scope.selected_categories.add(key);
-                }
+                scope.selected_categories.toggle(key);
 
                 var filterFunction = function(d) {
                     var tmp = d.filter(function(n) {

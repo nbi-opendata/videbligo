@@ -1,28 +1,44 @@
 .granularities {
   position: relative;
-  width: 340px;
   overflow: hidden; }
   .granularities ul {
     padding: 0px;
     margin: 0px; }
 
-.vertical .granularity-line {
+.horizontal ul:before, .horizontal ul:after {
+  content: " ";
+  display: table; }
+.horizontal ul:after {
+  clear: both; }
+.horizontal .granularity-container {
+  float: left; }
+
+.granularity-line {
   position: absolute;
-  height: 310px;
-  width: 2px;
   border: 2px solid #000; }
 
-.granularity-container {
+.horizontal .granularity-line {
+  height: 2px;
+  width: 420px; }
+
+.vertical.granularities {
+  width: 340px; }
+.vertical .granularity-line {
+  height: 310px;
+  width: 2px; }
+.vertical .granularity-container {
   position: relative;
-  list-style-type: none;
   margin-bottom: 10px; }
-  .granularity-container:last-child {
+  .vertical .granularity-container:last-child {
     margin-bottom: 0px; }
-  .granularity-container:before, .granularity-container:after {
+  .vertical .granularity-container:before, .vertical .granularity-container:after {
     content: " ";
     display: table; }
-  .granularity-container:after {
+  .vertical .granularity-container:after {
     clear: both; }
+
+.granularity-container {
+  list-style-type: none; }
 
 .granularity {
   margin: 0px auto; }
@@ -57,6 +73,48 @@
 
 .granularities-max-size-1.vertical .granularity-line {
   left: 10.5px; }
+.granularities-max-size-1.horizontal .granularity-line {
+  t: 10.5px; }
+.granularities-max-size-1.horizontal .granularity-size-1 {
+  margin-top: 0px; }
+.granularities-max-size-1.horizontal .granularity-size-0 {
+  margin-top: 0px; }
+.granularities-max-size-1.horizontal .granularity-size-2 {
+  margin-top: -12.5px; }
+.granularities-max-size-1.horizontal .granularity-size-0 {
+  margin-top: 0px; }
+.granularities-max-size-1.horizontal .granularity-size-3 {
+  margin-top: -25px; }
+.granularities-max-size-1.horizontal .granularity-size-0 {
+  margin-top: 0px; }
+.granularities-max-size-1.horizontal .granularity-size-4 {
+  margin-top: -37.5px; }
+.granularities-max-size-1.horizontal .granularity-size-0 {
+  margin-top: 0px; }
+.granularities-max-size-1.horizontal .granularity-size-5 {
+  margin-top: -50px; }
+.granularities-max-size-1.horizontal .granularity-size-0 {
+  margin-top: 0px; }
+.granularities-max-size-1.horizontal .granularity-size-6 {
+  margin-top: -62.5px; }
+.granularities-max-size-1.horizontal .granularity-size-0 {
+  margin-top: 0px; }
+.granularities-max-size-1.horizontal .granularity-size-7 {
+  margin-top: -75px; }
+.granularities-max-size-1.horizontal .granularity-size-0 {
+  margin-top: 0px; }
+.granularities-max-size-1.horizontal .granularity-size-8 {
+  margin-top: -87.5px; }
+.granularities-max-size-1.horizontal .granularity-size-0 {
+  margin-top: 0px; }
+.granularities-max-size-1.horizontal .granularity-size-9 {
+  margin-top: -100px; }
+.granularities-max-size-1.horizontal .granularity-size-0 {
+  margin-top: 0px; }
+.granularities-max-size-1.horizontal .granularity-size-10 {
+  margin-top: -112.5px; }
+.granularities-max-size-1.horizontal .granularity-size-0 {
+  margin-top: 0px; }
 .granularities-max-size-1 .granularity-container {
   width: 25px; }
 .granularities-max-size-1 .granularity-title {
@@ -78,6 +136,48 @@
 
 .granularities-max-size-2.vertical .granularity-line {
   left: 23px; }
+.granularities-max-size-2.horizontal .granularity-line {
+  t: 23px; }
+.granularities-max-size-2.horizontal .granularity-size-1 {
+  margin-top: 12.5px; }
+.granularities-max-size-2.horizontal .granularity-size-0 {
+  margin-top: 12.5px; }
+.granularities-max-size-2.horizontal .granularity-size-2 {
+  margin-top: 0px; }
+.granularities-max-size-2.horizontal .granularity-size-0 {
+  margin-top: 12.5px; }
+.granularities-max-size-2.horizontal .granularity-size-3 {
+  margin-top: -12.5px; }
+.granularities-max-size-2.horizontal .granularity-size-0 {
+  margin-top: 12.5px; }
+.granularities-max-size-2.horizontal .granularity-size-4 {
+  margin-top: -25px; }
+.granularities-max-size-2.horizontal .granularity-size-0 {
+  margin-top: 12.5px; }
+.granularities-max-size-2.horizontal .granularity-size-5 {
+  margin-top: -37.5px; }
+.granularities-max-size-2.horizontal .granularity-size-0 {
+  margin-top: 12.5px; }
+.granularities-max-size-2.horizontal .granularity-size-6 {
+  margin-top: -50px; }
+.granularities-max-size-2.horizontal .granularity-size-0 {
+  margin-top: 12.5px; }
+.granularities-max-size-2.horizontal .granularity-size-7 {
+  margin-top: -62.5px; }
+.granularities-max-size-2.horizontal .granularity-size-0 {
+  margin-top: 12.5px; }
+.granularities-max-size-2.horizontal .granularity-size-8 {
+  margin-top: -75px; }
+.granularities-max-size-2.horizontal .granularity-size-0 {
+  margin-top: 12.5px; }
+.granularities-max-size-2.horizontal .granularity-size-9 {
+  margin-top: -87.5px; }
+.granularities-max-size-2.horizontal .granularity-size-0 {
+  margin-top: 12.5px; }
+.granularities-max-size-2.horizontal .granularity-size-10 {
+  margin-top: -100px; }
+.granularities-max-size-2.horizontal .granularity-size-0 {
+  margin-top: 12.5px; }
 .granularities-max-size-2 .granularity-container {
   width: 50px; }
 .granularities-max-size-2 .granularity-title {
@@ -99,6 +199,48 @@
 
 .granularities-max-size-3.vertical .granularity-line {
   left: 35.5px; }
+.granularities-max-size-3.horizontal .granularity-line {
+  t: 35.5px; }
+.granularities-max-size-3.horizontal .granularity-size-1 {
+  margin-top: 25px; }
+.granularities-max-size-3.horizontal .granularity-size-0 {
+  margin-top: 25px; }
+.granularities-max-size-3.horizontal .granularity-size-2 {
+  margin-top: 12.5px; }
+.granularities-max-size-3.horizontal .granularity-size-0 {
+  margin-top: 25px; }
+.granularities-max-size-3.horizontal .granularity-size-3 {
+  margin-top: 0px; }
+.granularities-max-size-3.horizontal .granularity-size-0 {
+  margin-top: 25px; }
+.granularities-max-size-3.horizontal .granularity-size-4 {
+  margin-top: -12.5px; }
+.granularities-max-size-3.horizontal .granularity-size-0 {
+  margin-top: 25px; }
+.granularities-max-size-3.horizontal .granularity-size-5 {
+  margin-top: -25px; }
+.granularities-max-size-3.horizontal .granularity-size-0 {
+  margin-top: 25px; }
+.granularities-max-size-3.horizontal .granularity-size-6 {
+  margin-top: -37.5px; }
+.granularities-max-size-3.horizontal .granularity-size-0 {
+  margin-top: 25px; }
+.granularities-max-size-3.horizontal .granularity-size-7 {
+  margin-top: -50px; }
+.granularities-max-size-3.horizontal .granularity-size-0 {
+  margin-top: 25px; }
+.granularities-max-size-3.horizontal .granularity-size-8 {
+  margin-top: -62.5px; }
+.granularities-max-size-3.horizontal .granularity-size-0 {
+  margin-top: 25px; }
+.granularities-max-size-3.horizontal .granularity-size-9 {
+  margin-top: -75px; }
+.granularities-max-size-3.horizontal .granularity-size-0 {
+  margin-top: 25px; }
+.granularities-max-size-3.horizontal .granularity-size-10 {
+  margin-top: -87.5px; }
+.granularities-max-size-3.horizontal .granularity-size-0 {
+  margin-top: 25px; }
 .granularities-max-size-3 .granularity-container {
   width: 75px; }
 .granularities-max-size-3 .granularity-title {
@@ -120,6 +262,48 @@
 
 .granularities-max-size-4.vertical .granularity-line {
   left: 48px; }
+.granularities-max-size-4.horizontal .granularity-line {
+  t: 48px; }
+.granularities-max-size-4.horizontal .granularity-size-1 {
+  margin-top: 37.5px; }
+.granularities-max-size-4.horizontal .granularity-size-0 {
+  margin-top: 37.5px; }
+.granularities-max-size-4.horizontal .granularity-size-2 {
+  margin-top: 25px; }
+.granularities-max-size-4.horizontal .granularity-size-0 {
+  margin-top: 37.5px; }
+.granularities-max-size-4.horizontal .granularity-size-3 {
+  margin-top: 12.5px; }
+.granularities-max-size-4.horizontal .granularity-size-0 {
+  margin-top: 37.5px; }
+.granularities-max-size-4.horizontal .granularity-size-4 {
+  margin-top: 0px; }
+.granularities-max-size-4.horizontal .granularity-size-0 {
+  margin-top: 37.5px; }
+.granularities-max-size-4.horizontal .granularity-size-5 {
+  margin-top: -12.5px; }
+.granularities-max-size-4.horizontal .granularity-size-0 {
+  margin-top: 37.5px; }
+.granularities-max-size-4.horizontal .granularity-size-6 {
+  margin-top: -25px; }
+.granularities-max-size-4.horizontal .granularity-size-0 {
+  margin-top: 37.5px; }
+.granularities-max-size-4.horizontal .granularity-size-7 {
+  margin-top: -37.5px; }
+.granularities-max-size-4.horizontal .granularity-size-0 {
+  margin-top: 37.5px; }
+.granularities-max-size-4.horizontal .granularity-size-8 {
+  margin-top: -50px; }
+.granularities-max-size-4.horizontal .granularity-size-0 {
+  margin-top: 37.5px; }
+.granularities-max-size-4.horizontal .granularity-size-9 {
+  margin-top: -62.5px; }
+.granularities-max-size-4.horizontal .granularity-size-0 {
+  margin-top: 37.5px; }
+.granularities-max-size-4.horizontal .granularity-size-10 {
+  margin-top: -75px; }
+.granularities-max-size-4.horizontal .granularity-size-0 {
+  margin-top: 37.5px; }
 .granularities-max-size-4 .granularity-container {
   width: 100px; }
 .granularities-max-size-4 .granularity-title {
@@ -141,6 +325,48 @@
 
 .granularities-max-size-5.vertical .granularity-line {
   left: 60.5px; }
+.granularities-max-size-5.horizontal .granularity-line {
+  t: 60.5px; }
+.granularities-max-size-5.horizontal .granularity-size-1 {
+  margin-top: 50px; }
+.granularities-max-size-5.horizontal .granularity-size-0 {
+  margin-top: 50px; }
+.granularities-max-size-5.horizontal .granularity-size-2 {
+  margin-top: 37.5px; }
+.granularities-max-size-5.horizontal .granularity-size-0 {
+  margin-top: 50px; }
+.granularities-max-size-5.horizontal .granularity-size-3 {
+  margin-top: 25px; }
+.granularities-max-size-5.horizontal .granularity-size-0 {
+  margin-top: 50px; }
+.granularities-max-size-5.horizontal .granularity-size-4 {
+  margin-top: 12.5px; }
+.granularities-max-size-5.horizontal .granularity-size-0 {
+  margin-top: 50px; }
+.granularities-max-size-5.horizontal .granularity-size-5 {
+  margin-top: 0px; }
+.granularities-max-size-5.horizontal .granularity-size-0 {
+  margin-top: 50px; }
+.granularities-max-size-5.horizontal .granularity-size-6 {
+  margin-top: -12.5px; }
+.granularities-max-size-5.horizontal .granularity-size-0 {
+  margin-top: 50px; }
+.granularities-max-size-5.horizontal .granularity-size-7 {
+  margin-top: -25px; }
+.granularities-max-size-5.horizontal .granularity-size-0 {
+  margin-top: 50px; }
+.granularities-max-size-5.horizontal .granularity-size-8 {
+  margin-top: -37.5px; }
+.granularities-max-size-5.horizontal .granularity-size-0 {
+  margin-top: 50px; }
+.granularities-max-size-5.horizontal .granularity-size-9 {
+  margin-top: -50px; }
+.granularities-max-size-5.horizontal .granularity-size-0 {
+  margin-top: 50px; }
+.granularities-max-size-5.horizontal .granularity-size-10 {
+  margin-top: -62.5px; }
+.granularities-max-size-5.horizontal .granularity-size-0 {
+  margin-top: 50px; }
 .granularities-max-size-5 .granularity-container {
   width: 125px; }
 .granularities-max-size-5 .granularity-title {
@@ -162,6 +388,48 @@
 
 .granularities-max-size-6.vertical .granularity-line {
   left: 73px; }
+.granularities-max-size-6.horizontal .granularity-line {
+  t: 73px; }
+.granularities-max-size-6.horizontal .granularity-size-1 {
+  margin-top: 62.5px; }
+.granularities-max-size-6.horizontal .granularity-size-0 {
+  margin-top: 62.5px; }
+.granularities-max-size-6.horizontal .granularity-size-2 {
+  margin-top: 50px; }
+.granularities-max-size-6.horizontal .granularity-size-0 {
+  margin-top: 62.5px; }
+.granularities-max-size-6.horizontal .granularity-size-3 {
+  margin-top: 37.5px; }
+.granularities-max-size-6.horizontal .granularity-size-0 {
+  margin-top: 62.5px; }
+.granularities-max-size-6.horizontal .granularity-size-4 {
+  margin-top: 25px; }
+.granularities-max-size-6.horizontal .granularity-size-0 {
+  margin-top: 62.5px; }
+.granularities-max-size-6.horizontal .granularity-size-5 {
+  margin-top: 12.5px; }
+.granularities-max-size-6.horizontal .granularity-size-0 {
+  margin-top: 62.5px; }
+.granularities-max-size-6.horizontal .granularity-size-6 {
+  margin-top: 0px; }
+.granularities-max-size-6.horizontal .granularity-size-0 {
+  margin-top: 62.5px; }
+.granularities-max-size-6.horizontal .granularity-size-7 {
+  margin-top: -12.5px; }
+.granularities-max-size-6.horizontal .granularity-size-0 {
+  margin-top: 62.5px; }
+.granularities-max-size-6.horizontal .granularity-size-8 {
+  margin-top: -25px; }
+.granularities-max-size-6.horizontal .granularity-size-0 {
+  margin-top: 62.5px; }
+.granularities-max-size-6.horizontal .granularity-size-9 {
+  margin-top: -37.5px; }
+.granularities-max-size-6.horizontal .granularity-size-0 {
+  margin-top: 62.5px; }
+.granularities-max-size-6.horizontal .granularity-size-10 {
+  margin-top: -50px; }
+.granularities-max-size-6.horizontal .granularity-size-0 {
+  margin-top: 62.5px; }
 .granularities-max-size-6 .granularity-container {
   width: 150px; }
 .granularities-max-size-6 .granularity-title {
@@ -183,6 +451,48 @@
 
 .granularities-max-size-7.vertical .granularity-line {
   left: 85.5px; }
+.granularities-max-size-7.horizontal .granularity-line {
+  t: 85.5px; }
+.granularities-max-size-7.horizontal .granularity-size-1 {
+  margin-top: 75px; }
+.granularities-max-size-7.horizontal .granularity-size-0 {
+  margin-top: 75px; }
+.granularities-max-size-7.horizontal .granularity-size-2 {
+  margin-top: 62.5px; }
+.granularities-max-size-7.horizontal .granularity-size-0 {
+  margin-top: 75px; }
+.granularities-max-size-7.horizontal .granularity-size-3 {
+  margin-top: 50px; }
+.granularities-max-size-7.horizontal .granularity-size-0 {
+  margin-top: 75px; }
+.granularities-max-size-7.horizontal .granularity-size-4 {
+  margin-top: 37.5px; }
+.granularities-max-size-7.horizontal .granularity-size-0 {
+  margin-top: 75px; }
+.granularities-max-size-7.horizontal .granularity-size-5 {
+  margin-top: 25px; }
+.granularities-max-size-7.horizontal .granularity-size-0 {
+  margin-top: 75px; }
+.granularities-max-size-7.horizontal .granularity-size-6 {
+  margin-top: 12.5px; }
+.granularities-max-size-7.horizontal .granularity-size-0 {
+  margin-top: 75px; }
+.granularities-max-size-7.horizontal .granularity-size-7 {
+  margin-top: 0px; }
+.granularities-max-size-7.horizontal .granularity-size-0 {
+  margin-top: 75px; }
+.granularities-max-size-7.horizontal .granularity-size-8 {
+  margin-top: -12.5px; }
+.granularities-max-size-7.horizontal .granularity-size-0 {
+  margin-top: 75px; }
+.granularities-max-size-7.horizontal .granularity-size-9 {
+  margin-top: -25px; }
+.granularities-max-size-7.horizontal .granularity-size-0 {
+  margin-top: 75px; }
+.granularities-max-size-7.horizontal .granularity-size-10 {
+  margin-top: -37.5px; }
+.granularities-max-size-7.horizontal .granularity-size-0 {
+  margin-top: 75px; }
 .granularities-max-size-7 .granularity-container {
   width: 175px; }
 .granularities-max-size-7 .granularity-title {
@@ -204,6 +514,48 @@
 
 .granularities-max-size-8.vertical .granularity-line {
   left: 98px; }
+.granularities-max-size-8.horizontal .granularity-line {
+  t: 98px; }
+.granularities-max-size-8.horizontal .granularity-size-1 {
+  margin-top: 87.5px; }
+.granularities-max-size-8.horizontal .granularity-size-0 {
+  margin-top: 87.5px; }
+.granularities-max-size-8.horizontal .granularity-size-2 {
+  margin-top: 75px; }
+.granularities-max-size-8.horizontal .granularity-size-0 {
+  margin-top: 87.5px; }
+.granularities-max-size-8.horizontal .granularity-size-3 {
+  margin-top: 62.5px; }
+.granularities-max-size-8.horizontal .granularity-size-0 {
+  margin-top: 87.5px; }
+.granularities-max-size-8.horizontal .granularity-size-4 {
+  margin-top: 50px; }
+.granularities-max-size-8.horizontal .granularity-size-0 {
+  margin-top: 87.5px; }
+.granularities-max-size-8.horizontal .granularity-size-5 {
+  margin-top: 37.5px; }
+.granularities-max-size-8.horizontal .granularity-size-0 {
+  margin-top: 87.5px; }
+.granularities-max-size-8.horizontal .granularity-size-6 {
+  margin-top: 25px; }
+.granularities-max-size-8.horizontal .granularity-size-0 {
+  margin-top: 87.5px; }
+.granularities-max-size-8.horizontal .granularity-size-7 {
+  margin-top: 12.5px; }
+.granularities-max-size-8.horizontal .granularity-size-0 {
+  margin-top: 87.5px; }
+.granularities-max-size-8.horizontal .granularity-size-8 {
+  margin-top: 0px; }
+.granularities-max-size-8.horizontal .granularity-size-0 {
+  margin-top: 87.5px; }
+.granularities-max-size-8.horizontal .granularity-size-9 {
+  margin-top: -12.5px; }
+.granularities-max-size-8.horizontal .granularity-size-0 {
+  margin-top: 87.5px; }
+.granularities-max-size-8.horizontal .granularity-size-10 {
+  margin-top: -25px; }
+.granularities-max-size-8.horizontal .granularity-size-0 {
+  margin-top: 87.5px; }
 .granularities-max-size-8 .granularity-container {
   width: 200px; }
 .granularities-max-size-8 .granularity-title {
@@ -225,6 +577,48 @@
 
 .granularities-max-size-9.vertical .granularity-line {
   left: 110.5px; }
+.granularities-max-size-9.horizontal .granularity-line {
+  t: 110.5px; }
+.granularities-max-size-9.horizontal .granularity-size-1 {
+  margin-top: 100px; }
+.granularities-max-size-9.horizontal .granularity-size-0 {
+  margin-top: 100px; }
+.granularities-max-size-9.horizontal .granularity-size-2 {
+  margin-top: 87.5px; }
+.granularities-max-size-9.horizontal .granularity-size-0 {
+  margin-top: 100px; }
+.granularities-max-size-9.horizontal .granularity-size-3 {
+  margin-top: 75px; }
+.granularities-max-size-9.horizontal .granularity-size-0 {
+  margin-top: 100px; }
+.granularities-max-size-9.horizontal .granularity-size-4 {
+  margin-top: 62.5px; }
+.granularities-max-size-9.horizontal .granularity-size-0 {
+  margin-top: 100px; }
+.granularities-max-size-9.horizontal .granularity-size-5 {
+  margin-top: 50px; }
+.granularities-max-size-9.horizontal .granularity-size-0 {
+  margin-top: 100px; }
+.granularities-max-size-9.horizontal .granularity-size-6 {
+  margin-top: 37.5px; }
+.granularities-max-size-9.horizontal .granularity-size-0 {
+  margin-top: 100px; }
+.granularities-max-size-9.horizontal .granularity-size-7 {
+  margin-top: 25px; }
+.granularities-max-size-9.horizontal .granularity-size-0 {
+  margin-top: 100px; }
+.granularities-max-size-9.horizontal .granularity-size-8 {
+  margin-top: 12.5px; }
+.granularities-max-size-9.horizontal .granularity-size-0 {
+  margin-top: 100px; }
+.granularities-max-size-9.horizontal .granularity-size-9 {
+  margin-top: 0px; }
+.granularities-max-size-9.horizontal .granularity-size-0 {
+  margin-top: 100px; }
+.granularities-max-size-9.horizontal .granularity-size-10 {
+  margin-top: -12.5px; }
+.granularities-max-size-9.horizontal .granularity-size-0 {
+  margin-top: 100px; }
 .granularities-max-size-9 .granularity-container {
   width: 225px; }
 .granularities-max-size-9 .granularity-title {
@@ -246,6 +640,48 @@
 
 .granularities-max-size-10.vertical .granularity-line {
   left: 123px; }
+.granularities-max-size-10.horizontal .granularity-line {
+  t: 123px; }
+.granularities-max-size-10.horizontal .granularity-size-1 {
+  margin-top: 112.5px; }
+.granularities-max-size-10.horizontal .granularity-size-0 {
+  margin-top: 112.5px; }
+.granularities-max-size-10.horizontal .granularity-size-2 {
+  margin-top: 100px; }
+.granularities-max-size-10.horizontal .granularity-size-0 {
+  margin-top: 112.5px; }
+.granularities-max-size-10.horizontal .granularity-size-3 {
+  margin-top: 87.5px; }
+.granularities-max-size-10.horizontal .granularity-size-0 {
+  margin-top: 112.5px; }
+.granularities-max-size-10.horizontal .granularity-size-4 {
+  margin-top: 75px; }
+.granularities-max-size-10.horizontal .granularity-size-0 {
+  margin-top: 112.5px; }
+.granularities-max-size-10.horizontal .granularity-size-5 {
+  margin-top: 62.5px; }
+.granularities-max-size-10.horizontal .granularity-size-0 {
+  margin-top: 112.5px; }
+.granularities-max-size-10.horizontal .granularity-size-6 {
+  margin-top: 50px; }
+.granularities-max-size-10.horizontal .granularity-size-0 {
+  margin-top: 112.5px; }
+.granularities-max-size-10.horizontal .granularity-size-7 {
+  margin-top: 37.5px; }
+.granularities-max-size-10.horizontal .granularity-size-0 {
+  margin-top: 112.5px; }
+.granularities-max-size-10.horizontal .granularity-size-8 {
+  margin-top: 25px; }
+.granularities-max-size-10.horizontal .granularity-size-0 {
+  margin-top: 112.5px; }
+.granularities-max-size-10.horizontal .granularity-size-9 {
+  margin-top: 12.5px; }
+.granularities-max-size-10.horizontal .granularity-size-0 {
+  margin-top: 112.5px; }
+.granularities-max-size-10.horizontal .granularity-size-10 {
+  margin-top: 0px; }
+.granularities-max-size-10.horizontal .granularity-size-0 {
+  margin-top: 112.5px; }
 .granularities-max-size-10 .granularity-container {
   width: 250px; }
 .granularities-max-size-10 .granularity-title {
