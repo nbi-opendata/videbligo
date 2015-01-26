@@ -126,12 +126,14 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
 
                 if (scope.showZoomChart){
                     scope.zoomChart.filter([new Date("01/01/2014"),scope.last]);
+                    angular.element("#last-modification-chart-reset").css("visibility","visible");
                 }
             };
 
 
             scope.$on('filterChanged', function() {
                 scope.calculateMaxY();
+                console.log(scope.chart.filter());
                 var newScale = d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue])
                     .range(scope.chart.yAxis().scale().range());
                 scope.chart.y(d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue]));
@@ -141,8 +143,10 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
             });
 
             scope.reset = function(){
-                scope.zoomChart.filterAll();
-                scope.chart.focus([scope.first,scope.last]);
+                if (scope.showZoomChart){
+                    scope.zoomChart.filterAll();
+                    scope.chart.focus([scope.first,scope.last]);
+                }
                 scope.chart.filterAll();
                 dc.redrawAll();
                 angular.element("#last-modification-chart-reset").css("visibility","hidden");
@@ -150,15 +154,27 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
             
             scope.calculateMaxY = function () {
                 scope.maxYValue = 0;
-                scope.groupLastMod.all().forEach(function(entry) {
-                    if (entry.value > scope.maxYValue){
-                        scope.maxYValue = entry.value;
-                    }
-                });
+                if (scope.zoomChart != undefined && scope.zoomChart.filter() != null){
+                    var filter = scope.zoomChart.filter();
+                    scope.groupLastMod.all().forEach(function(entry) {
+                        if (entry.value > scope.maxYValue){
+                            if (filter[0] <= entry.key && entry.key <= filter[1]){
+                                scope.maxYValue = entry.value;
+                            }
+                        }
+                    });
+                }
+                else{
+                    scope.groupLastMod.all().forEach(function(entry) {
+                        if (entry.value > scope.maxYValue){
+                            scope.maxYValue = entry.value;
+                        }
+                    });
+                }
                 if (scope.maxYValue < scope.minYAxisHeight){
                     scope.maxYValue = scope.minYAxisHeight;
                 }
-            }
+            };
 
 
             MetadataService.registerWidget(scope.init);

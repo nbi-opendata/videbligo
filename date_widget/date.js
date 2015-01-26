@@ -104,11 +104,26 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     var val = scope.groupDate;
                     for (var key in val) {
                         if (val.hasOwnProperty(key) && key != "all") {
-                            if (val[key] > scope.maxYValue){
-                                scope.maxYValue = val[key];
-                            }
                             scope.binaryInsert({key: new Date(key), value: val[key]}, newObject);
                         }
+                    }
+                    if (scope.zoomChart != undefined && scope.zoomChart.filter() != null){
+                        var filter = scope.zoomChart.filter();
+                        console.log(filter);
+                        newObject.forEach(function (entry) {
+                            if (entry.value > scope.maxYValue){
+                                if(filter[0] <= entry.key && entry.key <= filter[1]){
+                                    scope.maxYValue = entry.value;
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        newObject.forEach(function (entry) {
+                            if (entry.value > scope.maxYValue){
+                                scope.maxYValue = entry.value;
+                            }
+                        });
                     }
                     if (scope.maxYValue < scope.minYAxisHeight){
                         scope.maxYValue = scope.minYAxisHeight;
@@ -123,7 +138,9 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
                 var all = scope.groupDate.all();
                 scope.first = all[0].key;
+                scope.first = d3.time.year.offset(scope.first, -1);
                 scope.last = all[all.length-1].key;
+                scope.last = d3.time.year.offset(scope.last, 1);
 
                 scope.chart = dc.barChart('#time-chart');
 
@@ -181,6 +198,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
 
                 if(scope.showZoomChart){
                     scope.zoomChart.filter([new Date("01/01/1990"),new Date()]);
+                    angular.element("#time-chart-reset").css("visibility","visible");
                 }
             };
 
@@ -255,8 +273,10 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             });
 
             scope.reset = function(){
-                scope.zoomChart.filterAll();
-                scope.chart.focus([scope.first,scope.last]);
+                if (scope.showZoomChart){
+                    scope.zoomChart.filterAll();
+                    scope.chart.focus([scope.first,scope.last]);
+                }
                 scope.chart.filterAll();
                 dc.redrawAll();
                 angular.element("#time-chart-reset").css("visibility","hidden");
