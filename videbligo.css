@@ -1,4 +1,5 @@
 /* cagetory */
+/* result */
 .granularities {
   position: relative;
   overflow: hidden;
@@ -52,10 +53,10 @@
   list-style-type: none;
 }
 .granularity-container:hover .granularity-bubble.inactive {
-  border-color: #7f99b2;
+  border-color: #1f77b4;
 }
 .granularity-container:hover .granularity-title {
-  color: #7f99b2;
+  color: #1f77b4;
 }
 .granularity {
   margin: 0px auto;
@@ -67,7 +68,7 @@
 }
 .granularity-bubble.active {
   border-color: #7f7f7f;
-  background-color: #7f99b2;
+  background-color: #1f77b4;
   color: #ffffff;
 }
 .granularity-bubble.inactive {
@@ -1263,10 +1264,10 @@ ul.category_matrix li:hover .category_icon {
   cursor: pointer;
 }
 ul.category_matrix .category_icon.active {
-  color: #7f99b2 !important;
+  color: #1f77b4 !important;
 }
 ul.category_matrix .category_icon.active:hover {
-  color: #8cb359 !important;
+  color: #5ca25a !important;
 }
 body .columns-1 ul.category_matrix {
   width: 55px;
@@ -1564,7 +1565,7 @@ svg:hover {
   fill: #99cc00;
 }
 .bezirk.selected {
-  fill: #7f99b2;
+  fill: #1f77b4;
 }
 .bezirk.selected:hover {
   fill: #608000;
@@ -1575,7 +1576,7 @@ svg:hover {
   stroke-linejoin: round;
 }
 .berlin_border.selected {
-  stroke: #7f99b2;
+  stroke: #1f77b4;
 }
 .berlin_border.hovered {
   stroke: #99cc00;
@@ -1604,9 +1605,11 @@ result .result-list li:last-child {
 }
 result .category-icon {
   font-size: 2em;
+  color: #7f7f7f;
 }
 result .category-icon:hover {
   cursor: pointer;
+  color: #99cc00;
 }
 result .toggle-icon {
   font-size: 2em;
