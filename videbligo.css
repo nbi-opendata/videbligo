@@ -1556,7 +1556,7 @@ body .columns-24.category_text {
   left: 4px;
   cursor: pointer;
   display: block;
-  visibility: visible;
+  visibility: hidden;
   margin-bottom: 0px;
 }
 /* hack to show a pointer if Brandenburg is hovered */
@@ -1598,7 +1598,7 @@ svg:hover {
   stroke: #608000;
 }
 .berlin_border.initial {
-  stroke: #1f77b4;
+  stroke: transparent;
 }
 .berlin_border.initial-hover {
   stroke: #5ca25a;
