@@ -6,7 +6,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
         scope: {},
         link: function(scope, element, attrs) {
 
-            //used to determine x axes domain for both charts
+            //used to determine x axes domain for the charts
             scope.formatter = d3.time.week;
 
             //which language should the months on the x-axis be in
@@ -20,7 +20,10 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
 
             scope.groupLastMod = {};
             scope.dimLastMod = {};
+
+            //current highest value withing zoomed range
             scope.maxYValue = 0;
+
             //even if there are less datasets than this value
             //this value will be used as maximum Y value
             scope.minYAxisHeight = 5;
@@ -39,6 +42,9 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     scope.minYAxisHeight = parseInt(attrs.minYValue);
                 }
 
+                //custom tick format for the x axis
+                //different zoom levels will cause different formats to be rendered
+                //see https://github.com/mbostock/d3/wiki/Time-Formatting
                 scope.tickFormat = scope.locale.multi([
                     [".%L", function(d) { return d.getMilliseconds(); }],
                     [":%S", function(d) { return d.getSeconds(); }],

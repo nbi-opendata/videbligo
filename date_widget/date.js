@@ -17,7 +17,10 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             scope.dimDate = {};
             scope.groupDate = {};
             scope.cachedGrouping = [];
+
+            //current highest value withing zoomed range
             scope.maxYValue = 0;
+
             //even if there are less datasets than this value
             //this value will be used as maximum Y value
             scope.minYAxisHeight = 5;
@@ -52,7 +55,9 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     scope.minYAxisHeight = parseInt(attrs.minYValue);
                 }
 
-
+                //custom tick format for the x axis
+                //different zoom levels will cause different formats to be rendered
+                //see https://github.com/mbostock/d3/wiki/Time-Formatting
                 scope.tickFormat = d3.time.format.multi([
                     ["", function(d) { return d.getMilliseconds(); }],
                     ["", function(d) { return d.getSeconds(); }],
@@ -96,38 +101,6 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 };
 
                 scope.initCharts();
-            };
-
-            scope.precacheGrouping = function (){
-                    scope.maxYValue = 0;
-                    var newObject = [];
-                    var val = scope.groupDate;
-                    for (var key in val) {
-                        if (val.hasOwnProperty(key) && key != "all") {
-                            scope.binaryInsert({key: new Date(key), value: val[key]}, newObject);
-                        }
-                    }
-                    if (scope.zoomChart != undefined && scope.zoomChart.filter() != null){
-                        var filter = scope.zoomChart.filter();
-                        newObject.forEach(function (entry) {
-                            if (entry.value > scope.maxYValue){
-                                if(filter[0] <= entry.key && entry.key <= filter[1]){
-                                    scope.maxYValue = entry.value;
-                                }
-                            }
-                        });
-                    }
-                    else {
-                        newObject.forEach(function (entry) {
-                            if (entry.value > scope.maxYValue){
-                                scope.maxYValue = entry.value;
-                            }
-                        });
-                    }
-                    if (scope.maxYValue < scope.minYAxisHeight){
-                        scope.maxYValue = scope.minYAxisHeight;
-                    }
-                    scope.cachedGrouping = newObject;
             };
 
             scope.initCharts = function(){
@@ -201,19 +174,59 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 }
             };
 
+            //custom grouping is time consuming, so it needs to be precached
+            scope.precacheGrouping = function (){
+                scope.maxYValue = 0;
+                var newObject = [];
+                var val = scope.groupDate;
+                for (var key in val) {
+                    if (val.hasOwnProperty(key) && key != "all") {
+                        scope.binaryInsert({key: new Date(key), value: val[key]}, newObject);
+                    }
+                }
+                if (scope.zoomChart != undefined && scope.zoomChart.filter() != null){
+                    var filter = scope.zoomChart.filter();
+                    newObject.forEach(function (entry) {
+                        if (entry.value > scope.maxYValue){
+                            if(filter[0] <= entry.key && entry.key <= filter[1]){
+                                scope.maxYValue = entry.value;
+                            }
+                        }
+                    });
+                }
+                else {
+                    newObject.forEach(function (entry) {
+                        if (entry.value > scope.maxYValue){
+                            scope.maxYValue = entry.value;
+                        }
+                    });
+                }
+                if (scope.maxYValue < scope.minYAxisHeight){
+                    scope.maxYValue = scope.minYAxisHeight;
+                }
+                scope.cachedGrouping = newObject;
+            };
+
+            /*
+                custom filter function
+             */
             scope.filterFunction = function(dimension, filter){
+                //if the filter is set, take its left and right value
                 if (filter.length > 0){
                     var filterStart = filter[0][0];
                     var filterEnd = filter[0][1];
 
                     dimension.filterFunction(function(d){
+                        //should actually never happen
                         if (d.length == 1){
                             return filterStart <= d[0] && d[0] <= filterEnd;
                         }
 
+                        //take first and last date from the dataset's range
                         var dimStart = d[0];
                         var dimEnd = d[d.length - 1];
 
+                        //four possibilities that two ranges intersect
                         if (dimStart <= filterStart && dimEnd >= filterEnd){
                             return true;
                         }
@@ -230,12 +243,19 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     });
                 }
                 else {
+                    //if the filter is not set, take all values
                     dimension.filterAll();
                 }
 
                 return filter;
             };
 
+            /*
+                used in precacheGrouping()
+                this function makes sure that the array in which we insert a {key: Date, value: Integer}-object
+                stays sorted
+                (faster than usual inserting + sorting afterwards)
+            */
             scope.binaryInsert = function(value, array, startVal, endVal){
                 var length = array.length;
                 var start = typeof(startVal) != 'undefined' ? startVal : 0;
@@ -261,6 +281,10 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 }
             };
 
+            /*
+                when the filters change, the grouping needs to be calculated again
+                and the y-axis height needs to be adjusted
+             */
             scope.$on('filterChanged', function() {
                 scope.precacheGrouping();
                 var newScale = d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue])
@@ -271,6 +295,11 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 dc.redrawAll();
             });
 
+            /*
+                reset function clears the zoom on the main chart (if the zoom chart is being used),
+                removes any filters from the main chart
+                and hides the reset button
+             */
             scope.reset = function(){
                 if (scope.showZoomChart){
                     scope.zoomChart.filterAll();
