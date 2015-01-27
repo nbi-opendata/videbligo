@@ -1259,8 +1259,8 @@ ul.category_matrix li {
 .category_icon.initial {
   color: #1f77b4 !important;
 }
-.category_icon.initial {
-  color: #1f77b4 !important;
+.category_icon.initial:hover {
+  color: #5ca25a !important;
 }
 ul.category_matrix .category_icon {
   font-size: 2em;
