@@ -8,7 +8,8 @@
             <!--to save the clicked icon as selected category -->
             <span class="category_icon icon-{{key}}" title="{{value}}"
                   ng-click="toggle(key)"
-                  ng-class="{'active': selected_categories.contains(key)}"></span>
+                  ng-class="{'active': selected_categories.contains(key),
+                             'initial': selected_categories.values().length == 0}"></span>
         </li>
     </ul>
 </div>

@@ -1255,6 +1255,9 @@ div .horizontal .granularity-title-intent-10 {
 ul.category_matrix li {
   padding-bottom: 1em;
 }
+.category_icon.initial {
+  color: #1f77b4 !important;
+}
 ul.category_matrix .category_icon {
   font-size: 2em;
   color: #7f7f7f;
