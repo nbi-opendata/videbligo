@@ -39,7 +39,8 @@ Videbligo.directive('map', ['MetadataService', '$compile', function (MetadataSer
                     regionElement.attr('data-ng-mouseenter', 'enterDistrict("' + id + '")');
                     regionElement.attr('data-ng-mouseleave', 'leaveDistrict("' + id + '")');
 
-                    regionElement.attr('data-ng-class', '{\'selected\': selected_districts.contains("' + id + '")}');
+                    regionElement.attr('data-ng-class', '{  \'selected\': selected_districts.contains("' + id + '"),' +
+                                                            '\'initial\': selected_districts.values().length==0}');
                 });
 
                 /* little hack for the handling of the Berlin Border case */
@@ -48,7 +49,9 @@ Videbligo.directive('map', ['MetadataService', '$compile', function (MetadataSer
                 svg.attr('data-ng-mouseenter', 'enterDistrict("Berlin")');
                 svg.attr('data-ng-mouseleave', 'leaveBrandenburg()');
                 $('#berlinBorder').attr('data-ng-class', '{  \'selected\': selected_districts.contains("Berlin"), ' +
+                                                            '\'initial\': selected_districts.values()==0,' +
                                                             '\'hovered\': hovered_district == "Berlin",' +
+                                                            '\'initial-hover\': hovered_district == "Berlin",' +
                                                             '\'selected_hovered\': hovered_district == "Berlin" && selected_districts.contains("Berlin")}');
 
                 /* recompile to enable the data-ng stuff from above */

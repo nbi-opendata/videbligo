@@ -1,4 +1,5 @@
 /* cagetory */
+/* map */
 /* result */
 .granularities {
   position: relative;
@@ -1576,6 +1577,12 @@ svg:hover {
 .bezirk.selected:hover {
   fill: #608000;
 }
+.bezirk.initial {
+  fill: #1f77b4;
+}
+.bezirk.initial:hover {
+  fill: #5ca25a;
+}
 .berlin_border {
   stroke-width: 8px;
   stroke: #ffffff;
@@ -1589,6 +1596,12 @@ svg:hover {
 }
 .berlin_border.selected_hovered {
   stroke: #608000;
+}
+.berlin_border.initial {
+  stroke: #1f77b4;
+}
+.berlin_border.initial-hover {
+  stroke: #5ca25a;
 }
 .center-me {
   margin: 0 auto;
