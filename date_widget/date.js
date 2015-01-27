@@ -109,7 +109,6 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     }
                     if (scope.zoomChart != undefined && scope.zoomChart.filter() != null){
                         var filter = scope.zoomChart.filter();
-                        console.log(filter);
                         newObject.forEach(function (entry) {
                             if (entry.value > scope.maxYValue){
                                 if(filter[0] <= entry.key && entry.key <= filter[1]){

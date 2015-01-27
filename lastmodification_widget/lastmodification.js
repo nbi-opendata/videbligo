@@ -133,7 +133,6 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
 
             scope.$on('filterChanged', function() {
                 scope.calculateMaxY();
-                console.log(scope.chart.filter());
                 var newScale = d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue])
                     .range(scope.chart.yAxis().scale().range());
                 scope.chart.y(d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue]));
