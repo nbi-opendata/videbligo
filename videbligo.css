@@ -1624,11 +1624,11 @@ result .result-list li:last-child {
 }
 result .category-icon {
   font-size: 2em;
-  color: #7f7f7f;
+  color: #1f77b4;
 }
 result .category-icon:hover {
   cursor: pointer;
-  color: #99cc00;
+  color: #5ca25a;
 }
 result .toggle-icon {
   font-size: 2em;
