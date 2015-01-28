@@ -53,6 +53,8 @@ Videbligo.directive('map', ['MetadataService', '$compile', function (MetadataSer
                                                             '\'hovered\': hovered_district == "Berlin",' +
                                                             '\'initial-hover\': hovered_district == "Berlin",' +
                                                             '\'selected_hovered\': hovered_district == "Berlin" && selected_districts.contains("Berlin")}');
+                $('#BerlinIcon').attr('data-ng-mouseenter', 'enterDistrict("Berlin")');
+
 
                 /* recompile to enable the data-ng stuff from above */
                 $compile(svg)(scope);
