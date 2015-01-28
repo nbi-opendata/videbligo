@@ -48,11 +48,11 @@ Videbligo.directive('map', ['MetadataService', '$compile', function (MetadataSer
                 svg.attr('data-ng-click', 'clickBrandenburg()');
                 svg.attr('data-ng-mouseenter', 'enterDistrict("Berlin")');
                 svg.attr('data-ng-mouseleave', 'leaveBrandenburg()');
-                $('#berlinBorder').attr('data-ng-class', '{  \'selected\': selected_districts.contains("Berlin"), ' +
-                                                            '\'initial\': selected_districts.values()==0,' +
-                                                            '\'hovered\': hovered_district == "Berlin",' +
-                                                            '\'initial-hover\': hovered_district == "Berlin",' +
-                                                            '\'selected_hovered\': hovered_district == "Berlin" && selected_districts.contains("Berlin")}');
+                $('#berlinBorder, #BerlinIcon').attr('data-ng-class', '{  \'selected\': selected_districts.contains("Berlin"), ' +
+                                                                         '\'initial\': selected_districts.values()==0,' +
+                                                                         '\'hovered\': hovered_district == "Berlin",' +
+                                                                         '\'initial-hover\': hovered_district == "Berlin",' +
+                                                                         '\'selected_hovered\': hovered_district == "Berlin" && selected_districts.contains("Berlin")}');
                 $('#BerlinIcon').attr('data-ng-mouseenter', 'enterDistrict("Berlin")');
 
 

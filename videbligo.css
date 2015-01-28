@@ -1609,6 +1609,24 @@ svg:hover {
 .berlin_border.initial-hover {
   stroke: #5ca25a;
 }
+#BerlinIcon:hover {
+  fill: #99cc00;
+}
+#BerlinIcon.selected {
+  fill: #1f77b4;
+}
+#BerlinIcon.selected:hover {
+  fill: #608000;
+}
+#BerlinIcon.initial {
+  fill: #1f77b4;
+}
+#BerlinIcon.initial:hover {
+  fill: #5ca25a;
+}
+#BerlinIcon.initial-hover {
+  fill: #5ca25a;
+}
 .center-me {
   margin: 0 auto;
 }
