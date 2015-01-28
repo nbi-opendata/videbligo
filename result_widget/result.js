@@ -11,6 +11,7 @@ Videbligo.directive('result', ['MetadataService','$rootScope', function (Metadat
             scope.entries = [];
             scope.length = 0;
             scope.dimOne = null;
+            scope.initialNumberOfDatasets = 0;
 
             scope.elementsPerPage = 20; //for pagination
 
@@ -19,6 +20,7 @@ Videbligo.directive('result', ['MetadataService','$rootScope', function (Metadat
                 scope.dimOne = data.dimension(function (d) { //to craet a dimention for crossfilter
                     return d;
                 });
+                scope.initialNumberOfDatasets = scope.dimOne.top(Infinity).length;
                 /* Set of */
                 scope.visibleDetailsDivs = new StringSet();
                 scope.licence_mapping = licence_mapping;
