@@ -44,7 +44,7 @@ Videbligo.directive('map', ['MetadataService', '$compile', function (MetadataSer
                 });
 
                 /* little hack for the handling of the Berlin Border case */
-                var svg = $('svg');
+                var svg = $('map svg');
                 svg.attr('data-ng-click', 'clickBrandenburg()');
                 svg.attr('data-ng-mouseenter', 'enterDistrict("Berlin")');
                 svg.attr('data-ng-mouseleave', 'leaveBrandenburg()');
