@@ -10,6 +10,11 @@ Videbligo.directive('geographicalgranularity', ['MetadataService', function(Meta
         if(attrs.quantile == undefined) {
             scope.quantile = 4;
         }
+        if(attrs.initState == 'allSelected') {
+            scope.initState = 'allSelected';
+        } else {
+            scope.initState = '';
+        }
     };
 
     return {
@@ -17,7 +22,8 @@ Videbligo.directive('geographicalgranularity', ['MetadataService', function(Meta
         templateUrl: 'geographicalgranularity_widget/geographicalgranularity.html',
         scope: {
             orientation : '@',
-            quantile    : '@'
+            quantile    : '@',
+            initState   : '@'
         },
         link: function(scope, element, attrs) {
             scope.data = null;
@@ -26,9 +32,17 @@ Videbligo.directive('geographicalgranularity', ['MetadataService', function(Meta
             scope.geographicalGranularity = geographicalGranularity;
             scope.maxItemSize = 0;
             scope.selectedGranularities = new StringSet();
+            scope.allSelected = false;
+
             setOptions(scope, attrs);
 
             scope.selectGranularity = function(item) {
+                if(scope.initState == 'allSelected' && scope.allSelected) {
+                    for(var i in scope.geographicalGranularity) {
+                        scope.geographicalGranularity[i].active = false;
+                    }
+                    scope.allSelected = false;
+                }
                 item.active = !item.active;
                 if(scope.selectedGranularities.contains(item.key)){
                     scope.selectedGranularities.remove(item.key);
@@ -67,6 +81,12 @@ Videbligo.directive('geographicalgranularity', ['MetadataService', function(Meta
                         return "";
                     }
                 });
+                if(scope.initState == 'allSelected') {
+                    for(var i in scope.geographicalGranularity) {
+                        scope.geographicalGranularity[i].active = true;
+                    }
+                    scope.allSelected = true;
+                }
                 scope.mapGranularities();
             }
 
