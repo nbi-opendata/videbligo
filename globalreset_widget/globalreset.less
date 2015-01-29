@@ -1,0 +1,12 @@
+@import "../variables.less";
+@import "../mixins.less";
+.btn-reset {
+  color: @background-color;
+  background-color: @secondary-color;
+  border-color: darken(color(@secondary-color), 20%);
+}
+
+.btn-reset:hover, .btn-reset:focus, .btn-reset.focus, .btn-reset:active, .btn-reset.active {
+  color: @background-color;
+  background-color: @secondary-color-hover;
+}

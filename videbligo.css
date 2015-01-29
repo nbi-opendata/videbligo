@@ -1172,9 +1172,7 @@ div .horizontal .granularity-title-intent-10 {
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
-
   /* to enhance the blurring icons */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -1710,9 +1708,19 @@ result .details table tr td:first-child {
   vertical-align: top;
   padding-right: 1em;
 }
-/*result .details table tr:last-child td:last-child {*/
-/*text-align: right;*/
-/*}*/
+.btn-reset {
+  color: #ffffff;
+  background-color: #1f77b4;
+  border-color: #103d5d;
+}
+.btn-reset:hover,
+.btn-reset:focus,
+.btn-reset.focus,
+.btn-reset:active,
+.btn-reset.active {
+  color: #ffffff;
+  background-color: #608000;
+}
 .row .widget-container {
   padding-left: 15px;
 }
