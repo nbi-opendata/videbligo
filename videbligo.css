@@ -1260,21 +1260,21 @@ ul.category_matrix li {
   color: #1f77b4 !important;
 }
 .category_icon.initial:hover {
-  color: #5ca25a !important;
+  color: #c7bf2d !important;
 }
 ul.category_matrix .category_icon {
   font-size: 2em;
   color: #7f7f7f;
 }
 ul.category_matrix li:hover .category_icon {
-  color: #99cc00;
+  color: #ffd700;
   cursor: pointer;
 }
 ul.category_matrix .category_icon.active {
   color: #1f77b4 !important;
 }
 ul.category_matrix .category_icon.active:hover {
-  color: #5ca25a !important;
+  color: #c7bf2d !important;
 }
 body .columns-1 ul.category_matrix {
   width: 55px;
@@ -1581,19 +1581,19 @@ svg:hover {
   fill: #7f7f7f;
 }
 .bezirk:hover {
-  fill: #99cc00;
+  fill: #ffd700;
 }
 .bezirk.selected {
   fill: #1f77b4;
 }
 .bezirk.selected:hover {
-  fill: #608000;
+  fill: #c7bf2d;
 }
 .bezirk.initial {
   fill: #1f77b4;
 }
 .bezirk.initial:hover {
-  fill: #5ca25a;
+  fill: #c7bf2d;
 }
 .berlin_border {
   stroke-width: 8px;
@@ -1604,34 +1604,31 @@ svg:hover {
   stroke: #1f77b4;
 }
 .berlin_border.hovered {
-  stroke: #99cc00;
+  stroke: #ffd700;
 }
 .berlin_border.selected_hovered {
-  stroke: #608000;
+  stroke: #c7bf2d;
 }
 .berlin_border.initial {
   stroke: transparent;
 }
 .berlin_border.initial-hover {
-  stroke: #5ca25a;
+  stroke: #c7bf2d;
 }
 #BerlinIcon:hover {
-  fill: #99cc00;
+  fill: #ffd700;
 }
 #BerlinIcon.selected {
   fill: #1f77b4;
 }
 #BerlinIcon.selected:hover {
-  fill: #608000;
+  fill: #c7bf2d;
 }
 #BerlinIcon.initial {
   fill: #1f77b4;
 }
 #BerlinIcon.initial:hover {
-  fill: #5ca25a;
-}
-#BerlinIcon.initial-hover {
-  fill: #5ca25a;
+  fill: #c7bf2d;
 }
 .center-me {
   margin: 0 auto;
@@ -1658,7 +1655,7 @@ result .category-icon {
 }
 result .category-icon:hover {
   cursor: pointer;
-  color: #5ca25a;
+  color: #c7bf2d;
 }
 result .toggle-icon {
   font-size: 2em;
@@ -1730,12 +1727,22 @@ result .details table tr td:first-child {
 .btn-reset:active,
 .btn-reset.active {
   color: #ffffff;
-  background-color: #608000;
+  background-color: #c7bf2d;
 }
 .row .widget-container {
   padding-left: 15px;
 }
+.outer-container {
+  padding: .5em;
+}
 .widget-container {
-  background: rgba(250, 250, 210, 0.3);
-  border: 1px dashed crimson;
+  border: 1px solid lightslategrey;
+  border-radius: 15px;
+}
+.widget-container h4 {
+  text-align: center;
+}
+.widget-container .category-widget,
+.widget-container .category-widget * {
+  margin: 0 auto;
 }

@@ -3,8 +3,9 @@
 @background-color: #ffffff;
 @primary-color: #7f7f7f;
 @secondary-color: #1f77b4;
-@primary-color-hover: #99CC00;
-@secondary-color-hover: #608000;
+@primary-color-hover: gold;
+@secondary-color-hover: mix(@secondary-color,@primary-color-hover, 25%);
+//#608000;
 
 
 /* category */
@@ -12,13 +13,13 @@
 @category-icon: @primary-color;
 @category-icon-hover: @primary-color-hover;
 @category-icon-selected: @secondary-color;
-@category-icon-selected-hover: mix(@category-icon-selected,@category-icon-hover, 50%);
+@category-icon-selected-hover: mix(@category-icon-selected,@category-icon-hover, 25%);
 
 /* map */
 @map-initial: @secondary-color;
-@map-initial-hover: mix(@secondary-color,@primary-color-hover, 50%);
+@map-initial-hover: mix(@secondary-color,@primary-color-hover, 25%);
 @map-border-initial: transparent;
-@map-border-initial-hover: mix(@secondary-color,@primary-color-hover, 50%);
+@map-border-initial-hover: mix(@secondary-color,@primary-color-hover, 25%);
 
 
 /* result */
