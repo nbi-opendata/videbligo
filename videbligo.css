@@ -1172,7 +1172,9 @@ div .horizontal .granularity-title-intent-10 {
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
+
   /* to enhance the blurring icons */
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -1541,6 +1543,9 @@ body .columns-24.category_text {
 #time-zoom-chart.dc-chart .axis.y {
   opacity: 0.0;
 }
+#time-chart > svg > g > g.brush > rect.background {
+  cursor: col-resize !important;
+}
 #last-modification-zoom-chart.dc-chart .axis.y {
   opacity: 0.0;
 }
@@ -1562,6 +1567,9 @@ body .columns-24.category_text {
   display: block;
   visibility: hidden;
   margin-bottom: 0px;
+}
+#last-modification-chart > svg > g > g.brush > rect.background {
+  cursor: col-resize !important;
 }
 /* hack to show a pointer if Brandenburg is hovered */
 svg:hover {
@@ -1708,6 +1716,9 @@ result .details table tr td:first-child {
   vertical-align: top;
   padding-right: 1em;
 }
+/*result .details table tr:last-child td:last-child {*/
+/*text-align: right;*/
+/*}*/
 .btn-reset {
   color: #ffffff;
   background-color: #1f77b4;
