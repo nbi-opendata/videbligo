@@ -42,6 +42,12 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
                 scope.toggle(args.category);
             });
 
+
+            scope.$on('globalreset', function() {
+                scope.reset();
+            });
+
+
             scope.reset = function(){
                 scope.dimCategory.filterAll();
                 scope.selected_categories.clear();

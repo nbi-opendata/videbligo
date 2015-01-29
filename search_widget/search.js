@@ -22,6 +22,15 @@ Videbligo.directive('search', ['MetadataService', function(MetadataService) {
                 });
                 MetadataService.triggerUpdate();
             }
+            scope.reset = function() {
+                scope.searchCriteria = "";
+                scope.updateDimension();
+            };
+            
+            scope.$on('globalreset', function() {
+                scope.reset();
+            });
+
 
             scope.$on('filterChanged', function() {
             });

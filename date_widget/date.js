@@ -308,7 +308,13 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 scope.chart.filterAll();
                 dc.redrawAll();
                 angular.element("#time-chart-reset").css("visibility","hidden");
+                MetadataService.triggerUpdate();
             };
+
+
+            scope.$on('globalreset', function() {
+                scope.reset();
+            });
 
             MetadataService.registerWidget(scope.init);
         }

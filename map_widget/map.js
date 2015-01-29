@@ -120,6 +120,11 @@ Videbligo.directive('map', ['MetadataService', '$compile', function (MetadataSer
                 MetadataService.triggerUpdate();
             };
 
+            scope.$on('globalreset', function() {
+                scope.reset();
+            });
+
+
             // Eigene Reduce-Funktionen zum individuellen Gruppieren
             scope.reduceAdd = function (p, v) {
                 var val = v.extras['geographical_coverage'];

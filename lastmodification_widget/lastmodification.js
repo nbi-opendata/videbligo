@@ -155,8 +155,15 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 scope.chart.filterAll();
                 dc.redrawAll();
                 angular.element("#last-modification-chart-reset").css("visibility","hidden");
+                MetadataService.triggerUpdate();
             };
-            
+
+
+            scope.$on('globalreset', function() {
+                scope.reset();
+            });
+
+
             scope.calculateMaxY = function () {
                 scope.maxYValue = 0;
                 if (scope.zoomChart != undefined && scope.zoomChart.filter() != null){
