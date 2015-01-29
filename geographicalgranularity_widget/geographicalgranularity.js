@@ -15,7 +15,13 @@ Videbligo.directive('geographicalgranularity', ['MetadataService', function(Meta
         } else {
             scope.initState = '';
         }
-    };
+        if(attrs.withLine == 'false') {
+            scope.withLine = false;
+        } else {
+            scope.withLine = true;
+        }
+
+    }
 
     return {
         restrict: 'AE',
@@ -23,7 +29,8 @@ Videbligo.directive('geographicalgranularity', ['MetadataService', function(Meta
         scope: {
             orientation : '@',
             quantile    : '@',
-            initState   : '@'
+            initState   : '@',
+            withLine    : '@'
         },
         link: function(scope, element, attrs) {
             scope.data = null;
