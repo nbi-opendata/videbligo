@@ -1,6 +1,6 @@
 <!-- list of granularity scale -->
 <div class="granularities granularities-max-size-{{maxItemSize}}" data-ng-class="orientation">
-    <div data-ng-class="{'granularity-line': true}[withLine]"></div>
+    <div data-ng-class="{true: 'granularity-line'}[withLine]"></div>
     <ul class="no-column-count">
         <li class="granularity-container"  data-ng-repeat="item in geographicalGranularity">
                 <div class="granularity-bubble granularity-size-{{item.size}}" data-ng-click="selectGranularity(item)" data-ng-class="{true :'active', false: 'inactive'}[item.active]">
