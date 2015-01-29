@@ -84,6 +84,9 @@ Videbligo.directive('map', ['MetadataService', '$compile', function (MetadataSer
             };
 
             scope.clickDistrict = function (district) {
+                if(district === 'BerlinIcon') {
+                    district = 'Berlin';
+                }
                 /* add remove district from set of districts */
                 scope.selected_districts.toggle(district);
 
