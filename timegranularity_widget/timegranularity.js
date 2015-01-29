@@ -71,6 +71,21 @@ Videbligo.directive('timegranularity', ['MetadataService', function(MetadataServ
                 MetadataService.triggerUpdate();
             };
 
+            scope.reset = function() {
+                if(scope.initState == 'allSelected') {
+                    for(var i in scope.timeGranularity) {
+                        scope.timeGranularity[i].active = true;
+                    }
+                    scope.allSelected = true;
+                } else {
+                    for(var i in scope.timeGranularity) {
+                        scope.timeGranularity[i].active = false;
+                    }
+                }
+                scope.timeDimension.filterAll();
+                MetadataService.triggerUpdate();
+            };
+
             scope.init = function(){
                 scope.data = MetadataService.getData();
                 scope.timeDimension = scope.data.dimension(function(d){
@@ -88,7 +103,7 @@ Videbligo.directive('timegranularity', ['MetadataService', function(MetadataServ
                     scope.allSelected = true;
                 }
                 scope.mapGranularities();
-            }
+            };
 
             scope.mapGranularities = function(){
                 var timeGranularityGroups = scope.timeDimension.group().all();
@@ -113,9 +128,13 @@ Videbligo.directive('timegranularity', ['MetadataService', function(MetadataServ
                         scope.maxItemSize = scope.timeGranularity[key].size;
                     }
                 }
-            }
+            };
             scope.$on('filterChanged', function() {
                 scope.mapGranularities();
+            });
+
+            scope.$on('globalreset', function() {
+                scope.reset();
             });
 
             MetadataService.registerWidget(scope.init);

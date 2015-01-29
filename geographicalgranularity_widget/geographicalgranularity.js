@@ -71,6 +71,22 @@ Videbligo.directive('geographicalgranularity', ['MetadataService', function(Meta
                 MetadataService.triggerUpdate();
             };
 
+
+            scope.reset = function() {
+                if(scope.initState == 'allSelected') {
+                    for(var i in scope.geographicalGranularity) {
+                        scope.geographicalGranularity[i].active = true;
+                    }
+                    scope.allSelected = true;
+                } else {
+                    for(var i in scope.geographicalGranularity) {
+                        scope.geographicalGranularity[i].active = false;
+                    }
+                }
+                scope.geographicalDimension.filterAll();
+                MetadataService.triggerUpdate();
+            };
+
             scope.init = function(){
                 scope.data = MetadataService.getData();
                 scope.geographicalDimension = scope.data.dimension(function(d){
@@ -114,10 +130,16 @@ Videbligo.directive('geographicalgranularity', ['MetadataService', function(Meta
                         scope.maxItemSize = scope.geographicalGranularity[key].size;
                     }
                 }
-            }
+            };
             scope.$on('filterChanged', function() {
                 scope.mapGranularities();
             });
+
+            scope.$on('globalreset', function() {
+                console.log('catch globalreset granularity');
+                scope.reset();
+            });
+
 
             MetadataService.registerWidget(scope.init);
         }
