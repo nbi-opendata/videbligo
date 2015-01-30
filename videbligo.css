@@ -1626,9 +1626,12 @@ result ul {
 }
 result .result-list li {
   vertical-align: middle;
-  padding: 0.25em;
-  border-color: lightslategray;
+  padding: 0;
+  border-color: #eeeeee;
   border-style: solid;
+}
+result .result-list li div {
+  padding: 0.25em;
 }
 result .result-list li:hover {
   background: #eeeeee;
@@ -1714,19 +1717,6 @@ result .details table tr td:first-child {
 /*result .details table tr:last-child td:last-child {*/
 /*text-align: right;*/
 /*}*/
-.btn-reset {
-  color: #ffffff;
-  background-color: #1f77b4;
-  border-color: #103d5d;
-}
-.btn-reset:hover,
-.btn-reset:focus,
-.btn-reset.focus,
-.btn-reset:active,
-.btn-reset.active {
-  color: #ffffff;
-  background-color: #c7bf2d;
-}
 body {
   background: #eeeeee;
 }
