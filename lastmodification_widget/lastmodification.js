@@ -121,7 +121,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                     .y(d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue]))
                     .round(scope.formatter.round)
                     .xUnits(scope.formatter.range)
-                    .yAxis().tickFormat(d3.format('d'));
+                    .yAxis().ticks(5).tickFormat(d3.format('d'));
 
                 //fix for german language in x axis
                 scope.chart.xAxis().tickFormat(scope.tickFormat);

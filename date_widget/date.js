@@ -155,7 +155,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                     //.elasticY(true)
                     .round(scope.formatter.round)
                     .xUnits(scope.formatter.range)
-                    .yAxis().tickFormat(d3.format("d"));
+                    .yAxis().ticks(5).tickFormat(d3.format("d"));
                 scope.chart
                     .xAxis().tickFormat(scope.tickFormat);
 
