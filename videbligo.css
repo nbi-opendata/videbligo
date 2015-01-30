@@ -1172,9 +1172,7 @@ div .horizontal .granularity-title-intent-10 {
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
-
   /* to enhance the blurring icons */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -1267,7 +1265,7 @@ ul.category_matrix .category_icon {
   color: #7f7f7f;
 }
 ul.category_matrix li:hover .category_icon {
-  color: #ffd700;
+  color: gold;
   cursor: pointer;
 }
 ul.category_matrix .category_icon.active {
@@ -1551,7 +1549,6 @@ body .columns-24.category_text {
   transform: rotate(-45deg);
 }
 .chart-reset-button {
-  font-size: 75%;
   position: relative;
   left: 4px;
   cursor: pointer;
@@ -1569,7 +1566,7 @@ svg:hover {
   fill: #7f7f7f;
 }
 .bezirk:hover {
-  fill: #ffd700;
+  fill: gold;
 }
 .bezirk.selected {
   fill: #1f77b4;
@@ -1592,7 +1589,7 @@ svg:hover {
   stroke: #1f77b4;
 }
 .berlin_border.hovered {
-  stroke: #ffd700;
+  stroke: gold;
 }
 .berlin_border.selected_hovered {
   stroke: #c7bf2d;
@@ -1604,7 +1601,7 @@ svg:hover {
   stroke: #c7bf2d;
 }
 #BerlinIcon:hover {
-  fill: #ffd700;
+  fill: gold;
 }
 #BerlinIcon.selected {
   fill: #1f77b4;
@@ -1701,9 +1698,6 @@ result .details table tr td:first-child {
   vertical-align: top;
   padding-right: 1em;
 }
-/*result .details table tr:last-child td:last-child {*/
-/*text-align: right;*/
-/*}*/
 .btn-reset {
   color: #ffffff;
   background-color: #1f77b4;
