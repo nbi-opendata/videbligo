@@ -1632,7 +1632,7 @@ result .result-list li:first-child {
 result .result-list li {
   vertical-align: middle;
   padding: 0.25em;
-  border-color: #000000;
+  border-color: lightslategray;
   border-style: solid;
 }
 result .result-list li {
