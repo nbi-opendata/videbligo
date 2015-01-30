@@ -131,7 +131,8 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 dc.renderAll();
 
                 if (scope.showZoomChart){
-                    scope.zoomChart.filter([new Date("01/01/2014"),scope.last]);
+                    scope.zoomFirst = d3.time.year.offset(d3.time.year(new Date()), -1);
+                    scope.zoomChart.filter([scope.zoomFirst,scope.last]);
                     angular.element("#last-modification-chart-reset").css("visibility","visible");
                 }
             };
@@ -149,11 +150,10 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
 
             scope.reset = function(){
                 if (scope.showZoomChart){
-                    scope.zoomChart.filterAll();
-                    scope.chart.focus([scope.first,scope.last]);
+                    scope.zoomChart.filter([scope.zoomFirst,scope.last]);
+                    scope.chart.focus([scope.zoomFirst,scope.last]);
                 }
                 scope.chart.filterAll();
-                dc.redrawAll();
                 angular.element("#last-modification-chart-reset").css("visibility","hidden");
                 MetadataService.triggerUpdate();
             };
