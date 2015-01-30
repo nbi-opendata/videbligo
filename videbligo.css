@@ -1544,12 +1544,6 @@ body .columns-24.category_text {
 #last-modification-zoom-chart.dc-chart .axis.y {
   opacity: 0.0;
 }
-.dc-chart > svg rect.bar.deselected {
-  fill: #7f7f7f !important;
-}
-.dc-chart > svg rect.bar {
-  fill: #1f77b4 !important;
-}
 #last-modification-chart .x.axis text {
   text-anchor: end !important;
   transform: rotate(-45deg);
@@ -1737,4 +1731,10 @@ result .details table tr td:first-child {
 }
 .dc-chart > svg > g > g.brush > rect.background {
   cursor: col-resize !important;
+}
+.dc-chart > svg rect.bar.deselected {
+  fill: #7f7f7f !important;
+}
+.dc-chart > svg rect.bar {
+  fill: #1f77b4 !important;
 }
