@@ -91,6 +91,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                         scope.chart.filterAll();
                         return filter;
                     });
+
                     scope.zoomChart.xAxis().tickFormat(scope.locale.multi([
                         ["", function(d) { return d.getMilliseconds(); }],
                         ["", function(d) { return d.getSeconds(); }],
@@ -140,18 +141,15 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
 
             scope.$on('filterChanged', function() {
                 scope.calculateMaxY();
-                var newScale = d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue])
-                    .range(scope.chart.yAxis().scale().range());
-                scope.chart.y(d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue]));
-                scope.chart.yAxis().scale(newScale);
-                scope.chart.renderYAxis(scope.chart.g());
-                dc.redrawAll();
+                scope.adjustYAxes();
             });
 
             scope.reset = function(){
                 if (scope.showZoomChart){
+                    scope.zoomChart.filterAll();
                     scope.zoomChart.filter([scope.zoomFirst,scope.last]);
-                    scope.chart.focus([scope.zoomFirst,scope.last]);
+                    scope.calculateMaxY();
+                    scope.adjustYAxes();
                 }
                 scope.chart.filterAll();
                 angular.element("#last-modification-chart-reset").css("visibility","hidden");
@@ -186,6 +184,15 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 if (scope.maxYValue < scope.minYAxisHeight){
                     scope.maxYValue = scope.minYAxisHeight;
                 }
+            };
+
+            scope.adjustYAxes = function () {
+                var newScale = d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue])
+                    .range(scope.chart.yAxis().scale().range());
+                scope.chart.y(d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue]));
+                scope.chart.yAxis().scale(newScale);
+                scope.chart.renderYAxis(scope.chart.g());
+                dc.redrawAll();
             };
 
 
