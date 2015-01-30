@@ -1155,6 +1155,104 @@ div .horizontal .granularity-title-intent-10 {
   column-count: auto;
   column-gap: 0px;
 }
+/* Icon Font */
+@font-face {
+  font-family: 'icon_font';
+  src: url('assets/font/icon_font.eot?bg2l24');
+  src: url('assets/font/icon_font.eot?#iefixbg2l24') format('embedded-opentype'), url('assets/font/icon_font.woff?bg2l24') format('woff'), url('assets/font/icon_font.ttf?bg2l24') format('truetype'), url('assets/font/icon_font.svg?bg2l24#icon_font') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+[class^="icon-"],
+[class*=" icon-"] {
+  font-family: 'icon_font';
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+
+  /* to enhance the blurring icons */
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-arbeit:before {
+  content: "\e600";
+}
+.icon-bildung:before {
+  content: "\e601";
+}
+.icon-demographie:before {
+  content: "\e602";
+}
+.icon-erholung:before {
+  content: "\e603";
+}
+.icon-geo:before {
+  content: "\e604";
+}
+.icon-gesundheit:before {
+  content: "\e605";
+}
+.icon-jugend:before {
+  content: "\e606";
+}
+.icon-kultur:before {
+  content: "\e607";
+}
+.icon-protokolle:before {
+  content: "\e608";
+}
+.icon-sicherheit:before {
+  content: "\e609";
+}
+.icon-sozial:before {
+  content: "\e60b";
+}
+.icon-tourismus:before {
+  content: "\e60c";
+}
+.icon-verentsorgung:before {
+  content: "\e610";
+}
+.icon-verkehr:before {
+  content: "\e611";
+}
+.icon-verwaltung:before {
+  content: "\e612";
+}
+.icon-wahl:before {
+  content: "\e613";
+}
+.icon-wirtschaft:before {
+  content: "\e614";
+}
+.icon-wohnen:before {
+  content: "\e615";
+}
+.icon-sonstiges:before {
+  content: "\e60a";
+}
+.icon-oeffentlich:before {
+  content: "\e60a";
+}
+.icon-transport_und_verkehr:before {
+  content: "\e60d";
+}
+.icon-umwelt_und_klima:before {
+  content: "\e60e";
+}
+.icon-verbraucherschutz:before {
+  content: "\e60f";
+}
+.icon-arrow-down:before {
+  content: "\e617";
+}
+.icon-arrow-up:before {
+  content: "\e618";
+}
 ul.category_matrix li {
   padding-bottom: 1em;
 }
@@ -1519,104 +1617,6 @@ svg:hover {
 }
 #BerlinIcon.initial:hover {
   fill: #c7bf2d;
-}
-/* Icon Font */
-@font-face {
-  font-family: 'icon_font';
-  src: url('assets/font/icon_font.eot?bg2l24');
-  src: url('assets/font/icon_font.eot?#iefixbg2l24') format('embedded-opentype'), url('assets/font/icon_font.woff?bg2l24') format('woff'), url('assets/font/icon_font.ttf?bg2l24') format('truetype'), url('assets/font/icon_font.svg?bg2l24#icon_font') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-[class^="icon-"],
-[class*=" icon-"] {
-  font-family: 'icon_font';
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  /* Better Font Rendering =========== */
-
-  /* to enhance the blurring icons */
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.icon-arbeit:before {
-  content: "\e600";
-}
-.icon-bildung:before {
-  content: "\e601";
-}
-.icon-demographie:before {
-  content: "\e602";
-}
-.icon-erholung:before {
-  content: "\e603";
-}
-.icon-geo:before {
-  content: "\e604";
-}
-.icon-gesundheit:before {
-  content: "\e605";
-}
-.icon-jugend:before {
-  content: "\e606";
-}
-.icon-kultur:before {
-  content: "\e607";
-}
-.icon-protokolle:before {
-  content: "\e608";
-}
-.icon-sicherheit:before {
-  content: "\e609";
-}
-.icon-sozial:before {
-  content: "\e60b";
-}
-.icon-tourismus:before {
-  content: "\e60c";
-}
-.icon-verentsorgung:before {
-  content: "\e610";
-}
-.icon-verkehr:before {
-  content: "\e611";
-}
-.icon-verwaltung:before {
-  content: "\e612";
-}
-.icon-wahl:before {
-  content: "\e613";
-}
-.icon-wirtschaft:before {
-  content: "\e614";
-}
-.icon-wohnen:before {
-  content: "\e615";
-}
-.icon-sonstiges:before {
-  content: "\e60a";
-}
-.icon-oeffentlich:before {
-  content: "\e60a";
-}
-.icon-transport_und_verkehr:before {
-  content: "\e60d";
-}
-.icon-umwelt_und_klima:before {
-  content: "\e60e";
-}
-.icon-verbraucherschutz:before {
-  content: "\e60f";
-}
-.icon-arrow-down:before {
-  content: "\e617";
-}
-.icon-arrow-up:before {
-  content: "\e618";
 }
 .center-me {
   margin: 0 auto;
