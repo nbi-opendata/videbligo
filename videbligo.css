@@ -1746,3 +1746,9 @@ search input {
 .dc-chart > svg rect.bar {
   fill: #1f77b4 !important;
 }
+input[type="search"] {
+  -webkit-appearance: textfield !important;
+}
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: searchfield-cancel-button !important;
+}
