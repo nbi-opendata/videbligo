@@ -17,6 +17,8 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
             scope.chartWidth = 500;
             scope.chartHeight = 170;
             scope.showZoomChart = true;
+            //initial zoom to beginning of the previous calendar year
+            scope.zoomFirst = d3.time.year.offset(d3.time.year(new Date()), -1);
 
             scope.groupLastMod = {};
             scope.dimLastMod = {};
@@ -132,9 +134,8 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 dc.renderAll();
 
                 if (scope.showZoomChart){
-                    scope.zoomFirst = d3.time.year.offset(d3.time.year(new Date()), -1);
                     scope.zoomChart.filter([scope.zoomFirst,scope.last]);
-                    angular.element("#last-modification-chart-reset").css("visibility","visible");
+                    angular.element("#last-modification-chart-reset").css("visibility","hidden");
                 }
             };
 
@@ -194,7 +195,6 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 scope.chart.renderYAxis(scope.chart.g());
                 dc.redrawAll();
             };
-
 
             MetadataService.registerWidget(scope.init);
         }

@@ -13,6 +13,8 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             scope.chartWidth = 500;
             scope.chartHeight = 170;
             scope.showZoomChart = true;
+            //initial zoom previous 25 years
+            scope.zoomFirst = d3.time.year.offset(d3.time.year(new Date()), -25);
 
             scope.dimDate = {};
             scope.groupDate = {};
@@ -169,8 +171,8 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
                 dc.renderAll();
 
                 if(scope.showZoomChart){
-                    scope.zoomChart.filter([new Date("01/01/1990"),new Date()]);
-                    angular.element("#time-chart-reset").css("visibility","visible");
+                    scope.zoomChart.filter([scope.zoomFirst, new Date()]);
+                    angular.element("#time-chart-reset").css("visibility","hidden");
                 }
             };
 
@@ -287,12 +289,7 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
              */
             scope.$on('filterChanged', function() {
                 scope.precacheGrouping();
-                var newScale = d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue])
-                    .range(scope.chart.yAxis().scale().range());
-                scope.chart.y(d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue]));
-                scope.chart.yAxis().scale(newScale);
-                scope.chart.renderYAxis(scope.chart.g());
-                dc.redrawAll();
+                scope.adjustYAxes();
             });
 
             /*
@@ -303,10 +300,11 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             scope.reset = function(){
                 if (scope.showZoomChart){
                     scope.zoomChart.filterAll();
-                    scope.chart.focus([scope.first,scope.last]);
+                    scope.zoomChart.filter([scope.zoomFirst,scope.last]);
+                    scope.precacheGrouping();
+                    scope.adjustYAxes();
                 }
                 scope.chart.filterAll();
-                dc.redrawAll();
                 angular.element("#time-chart-reset").css("visibility","hidden");
                 MetadataService.triggerUpdate();
             };
@@ -315,6 +313,15 @@ Videbligo.directive('date', ['MetadataService', '$compile', function(MetadataSer
             scope.$on('globalreset', function() {
                 scope.reset();
             });
+
+            scope.adjustYAxes = function () {
+                var newScale = d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue])
+                    .range(scope.chart.yAxis().scale().range());
+                scope.chart.y(d3.scale.sqrt().exponent(0.7).domain([0,scope.maxYValue]));
+                scope.chart.yAxis().scale(newScale);
+                scope.chart.renderYAxis(scope.chart.g());
+                dc.redrawAll();
+            };
 
             MetadataService.registerWidget(scope.init);
         }
