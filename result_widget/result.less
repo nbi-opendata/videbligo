@@ -12,8 +12,6 @@ result ul {
 }
 
 result .result-list li:first-child{
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
 }
 
 result .result-list li {
@@ -23,16 +21,26 @@ result .result-list li {
   border-style: solid;
 }
 
+result .result-list li:hover {
+  background: #eeeeee;
+}
+
 result .result-list li {
   border-width: 1px 1px 0 1px;
+}
+
+result div.result-col-2 > span{
+  line-height: 2em;
+}
+
+result .result-row-container{
+  cursor: pointer;
+  vertical-align: middle;
 }
 
 
 result .result-list li:last-child {
   border-bottom-width: 1px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-
 }
 
 result .category-icon {
@@ -90,6 +98,7 @@ result .details {
 
 result .details.visible {
   display: block;
+  background: white;
 }
 
 result .details table {

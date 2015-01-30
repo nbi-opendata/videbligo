@@ -34,12 +34,13 @@
                         <!-- if the details div is not visible you can click on the title to open it -->
                         <!-- when the details div is visible you can click on the title to go to the details page -->
                         <!-- TODO: this field has to be added from the drupal system -->
-                        <div class="result-col-2">
+                        <div class="result-col-2" data-ng-click="toggleVisible(entry.id)">
                             <span class="title">
-                                <a href="#"
-                                   data-ng-click="toggleVisible(entry.id)"
-                                   data-ng-if="!visibleDetailsDivs.contains(entry.id)">{{entry.title}}</a>
-                                <a href="{{entry.details_url}}" ng-if="visibleDetailsDivs.contains(entry.id)">{{entry.title}}</a>
+                                <!--<a href="#"-->
+                                   <!--data-ng-click="toggleVisible(entry.id)"-->
+                                   <!--data-ng-if="!visibleDetailsDivs.contains(entry.id)">{{entry.title}}</a>-->
+                                <!--<a href="{{entry.details_url}}" ng-if="visibleDetailsDivs.contains(entry.id)">{{entry.title}}</a>-->
+                                {{entry.title}}
                             </span>
                         </div>
 
