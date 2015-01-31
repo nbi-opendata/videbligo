@@ -110,7 +110,7 @@ Videbligo.directive('lastmodification', ['MetadataService', '$compile', function
                 scope.chart
                     .width(scope.chartWidth)
                     .height(scope.chartHeight)
-                    .margins({top: 5, right: 10, bottom: 35, left: 30})
+                    .margins({top: 5, right: 10, bottom: 37, left: 30})
                     .dimension(scope.dimLastMod)
                     .group(scope.groupLastMod)
                     //.elasticY(true)
