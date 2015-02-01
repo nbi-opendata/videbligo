@@ -57,10 +57,10 @@
   list-style-type: none;
 }
 .granularity-container:hover .granularity-bubble.inactive {
-  border-color: #1f77b4;
+  border-color: #c7bf2d;
 }
 .granularity-container:hover .granularity-title {
-  color: #1f77b4;
+  color: #c7bf2d;
 }
 .granularity {
   margin: 0px auto;
@@ -74,6 +74,10 @@
   border-color: #7f7f7f;
   background-color: #1f77b4;
   color: #ffffff;
+}
+.granularity-bubble.active:hover {
+  background-color: #c7bf2d;
+  color: #7f7f7f;
 }
 .granularity-bubble.inactive {
   border-color: #7f7f7f;

@@ -71,10 +71,10 @@
   list-style-type: none;
   &:hover {
     .granularity-bubble.inactive {
-      border-color: @secondary-color;
+      border-color: @granularity-selected-hover;
     }
     .granularity-title {
-      color: @secondary-color;
+      color: @granularity-selected-hover;
     }
   }
 }
@@ -93,7 +93,10 @@
     border-color: @primary-color;
     background-color: @secondary-color;
     color: @background-color;
-
+    &:hover {
+      background-color: @granularity-selected-hover;
+      color: @primary-color;
+    }
   }
   &.inactive {
     border-color: @primary-color;
