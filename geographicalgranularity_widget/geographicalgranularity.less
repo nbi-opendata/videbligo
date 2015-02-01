@@ -22,6 +22,11 @@
   }
   .granularity-container {
     float: left;
+    position: relative;
+  }
+  .granularity-title {
+    position: relative;
+    top: 50px;
   }
 }
 
@@ -192,7 +197,7 @@ div {
   .horizontal {
     .granularity-title-intent-@{i} {
       width: @i/2*@bubble-base-size;
-      top: @i * 12.5px + 77.5px;
+//      top: 150px - (150px - @i/2*@bubble-base-size);//@i * 12.5px + 77.5px;
     }
   }
   .for-i(@i + 1);
@@ -206,7 +211,7 @@ div {
 .horizontal {
   .granularity-title-intent-0 {
     width: 1/2*@bubble-base-size;
-    top: 90px;
+//    top: 90px;
   }
 }
 
