@@ -70,6 +70,12 @@ Videbligo.directive('timegranularity', ['MetadataService', function(MetadataServ
 
                 if(scope.selectedGranularities.values().length == 0) {
                     scope.timeDimension.filterAll();
+                    if(scope.initState == 'allSelected' && !scope.allSelected) {
+                        for(var i in scope.timeGranularity) {
+                            scope.timeGranularity[i].active = true;
+                        }
+                        scope.allSelected = true;
+                    }
                 }else{
                     scope.timeDimension.filter(filterFunction);
                 }
@@ -119,8 +125,6 @@ Videbligo.directive('timegranularity', ['MetadataService', function(MetadataServ
                     scope.timeGranularity[i].size = 0;
                     scope.timeGranularity[i].elements = 0;
                 }
-
-
                 for(var i in timeGranularityGroups) {
                     if(timeGranularityGroups[i].key != '') {
                         var key = timeGranularityGroups[i].key.toLowerCase();

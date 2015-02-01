@@ -71,6 +71,12 @@ Videbligo.directive('geographicalgranularity', ['MetadataService', function(Meta
 
                 if(scope.selectedGranularities.values().length == 0) {
                     scope.geographicalDimension.filterAll();
+                    if(scope.initState == 'allSelected' && !scope.allSelected) {
+                        for(var i in scope.geographicalGranularity) {
+                            scope.geographicalGranularity[i].active = true;
+                        }
+                        scope.allSelected = true;
+                    }
                 }else{
                     scope.geographicalDimension.filter(filterFunction);
                 }
