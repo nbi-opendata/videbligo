@@ -1109,6 +1109,89 @@ div .horizontal .granularity-title-intent-10 {
 .horizontal .granularity-title-intent-0 {
   width: 25px;
 }
+.granularities-max-size-0.vertical .granularity-line {
+  left: 10.5px;
+}
+.granularities-max-size-0.vertical .granularity-container {
+  width: 25px;
+}
+.granularities-max-size-0.horizontal .granularity-line {
+  width: 200px;
+  top: 10.5px;
+}
+.granularities-max-size-0.horizontal .granularity-container {
+  margin-right: 10px;
+}
+.granularities-max-size-0.horizontal .granularity-title {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.granularities-max-size-0.horizontal.granularities {
+  height: 130px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-1 {
+  margin-top: 0px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-0 {
+  margin-top: 0px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-2 {
+  margin-top: -12.5px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-0 {
+  margin-top: 0px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-3 {
+  margin-top: -25px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-0 {
+  margin-top: 0px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-4 {
+  margin-top: -37.5px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-0 {
+  margin-top: 0px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-5 {
+  margin-top: -50px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-0 {
+  margin-top: 0px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-6 {
+  margin-top: -62.5px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-0 {
+  margin-top: 0px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-7 {
+  margin-top: -75px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-0 {
+  margin-top: 0px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-8 {
+  margin-top: -87.5px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-0 {
+  margin-top: 0px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-9 {
+  margin-top: -100px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-0 {
+  margin-top: 0px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-10 {
+  margin-top: -112.5px;
+}
+.granularities-max-size-0.horizontal li .granularity-size-0 {
+  margin-top: 0px;
+}
 .granularity-size-0 {
   position: relative;
   width: 25px;

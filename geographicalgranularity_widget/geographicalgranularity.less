@@ -215,6 +215,55 @@ div {
   }
 }
 
+.granularities-max-size-0 {
+  &.vertical {
+    .granularity-line {
+      left: 1/4*@bubble-base-size - 2px; // maybe border 2px should be a variable
+    }
+    .granularity-container {
+      width: 1/2*@bubble-base-size;
+    }
+  }
+
+  &.horizontal {
+    .granularity-line {
+      width: 200px;
+      top: 1/4*@bubble-base-size - 2px; // maybe border 2px should be a variable
+    }
+
+    .granularity-container {
+      margin-right: 10px;
+    }
+
+    .granularity-title {
+      -webkit-transform: rotate(90deg);
+      -moz-transform: rotate(90deg);
+      -o-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+      transform: rotate(90deg);
+    }
+    &.granularities {
+      height: 1/2*@bubble-base-size + 105px;
+    }
+
+    li {
+      .for-j(1);
+      .for-j(@j: 1) when (@j < 11) {
+
+        .granularity-size-@{j} {
+          margin-top: (1 - @j)/4*@bubble-base-size;
+        }
+        .granularity-size-0 {
+          margin-top: (1 - 1)/4*@bubble-base-size;
+        }
+
+        .for-j(@j + 1);
+      }
+    }
+  }
+}
+
+
 .granularity-size-0 {
   position: relative;
   width: @bubble-base-size/2;
