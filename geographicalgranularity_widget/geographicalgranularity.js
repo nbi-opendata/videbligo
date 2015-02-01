@@ -97,6 +97,7 @@ Videbligo.directive('geographicalgranularity', ['MetadataService', function(Meta
                     }
                 }
                 scope.geographicalDimension.filterAll();
+                scope.selectedGranularities.clear();
                 MetadataService.triggerUpdate();
             };
 

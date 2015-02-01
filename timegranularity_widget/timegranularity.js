@@ -95,6 +95,7 @@ Videbligo.directive('timegranularity', ['MetadataService', function(MetadataServ
                     }
                 }
                 scope.timeDimension.filterAll();
+                scope.selectedGranularities.clear();
                 MetadataService.triggerUpdate();
             };
 
