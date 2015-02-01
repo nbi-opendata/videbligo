@@ -113,6 +113,14 @@ Videbligo.directive('timegranularity', ['MetadataService', function(MetadataServ
 
             scope.mapGranularities = function(){
                 var timeGranularityGroups = scope.timeDimension.group().all();
+                scope.maxItemSize = 0;
+
+                for(var i in scope.timeGranularity) {
+                    scope.timeGranularity[i].size = 0;
+                    scope.timeGranularity[i].elements = 0;
+                }
+
+
                 for(var i in timeGranularityGroups) {
                     if(timeGranularityGroups[i].key != '') {
                         var key = timeGranularityGroups[i].key.toLowerCase();
@@ -121,15 +129,17 @@ Videbligo.directive('timegranularity', ['MetadataService', function(MetadataServ
                     }
                     var allData = scope.timeDimension.groupAll().value();
                     // changes with selection needs to be fix when only granularity is selected
-                    scope.timeGranularity[key].elements = timeGranularityGroups[i].value;
+                    scope.timeGranularity[key].elements = scope.timeGranularity[key].elements + timeGranularityGroups[i].value;
 
-                    if(allData > 0) {
+                   if(allData > 0) {
                         var percentage = (scope.timeGranularity[key].elements / allData)*100;
-                        scope.timeGranularity[key].size = Math.ceil(percentage/(100/scope.quantile));
+                        var size = Math.ceil(percentage/(100/scope.quantile));
+                        if(size > scope.timeGranularity[key].size) {
+                            scope.timeGranularity[key].size = size;
+                        }
                     } else {
                         scope.timeGranularity[key].size = 0;
                     }
-
                     if(scope.timeGranularity[key].size > scope.maxItemSize) {
                         scope.maxItemSize = scope.timeGranularity[key].size;
                     }
