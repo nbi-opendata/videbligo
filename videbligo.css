@@ -35,6 +35,9 @@
   height: 310px;
   width: 2px;
 }
+.vertical .granularity-title {
+  right: -100px;
+}
 .vertical .granularity-container {
   position: relative;
   margin-bottom: 10px;
@@ -54,10 +57,10 @@
   list-style-type: none;
 }
 .granularity-container:hover .granularity-bubble.inactive {
-  border-color: #1f77b4;
+  border-color: #c7bf2d;
 }
 .granularity-container:hover .granularity-title {
-  color: #1f77b4;
+  color: #c7bf2d;
 }
 .granularity {
   margin: 0px auto;
@@ -71,6 +74,10 @@
   border-color: #7f7f7f;
   background-color: #1f77b4;
   color: #ffffff;
+}
+.granularity-bubble.active:hover {
+  background-color: #c7bf2d;
+  color: #7f7f7f;
 }
 .granularity-bubble.inactive {
   border-color: #7f7f7f;
@@ -96,9 +103,6 @@ div .granularities-max-size-1.vertical .granularity-line {
 }
 div .granularities-max-size-1.vertical .granularity-container {
   width: 25px;
-}
-div .granularities-max-size-1.vertical .granularity-title {
-  right: -45px;
 }
 div .granularities-max-size-1.horizontal .granularity-line {
   top: 10.5px;
@@ -201,9 +205,6 @@ div .granularities-max-size-2.vertical .granularity-line {
 div .granularities-max-size-2.vertical .granularity-container {
   width: 50px;
 }
-div .granularities-max-size-2.vertical .granularity-title {
-  right: -70px;
-}
 div .granularities-max-size-2.horizontal .granularity-line {
   top: 23px;
 }
@@ -304,9 +305,6 @@ div .granularities-max-size-3.vertical .granularity-line {
 }
 div .granularities-max-size-3.vertical .granularity-container {
   width: 75px;
-}
-div .granularities-max-size-3.vertical .granularity-title {
-  right: -95px;
 }
 div .granularities-max-size-3.horizontal .granularity-line {
   top: 35.5px;
@@ -409,9 +407,6 @@ div .granularities-max-size-4.vertical .granularity-line {
 div .granularities-max-size-4.vertical .granularity-container {
   width: 100px;
 }
-div .granularities-max-size-4.vertical .granularity-title {
-  right: -120px;
-}
 div .granularities-max-size-4.horizontal .granularity-line {
   top: 48px;
 }
@@ -512,9 +507,6 @@ div .granularities-max-size-5.vertical .granularity-line {
 }
 div .granularities-max-size-5.vertical .granularity-container {
   width: 125px;
-}
-div .granularities-max-size-5.vertical .granularity-title {
-  right: -145px;
 }
 div .granularities-max-size-5.horizontal .granularity-line {
   top: 60.5px;
@@ -617,9 +609,6 @@ div .granularities-max-size-6.vertical .granularity-line {
 div .granularities-max-size-6.vertical .granularity-container {
   width: 150px;
 }
-div .granularities-max-size-6.vertical .granularity-title {
-  right: -170px;
-}
 div .granularities-max-size-6.horizontal .granularity-line {
   top: 73px;
 }
@@ -720,9 +709,6 @@ div .granularities-max-size-7.vertical .granularity-line {
 }
 div .granularities-max-size-7.vertical .granularity-container {
   width: 175px;
-}
-div .granularities-max-size-7.vertical .granularity-title {
-  right: -195px;
 }
 div .granularities-max-size-7.horizontal .granularity-line {
   top: 85.5px;
@@ -825,9 +811,6 @@ div .granularities-max-size-8.vertical .granularity-line {
 div .granularities-max-size-8.vertical .granularity-container {
   width: 200px;
 }
-div .granularities-max-size-8.vertical .granularity-title {
-  right: -220px;
-}
 div .granularities-max-size-8.horizontal .granularity-line {
   top: 98px;
 }
@@ -929,9 +912,6 @@ div .granularities-max-size-9.vertical .granularity-line {
 div .granularities-max-size-9.vertical .granularity-container {
   width: 225px;
 }
-div .granularities-max-size-9.vertical .granularity-title {
-  right: -245px;
-}
 div .granularities-max-size-9.horizontal .granularity-line {
   top: 110.5px;
 }
@@ -1032,9 +1012,6 @@ div .granularities-max-size-10.vertical .granularity-line {
 }
 div .granularities-max-size-10.vertical .granularity-container {
   width: 250px;
-}
-div .granularities-max-size-10.vertical .granularity-title {
-  right: -270px;
 }
 div .granularities-max-size-10.horizontal .granularity-line {
   top: 123px;
@@ -1172,9 +1149,7 @@ div .horizontal .granularity-title-intent-10 {
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
-
   /* to enhance the blurring icons */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -1267,7 +1242,7 @@ ul.category_matrix .category_icon {
   color: #7f7f7f;
 }
 ul.category_matrix li:hover .category_icon {
-  color: #ffd700;
+  color: gold;
   cursor: pointer;
 }
 ul.category_matrix .category_icon.active {
@@ -1568,7 +1543,7 @@ svg:hover {
   fill: #7f7f7f;
 }
 .bezirk:hover {
-  fill: #ffd700;
+  fill: gold;
 }
 .bezirk.selected {
   fill: #1f77b4;
@@ -1591,7 +1566,7 @@ svg:hover {
   stroke: #1f77b4;
 }
 .berlin_border.hovered {
-  stroke: #ffd700;
+  stroke: gold;
 }
 .berlin_border.selected_hovered {
   stroke: #c7bf2d;
@@ -1603,7 +1578,7 @@ svg:hover {
   stroke: #c7bf2d;
 }
 #BerlinIcon:hover {
-  fill: #ffd700;
+  fill: gold;
 }
 #BerlinIcon.selected {
   fill: #1f77b4;
@@ -1612,7 +1587,7 @@ svg:hover {
   fill: #c7bf2d;
 }
 #BerlinIcon.hovered {
-  fill: #ffd700;
+  fill: gold;
 }
 #BerlinIcon.selected_hovered {
   fill: #c7bf2d;
@@ -1720,9 +1695,6 @@ result .details table tr td:first-child {
   vertical-align: top;
   padding-right: 1em;
 }
-/*result .details table tr:last-child td:last-child {*/
-/*text-align: right;*/
-/*}*/
 body {
   background: #eeeeee;
 }

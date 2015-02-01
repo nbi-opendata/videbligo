@@ -46,6 +46,10 @@
     width: 2px;
   }
 
+
+  .granularity-title {
+    right: -100px;//-@i/2*@bubble-base-size - 20px; // the extra offset should be a variable
+  }
   .granularity-container {
     position: relative;
     margin-bottom: @base-margin;
@@ -67,10 +71,10 @@
   list-style-type: none;
   &:hover {
     .granularity-bubble.inactive {
-      border-color: @secondary-color;
+      border-color: @granularity-selected-hover;
     }
     .granularity-title {
-      color: @secondary-color;
+      color: @granularity-selected-hover;
     }
   }
 }
@@ -89,7 +93,10 @@
     border-color: @primary-color;
     background-color: @secondary-color;
     color: @background-color;
-
+    &:hover {
+      background-color: @granularity-selected-hover;
+      color: @primary-color;
+    }
   }
   &.inactive {
     border-color: @primary-color;
@@ -129,10 +136,6 @@ div {
       }
       .granularity-container {
         width: @i/2*@bubble-base-size;
-      }
-
-      .granularity-title {
-        right: -@i/2*@bubble-base-size - 20px; // the extra offset should be a variable
       }
     }
 

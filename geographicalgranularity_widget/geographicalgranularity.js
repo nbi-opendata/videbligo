@@ -116,6 +116,13 @@ Videbligo.directive('geographicalgranularity', ['MetadataService', function(Meta
             scope.mapGranularities = function(){
                 var geographicalGranularityGroups = scope.geographicalDimension.group().all();
                 scope.maxItemSize = 0;
+
+
+                for(var i in scope.geographicalGranularity) {
+                    scope.geographicalGranularity[i].size = 0;
+                    scope.geographicalGranularity[i].elements = 0;
+                }
+
                 for(var i in geographicalGranularityGroups) {
                     if(geographicalGranularityGroups[i].key != '') {
                         var key = geographicalGranularityGroups[i].key.toLowerCase();
@@ -124,11 +131,14 @@ Videbligo.directive('geographicalgranularity', ['MetadataService', function(Meta
                     }
                     var allData = scope.geographicalDimension.groupAll().value();
                     // changes with selection needs to be fix when only granularity is selected
-                    scope.geographicalGranularity[key].elements = geographicalGranularityGroups[i].value;
+                    scope.geographicalGranularity[key].elements = scope.geographicalGranularity[key].elements  + geographicalGranularityGroups[i].value;
 
                     if(allData > 0) {
                         var percentage = (scope.geographicalGranularity[key].elements / allData)*100;
-                        scope.geographicalGranularity[key].size = Math.ceil(percentage/(100/scope.quantile));
+                        var size = Math.ceil(percentage/(100/scope.quantile));
+                        if(size > scope.geographicalGranularity[key].size) {
+                            scope.geographicalGranularity[key].size = size;
+                        }
                     } else {
                         scope.geographicalGranularity[key].size = 0;
                     }
