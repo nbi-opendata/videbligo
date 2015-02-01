@@ -46,6 +46,10 @@
     width: 2px;
   }
 
+
+  .granularity-title {
+    right: -100px;//-@i/2*@bubble-base-size - 20px; // the extra offset should be a variable
+  }
   .granularity-container {
     position: relative;
     margin-bottom: @base-margin;
@@ -129,10 +133,6 @@ div {
       }
       .granularity-container {
         width: @i/2*@bubble-base-size;
-      }
-
-      .granularity-title {
-        right: -@i/2*@bubble-base-size - 20px; // the extra offset should be a variable
       }
     }
 
