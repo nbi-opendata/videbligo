@@ -1149,7 +1149,9 @@ div .horizontal .granularity-title-intent-10 {
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
+
   /* to enhance the blurring icons */
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -1242,7 +1244,7 @@ ul.category_matrix .category_icon {
   color: #7f7f7f;
 }
 ul.category_matrix li:hover .category_icon {
-  color: gold;
+  color: #ffd700;
   cursor: pointer;
 }
 ul.category_matrix .category_icon.active {
@@ -1543,7 +1545,7 @@ svg:hover {
   fill: #7f7f7f;
 }
 .bezirk:hover {
-  fill: gold;
+  fill: #ffd700;
 }
 .bezirk.selected {
   fill: #1f77b4;
@@ -1566,7 +1568,7 @@ svg:hover {
   stroke: #1f77b4;
 }
 .berlin_border.hovered {
-  stroke: gold;
+  stroke: #ffd700;
 }
 .berlin_border.selected_hovered {
   stroke: #c7bf2d;
@@ -1578,7 +1580,7 @@ svg:hover {
   stroke: #c7bf2d;
 }
 #BerlinIcon:hover {
-  fill: gold;
+  fill: #ffd700;
 }
 #BerlinIcon.selected {
   fill: #1f77b4;
@@ -1587,7 +1589,7 @@ svg:hover {
   fill: #c7bf2d;
 }
 #BerlinIcon.hovered {
-  fill: gold;
+  fill: #ffd700;
 }
 #BerlinIcon.selected_hovered {
   fill: #c7bf2d;
@@ -1695,6 +1697,9 @@ result .details table tr td:first-child {
   vertical-align: top;
   padding-right: 1em;
 }
+/*result .details table tr:last-child td:last-child {*/
+/*text-align: right;*/
+/*}*/
 body {
   background: #eeeeee;
 }
