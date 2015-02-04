@@ -15,7 +15,7 @@ svg:hover { cursor: pointer; }
   &.initial{fill: @map-initial;}
   &.initial:hover{fill: @secondary-color-hover;}
   &.empty{
-    fill: @primary-color !important;
+    fill: lighten(@primary-color,10%) !important;
     &:hover{cursor: default;}
   }
 }

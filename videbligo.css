@@ -1669,7 +1669,7 @@ svg:hover {
   fill: #c7bf2d;
 }
 .bezirk.empty {
-  fill: #7f7f7f !important;
+  fill: #999999 !important;
 }
 .bezirk.empty:hover {
   cursor: default;
