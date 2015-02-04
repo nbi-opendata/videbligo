@@ -41,7 +41,7 @@
 
 
     <style>
-        .widget-container{
+        .widget-container {
             min-height: 340px;
         }
     </style>
@@ -58,64 +58,63 @@
                 <div class="widget-head">
                     <h4>Kategorien</h4>
                 </div>
-                <category data-number_of_columns="4"></category>
+                <category data-number_of_columns="1"></category>
             </div>
         </div>
 
-        <div class="col-xs-3 outer-container">
-            <div class="widget-container">
-                <h4>Karte</h4>
-                <map></map>
-            </div>
-        </div>
 
-        <div class="col-xs-6 outer-container">
-            <div class="widget-container">
-                <h4>Letzte Änderung</h4>
-                <lastmodification data-chart_width="500" data-chart_height="170"
-                                  data-show_zoom_chart="true"></lastmodification>
-            </div>
-        </div>
+        <div class="col-xs-9 ">
 
-    </div>
+            <div class="row">
 
-    <div class="row">
-    <div class="col-xs-6 widget-container">
-    <h4>Zeitperiode</h4>
-    <date data-chart_width="500" data-chart_height="170" data-show_zoom_chart="true"></date>
-    </div>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-3 ">
-            <div class="row outer-container">
-                <div class="widget-container">
-                    <h4>Zeitliche Granularit&auml;t</h4>
-                    <timegranularity init-state="allSelected"></timegranularity>
-                </div>
-            </div>
-
-            <div class="row outer-container">
-                <div class="widget-container">
-                    <h4>Geographische Granularit&auml;t</h4>
-                    <geographicalgranularity with-line="true" init-state="allSelected"></geographicalgranularity>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xs-9  outer-container">
-                <div class="widget-container">
-                <h4>Ergebnisliste</h4>
-
-                <div style="margin-bottom: 1em;">
-                    <div style="vertical-align: middle;">
-                        <div style="float: left;"><search></search></div>
-                        <div style="float: right; margin-right: 1em;"><globalreset></globalreset></div>
-                        <div style="clear: both; margin-bottom:1em;"></div>
+                <div class="col-xs-4 outer-container">
+                    <div class="widget-container">
+                        <h4>Karte</h4>
+                        <map></map>
                     </div>
-                    <result data-elements_per_page="20"></result>
+                </div>
+
+                <div class="col-xs-8 outer-container">
+                    <div class="widget-container">
+                        <h4>Letzte Änderung</h4>
+                        <lastmodification data-chart_width="500" data-chart_height="170"
+                                          data-show_zoom_chart="true"></lastmodification>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row outer-container">
+                <div class="widget-container">
+                    <h4>Ergebnisliste</h4>
+
+                    <div style="margin-bottom: 1em;">
+                        <div style="vertical-align: middle;">
+                            <div style="float: left;">
+                                <search></search>
+                            </div>
+                            <div style="float: right; margin-right: 1em;">
+                                <globalreset></globalreset>
+                            </div>
+                            <div style="clear: both; margin-bottom:1em;"></div>
+                        </div>
+                        <result data-elements_per_page="20"></result>
+                    </div>
                 </div>
             </div>
+
+    </div>
+
+    <!--<div class="row">-->
+    <!--<div class="col-xs-6 widget-container">-->
+    <!--<h4>Zeitperiode</h4>-->
+    <!--<date data-chart_width="500" data-chart_height="170" data-show_zoom_chart="true"></date>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <div class="row">
+
+        <div class="col-xs-9 ">
         </div>
     </div>
 

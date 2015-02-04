@@ -7,13 +7,15 @@
             ng-mouseleave="$parent.hovered_category='none'"
             ng-click="toggle(key)">
             <!--to save the clicked icon as selected category -->
-            <span class="category_icon icon-{{key}}"
-                  ng-class="{'active': selected_categories.contains(key),
-                             'initial': selected_categories.values().length == 0,
-                             'empty': categories[key].size == 0}"></span>
-            <span class="category_title"
-                  ng-class="{'dirtyHack': key=='verwaltung'}"
-                  ng-show="numberOfColumns==1">{{category_mapping[key]}} ({{categories[key].size}})</span>
+            <div ng-class="{'empty': categories[key].size == 0}">
+                <span class="category_icon icon-{{key}}"
+                      ng-class="{'active': selected_categories.contains(key),
+                                 'initial': selected_categories.values().length == 0,
+                                 'empty': categories[key].size == 0}"></span>
+                <span class="category_title"
+                      ng-class="{'dirtyHack': key=='verwaltung'}"
+                      ng-show="numberOfColumns==1">{{category_mapping[key]}} ({{categories[key].size}})</span>
+            </div>
         </li>
     </ul>
 </div>

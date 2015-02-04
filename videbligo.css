@@ -1307,14 +1307,14 @@ div .horizontal .granularity-title-intent-10 {
 .icon-arrow-up:before {
   content: "\e618";
 }
-ul.category_matrix li {
+category li {
   padding-bottom: 1em;
   list-style: none;
 }
-ul.category_matrix li:hover {
+category li:hover {
   cursor: pointer;
 }
-ul.category_matrix li:hover span {
+category li:hover span {
   color: #ffd700 !important;
 }
 category .category_icon {
@@ -1337,11 +1337,14 @@ category .category_icon.active:hover {
   color: #c7bf2d !important;
 }
 category .category_icon.empty {
-  color: #7f7f7f !important;
+  color: #d8d8d8 !important;
 }
 category .category_icon.empty:hover {
-  color: #7f7f7f !important;
+  color: #d8d8d8 !important;
   cursor: default;
+}
+category li div.empty {
+  color: #d8d8d8 !important;
 }
 body .columns-1 ul.category_matrix {
   width: 100% !important;

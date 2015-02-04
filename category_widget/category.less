@@ -2,7 +2,7 @@
 @import "../mixins.less";
 @import "../icons.less";
 
-ul.category_matrix li {
+category li {
   padding-bottom: 1em;
   list-style: none;
 
@@ -36,12 +36,16 @@ category .category_icon{
   }
 
   &.empty{
-    color: @category-icon !important;
+    color: lighten(@category-icon,35%) !important;
     &:hover {
-      color: @category-icon !important;
+      color: lighten(@category-icon,35%) !important;
       cursor: default;
     }
   }
+}
+
+category li div.empty{
+  color: lighten(@category-icon,35%) !important;
 }
 
 body .columns-1 ul.category_matrix {
