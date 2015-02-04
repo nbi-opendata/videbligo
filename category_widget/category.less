@@ -6,6 +6,11 @@ ul.category_matrix li {
   padding-bottom: 1em;
   list-style: none;
 
+  &:hover{cursor:pointer;}
+
+  &:hover span{
+    color:@category-icon-hover !important;
+  }
 }
 
 category .category_icon{
@@ -36,14 +41,26 @@ category .category_icon{
       color: @category-icon !important;
       cursor: default;
     }
-
-
   }
 }
 
 body .columns-1 ul.category_matrix {
   width: 100% !important;
   .category_text-mixin(1);
+}
+
+category .category_title{
+  display:inline-block;
+  line-height: 1.75em;
+  vertical-align: middle;
+  position:absolute;
+  left:65px;
+  padding-right:10px;
+
+  &.dirtyHack{
+    line-height: normal;
+    margin-top: -2px;
+  }
 }
 
 

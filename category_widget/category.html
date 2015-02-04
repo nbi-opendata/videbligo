@@ -4,19 +4,21 @@
     <!-- to show the category name , when the mouse comes over the category icon,and hide it otherwise-->
         <li ng-repeat="(key,value) in category_mapping"
             ng-mouseover="$parent.hovered_category=key"
-            ng-mouseleave="$parent.hovered_category='none'">
+            ng-mouseleave="$parent.hovered_category='none'"
+            ng-click="toggle(key)">
             <!--to save the clicked icon as selected category -->
             <span class="category_icon icon-{{key}}"
-                  ng-click="toggle(key)"
                   ng-class="{'active': selected_categories.contains(key),
                              'initial': selected_categories.values().length == 0,
                              'empty': categories[key].size == 0}"></span>
-            <span style="position:absolute;left:70px;">{{category_mapping[key]}}</span>
+            <span class="category_title"
+                  ng-class="{'dirtyHack': key=='verwaltung'}"
+                  ng-show="numberOfColumns==1">{{category_mapping[key]}} ({{categories[key].size}})</span>
         </li>
     </ul>
 </div>
 <!--to show the name and size of the selected category under the Grid -->
-<div class="category_text columns-{{numberOfColumns}}" ng-switch on="hovered_category">
+<div ng-if="numberOfColumns > 1" class="category_text columns-{{numberOfColumns}}" ng-switch on="hovered_category">
     <span ng-switch-default>{{category_mapping[hovered_category]}} ({{categories[hovered_category].size}})</span>
     <span ng-switch-when="none">&nbsp;</span>
 </div>
