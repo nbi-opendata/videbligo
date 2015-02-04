@@ -1636,6 +1636,12 @@ svg:hover {
 .bezirk.initial:hover {
   fill: #c7bf2d;
 }
+.bezirk.empty {
+  fill: #7f7f7f !important;
+}
+.bezirk.empty:hover {
+  cursor: default;
+}
 .berlin_border {
   stroke-width: 12px;
   stroke: #ffffff;

@@ -3,7 +3,9 @@ Videbligo.directive('map', ['MetadataService', '$compile', function (MetadataSer
     return {
         restrict: 'AE',
         templateUrl: 'map_widget/map.html',
-        scope: {},
+        scope: {
+            deactivateEmptyDistricts: '@'
+        },
         link: function (scope, element, attrs) {
             scope.districts = [];
             scope.dataTemp = {};
@@ -14,6 +16,14 @@ Videbligo.directive('map', ['MetadataService', '$compile', function (MetadataSer
 
             scope.init = function () {
                 scope.RegData = MetadataService.getData();
+
+                /* set Parameters */
+                if(attrs.deactivateEmptyDistricts == undefined) {
+                    scope.deactivateEmptyDistricts = true;
+                }
+                if(attrs.deactivateEmptyDistricts){
+                 scope.deactivateEmptyDistricts = attrs.deactivateEmptyDistricts.toLowerCase() === "true";
+                }
 
                 /* create dimension and group (TODO: explain, what group means)*/
                 scope.dimRegion = scope.RegData.dimension(function (d) {return d.extras['geographical_coverage'];});
@@ -40,7 +50,8 @@ Videbligo.directive('map', ['MetadataService', '$compile', function (MetadataSer
                     regionElement.attr('data-ng-mouseleave', 'leaveDistrict("' + id + '")');
 
                     regionElement.attr('data-ng-class', '{  \'selected\': selected_districts.contains("' + id + '"),' +
-                                                            '\'initial\': selected_districts.values().length==0}');
+                                                            '\'initial\': selected_districts.values().length==0,' +
+                                                            '\'empty\': deactivateEmptyDistricts && regionData["'+id+'"][\'value\'] == 0 }');
                 });
 
                 /* little hack for the handling of the Berlin Border case */

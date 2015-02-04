@@ -14,7 +14,10 @@ svg:hover { cursor: pointer; }
   &.selected:hover { fill: @secondary-color-hover; }
   &.initial{fill: @map-initial;}
   &.initial:hover{fill: @secondary-color-hover;}
-
+  &.empty{
+    fill: @primary-color !important;
+    &:hover{cursor: default;}
+  }
 }
 
 .berlin_border {
