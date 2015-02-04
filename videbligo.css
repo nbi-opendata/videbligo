@@ -1317,6 +1317,12 @@ category li:hover {
 category li:hover span {
   color: #ffd700 !important;
 }
+category .category_icon.smaller {
+  font-size: 1.5em !important;
+}
+category .category_title.smaller {
+  left: 55px;
+}
 category .category_icon {
   font-size: 2em;
   color: #7f7f7f;
@@ -1825,7 +1831,7 @@ search input {
   padding-left: 15px;
 }
 .outer-container {
-  padding: .5em;
+  padding: .3em;
 }
 .widget-container {
   padding: 0.5em;

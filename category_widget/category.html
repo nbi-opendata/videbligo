@@ -1,7 +1,8 @@
 <div class="category-widget columns-{{numberOfColumns}}">
-    <span style="display:inline-block; height: 10px;"><a href="#" ng-click="reset()" ng-show="selected_categories.values().length > 0">zur&uuml;cksetzen</a></span>
+    <span style="display:inline-block; height: 10px;"><a href="#" ng-click="reset()"
+                                                         ng-show="selected_categories.values().length > 0">zur&uuml;cksetzen</a></span>
     <ul class="category_matrix">
-    <!-- to show the category name , when the mouse comes over the category icon,and hide it otherwise-->
+        <!-- to show the category name , when the mouse comes over the category icon,and hide it otherwise-->
         <li ng-repeat="(key,value) in category_mapping"
             ng-mouseover="$parent.hovered_category=key"
             ng-mouseleave="$parent.hovered_category='none'"
@@ -11,9 +12,11 @@
                 <span class="category_icon icon-{{key}}"
                       ng-class="{'active': selected_categories.contains(key),
                                  'initial': selected_categories.values().length == 0,
-                                 'empty': categories[key].size == 0}"></span>
+                                 'empty': categories[key].size == 0,
+                                 'smaller': numberOfColumns==1}"></span>
                 <span class="category_title"
-                      ng-class="{'dirtyHack': key=='verwaltung'}"
+                      ng-class="{'dirtyHack': key=='verwaltung',
+                                 'smaller': numberOfColumns==1}"
                       ng-show="numberOfColumns==1">{{category_mapping[key]}} ({{categories[key].size}})</span>
             </div>
         </li>
