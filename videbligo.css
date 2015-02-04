@@ -1316,6 +1316,9 @@ ul.category_matrix li {
 .category_icon.initial:hover {
   color: #c7bf2d !important;
 }
+.category_icon.empty {
+  color: #7f7f7f !important;
+}
 ul.category_matrix .category_icon {
   font-size: 2em;
   color: #7f7f7f;
@@ -1325,10 +1328,10 @@ ul.category_matrix li:hover .category_icon {
   cursor: pointer;
 }
 ul.category_matrix .category_icon.active {
-  color: #1f77b4 !important;
+  color: #1f77b4;
 }
 ul.category_matrix .category_icon.active:hover {
-  color: #c7bf2d !important;
+  color: #c7bf2d;
 }
 body .columns-1 ul.category_matrix {
   width: 55px;

@@ -4,7 +4,8 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
         restrict: 'AE',
         templateUrl: 'category_widget/category.html',
         scope: {
-            numberOfColumns: '@'
+            numberOfColumns: '@',
+            deactivateEmptyCategories: '@'
         },
         link: function(scope, element, attrs) { //to make scope inside this directive different from the outside one 
             scope.categories = {};
@@ -25,6 +26,14 @@ Videbligo.directive('category', ['MetadataService', function(MetadataService) {
                 scope.selected_categories = new StringSet();
                 scope.hovered_category = 'none';
 
+
+                /* set Parameters */
+                if(attrs.deactivateEmptyCategories == undefined) {
+                    scope.deactivateEmptyCategories = true;
+                }
+                if(attrs.deactivateEmptyCategories){
+                    scope.deactivateEmptyCategories = attrs.deactivateEmptyCategories.toLowerCase() === "true";
+                }
                 if(attrs.numberOfColumns) {
                     scope.numberOfColumns = parseInt(attrs.numberOfColumns);
                 }

@@ -14,6 +14,13 @@ ul.category_matrix li {
   color: @category-icon-selected-hover !important;
 }
 
+.category_icon{
+  &.empty{
+    color: @category-icon !important;
+  }
+}
+
+
 ul.category_matrix .category_icon {
   font-size: 2em;
   color: @category-icon;
@@ -25,11 +32,11 @@ ul.category_matrix li:hover .category_icon {
 }
 
 ul.category_matrix .category_icon.active {
-  color: @category-icon-selected !important;
+  color: @category-icon-selected ;
 }
 
 ul.category_matrix .category_icon.active:hover {
-  color: @category-icon-selected-hover !important;
+  color: @category-icon-selected-hover;
 }
 
 .for-category-text(@i: 1) when (@i < 25) {

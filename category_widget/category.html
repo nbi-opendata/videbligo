@@ -9,7 +9,8 @@
             <span class="category_icon icon-{{key}}"
                   ng-click="toggle(key)"
                   ng-class="{'active': selected_categories.contains(key),
-                             'initial': selected_categories.values().length == 0}"></span>
+                             'initial': selected_categories.values().length == 0,
+                             'empty': categories[key].size == 0}"></span>
         </li>
     </ul>
 </div>
