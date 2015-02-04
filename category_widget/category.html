@@ -11,6 +11,7 @@
                   ng-class="{'active': selected_categories.contains(key),
                              'initial': selected_categories.values().length == 0,
                              'empty': categories[key].size == 0}"></span>
+            <span style="position:absolute;left:70px;">{{category_mapping[key]}}</span>
         </li>
     </ul>
 </div>

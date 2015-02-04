@@ -4,40 +4,48 @@
 
 ul.category_matrix li {
   padding-bottom: 1em;
+  list-style: none;
+
 }
 
-.category_icon.initial {
-  color: @category-initial !important;
-}
+category .category_icon{
+  font-size: 2em;
+  color: @category-icon;
 
-.category_icon.initial:hover {
-  color: @category-icon-selected-hover !important;
-}
+  &:hover{
+    cursor: pointer;
+  }
 
-.category_icon{
+  &.initial{
+    color: @category-initial !important;
+    &:hover{
+      color: @category-icon-selected-hover !important;
+    }
+  }
+
+  &.active{
+    color: @category-icon-selected !important;
+    &:hover {
+      color: @category-icon-selected-hover !important;
+    }
+  }
+
   &.empty{
     color: @category-icon !important;
+    &:hover {
+      color: @category-icon !important;
+      cursor: default;
+    }
+
+
   }
 }
 
-
-ul.category_matrix .category_icon {
-  font-size: 2em;
-  color: @category-icon;
+body .columns-1 ul.category_matrix {
+  width: 100% !important;
+  .category_text-mixin(1);
 }
 
-ul.category_matrix li:hover .category_icon {
-  color: @category-icon-hover;
-  cursor: pointer;
-}
-
-ul.category_matrix .category_icon.active {
-  color: @category-icon-selected ;
-}
-
-ul.category_matrix .category_icon.active:hover {
-  color: @category-icon-selected-hover;
-}
 
 .for-category-text(@i: 1) when (@i < 25) {
   .columns-@{i} {
