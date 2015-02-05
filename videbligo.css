@@ -1226,9 +1226,7 @@ div .horizontal .granularity-title-intent-10 {
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
-
   /* to enhance the blurring icons */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -1315,7 +1313,7 @@ category li:hover {
   cursor: pointer;
 }
 category li:hover span {
-  color: #ffd700 !important;
+  color: gold !important;
 }
 category .category_icon.smaller {
   font-size: 1.5em !important;
@@ -1660,7 +1658,7 @@ svg:hover {
   fill: #7f7f7f;
 }
 .bezirk:hover {
-  fill: #ffd700;
+  fill: gold;
 }
 .bezirk.selected {
   fill: #1f77b4;
@@ -1689,7 +1687,7 @@ svg:hover {
   stroke: #1f77b4;
 }
 .berlin_border.hovered {
-  stroke: #ffd700;
+  stroke: gold;
 }
 .berlin_border.selected_hovered {
   stroke: #c7bf2d;
@@ -1701,7 +1699,7 @@ svg:hover {
   stroke: #c7bf2d;
 }
 #BerlinIcon:hover {
-  fill: #ffd700;
+  fill: gold;
 }
 #BerlinIcon.selected {
   fill: #1f77b4;
@@ -1710,7 +1708,7 @@ svg:hover {
   fill: #c7bf2d;
 }
 #BerlinIcon.hovered {
-  fill: #ffd700;
+  fill: gold;
 }
 #BerlinIcon.selected_hovered {
   fill: #c7bf2d;
@@ -1823,6 +1821,7 @@ result .details table tr td:first-child {
 /*}*/
 body {
   background: #eeeeee;
+  font-size: 15px;
 }
 search input {
   height: 2.5em;
