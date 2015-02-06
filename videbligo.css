@@ -1326,6 +1326,8 @@ category .category_title.smaller {
 category .category_icon {
   font-size: 2em;
   color: #7f7f7f;
+  top: 1px;
+  position: relative;
 }
 category .category_icon:hover {
   cursor: pointer;
